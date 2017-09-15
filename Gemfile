@@ -33,6 +33,7 @@ gem 'jquery-rails'
 gem 'devise', '~> 4.3'
 gem 'devise-bootstrapped', '~> 0.1.1'
 gem 'omniauth-google-oauth2', '~> 0.5.2'
+gem 'omniauth-facebook', '~> 4.0'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
