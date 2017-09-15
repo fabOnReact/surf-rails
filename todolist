@@ -1,14 +1,4 @@
-complete the google omniauth authentication
-
-pictures controller
-picture model
-
 carrierwave
-
-authentication with twitter/facebook/google
-
-check out the example and keep copying it 
-problems positioning html
 ----------------------- SHORTCUTS --------------------------------
 heroku run rails console
 heroku pg:psql per accedere al database produzione
