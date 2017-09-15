@@ -29,8 +29,9 @@ gem 'jbuilder', '~> 2.5'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-gem 'devise'
+gem 'devise', '~> 4.3'
 gem 'devise-bootstrapped', '~> 0.1.1'
+gem 'omniauth-google-oauth2', '~> 0.5.2'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
@@ -38,6 +39,8 @@ gem 'devise-bootstrapped', '~> 0.1.1'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+gem 'faker', '~> 1.8', '>= 1.8.4'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -41,6 +41,12 @@ RSpec.describe PicturesController, type: :controller do
   # PicturesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  login_user
+
+  it "should have a current_user" do
+    expect(subject.current_user).to_not eq(nil)
+  end
+
   describe "GET #index" do
     it "returns a success response" do
       picture = Picture.create! valid_attributes

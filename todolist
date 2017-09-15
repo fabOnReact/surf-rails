@@ -1,8 +1,4 @@
-create the first controller
-
-Every user will post pictures
-
-spot has many pictures
+complete the google omniauth authentication
 
 pictures controller
 picture model
