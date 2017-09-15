@@ -21,5 +21,5 @@
 <%- if devise_mapping.omniauthable? %>
 	log in with<br>
   	<%= link_to user_google_oauth2_omniauth_authorize_path do %><% end %><i class="fa fa-2x fa-google" aria-hidden="true"></i>
-  	<%= link_to omniauth_authorize_path(:user, :facebook), do %><i class="fa fa-2x fa-facebook" aria-hidden="true"></i><% end %>
+  	<%= link_to user_facebook_omniauth_authorize_path do %><i class="fa fa-2x fa-facebook" aria-hidden="true"></i><% end %>
 <% end -%>
