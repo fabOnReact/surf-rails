@@ -1,3 +1,4 @@
+fix error with facebook omniauth
 carrierwave
 ----------------------- SHORTCUTS --------------------------------
 heroku run rails console
