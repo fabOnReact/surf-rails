@@ -73,3 +73,5 @@ gem 'rails_12factor', group: :production
 
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.2'
+gem 'carrierwave', '~> 1.1'
+gem 'simple_form', '~> 3.5'
