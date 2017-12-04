@@ -1,16 +1,47 @@
+// partials
+
+@import 'modularscale';
+
+// Variables
+
 $primary: #1731EB; //blue
 $secondary: #FF0000; //red
 $third: #43FF6A; //green
 $fourth: #E8BC0C; //orange
 $base: #FFFFFF; //white
 
+$modularscale: (
+  base: 16px 980px,
+  ratio: 1.618
+);
+
+/* Mixins */
+
 @mixin colors($color: black, $background-color: white) {
 	color: $color;
 	background-color: $background-color;
 }
 
+@mixin fontSize($size) { font-size: $size + em; }
+
+/* Main Classes */
+
+.navbar {
+	background-color: $primary;
+	.icon-bar {
+		background-color: $base;
+	}
+}
+
+/* Declaration of fonts */
+
+// h {	&1 { font-size: ms(6); } &2 { font-size: ms(5); } &3 { font-size: ms(4); } &4 { font-size: ms(3); } &5 { font-size: ms(2); } &6 { font-size: ms(1); }}
+h {	&1 { @include fontSize(4.236) } &2 { @include fontSize(3.971) } &3 { @include fontSize(2.618) } &4 { @include fontSize(2.454) } &5 { @include fontSize(1.618) } &6 { @include fontSize(1.517) }}
+
+/* Links */
+
 a {
-	color: $third;
+	color: $fourth;
 }
 
 .navbar {
@@ -19,13 +50,8 @@ a {
 	}
 }
 
+// Buttons
+
 .btn-primary {
 	@include colors($base, $primary)
-}
-
-.navbar {
-	background-color: $primary;
-	.icon-bar {
-		background-color: $base;
-	}
 }
