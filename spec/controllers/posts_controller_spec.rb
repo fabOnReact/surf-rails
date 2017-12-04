@@ -28,13 +28,9 @@ RSpec.describe PostsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Post. As you add validations to Post, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    FactoryBot.attributes_for(:post)
-  }
+  let(:valid_attributes) { FactoryBot.attributes_for(:post) }
 
-  let(:invalid_attributes) {
-    FactoryBot.attributes_for(:post, stars: "a string")
-  }
+  let(:invalid_attributes) { FactoryBot.attributes_for(:post, stars: "a string") }
 
   describe "GET #index" do
     it "returns a success response" do
