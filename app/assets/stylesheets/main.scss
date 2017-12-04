@@ -1,0 +1,31 @@
+$primary: #1731EB; //blue
+$secondary: #FF0000; //red
+$third: #43FF6A; //green
+$fourth: #E8BC0C; //orange
+$base: #FFFFFF; //white
+
+@mixin colors($color: black, $background-color: white) {
+	color: $color;
+	background-color: $background-color;
+}
+
+a {
+	color: $third;
+}
+
+.navbar {
+	a {
+		color: $base;
+	}
+}
+
+.btn-primary {
+	@include colors($base, $primary)
+}
+
+.navbar {
+	background-color: $primary;
+	.icon-bar {
+		background-color: $base;
+	}
+}
