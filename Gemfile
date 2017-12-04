@@ -51,10 +51,9 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'rspec-rails', '~> 3.6', '>= 3.6.1'
-  gem 'factory_girl_rails', '~> 4.8'
+  gem 'factory_bot_rails', '~> 4.8'
   gem "pry-rails"
   gem "pry-byebug"
-  gem 'rspec-stripe'  
 end
 
 group :development do
