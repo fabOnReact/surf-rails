@@ -30,7 +30,8 @@ class PostsController < ApplicationController
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
       else
-        format.html { render :new }
+        flash[:alert] = 'An error occurred and your post was not saved' 
+        format.html { render :new, alert: 'An error occurred and your post was not saved' }
       end
     end
   end
