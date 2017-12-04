@@ -13,6 +13,10 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render partial: 'partials/navbar' %>
+    <%= render partial: "partials/flash" %>
+    <div class='container'>
+      <%= yield %>
+    </div>
   </body>
 </html>

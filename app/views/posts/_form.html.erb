@@ -1,0 +1,6 @@
+<%= simple_form_for post do |f| %>
+  <%= render 'partials/error_messages', object: post %>      
+  <%= f.input :description %>
+  <%= f.input :stars %>
+  <%= f.button :submit %>
+<% end %>
