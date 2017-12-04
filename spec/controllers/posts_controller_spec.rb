@@ -29,7 +29,7 @@ RSpec.describe PostsController, type: :controller do
   # Post. As you add validations to Post, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    FactoryBot.attributes_for(:post).to_h
+    FactoryBot.attributes_for(:post)
   }
 
   let(:invalid_attributes) {
