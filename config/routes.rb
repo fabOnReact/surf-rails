@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-	resources :pictures
+	resources :posts
 	devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
-	root 'pictures#new'
+	root 'posts#new'
 end
