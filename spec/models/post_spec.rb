@@ -1,5 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+	let(:post) { FactoryBot.create(:post) }
+	it { should belong_to(:user) }
+
+
+	describe 'picture' do
+		it 'should have a picture' do
+			expect(post.picture).to be_instance_of(PictureUploader)
+		end        
+	end
 end
