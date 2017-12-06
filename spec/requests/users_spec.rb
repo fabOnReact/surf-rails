@@ -18,7 +18,7 @@ RSpec.describe "Users", type: :request do
 
 	    it 'authenticates the user with facebook omniauth' do
 	  		get '/users/auth/facebook' 
-	  		expect(response).to redirect_to('https://surfcheck.herokuapp.com/users/auth/facebook/callback')
+	  		expect(response).to redirect_to('http://127.0.0.1:3000/users/auth/facebook/callback')
 	  	end
 	end
 end
