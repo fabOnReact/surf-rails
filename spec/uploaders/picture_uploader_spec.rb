@@ -1,10 +1,11 @@
+require 'rails_helper'
 require 'carrierwave/test/matchers'
 
 describe PictureUploader do
   include CarrierWave::Test::Matchers
 
-  let(:user) { double('user') }
-  let(:uploader) { PictureUploader.new(user, :avatar) }
+  let(:post) { double('post') }
+  let(:uploader) { PictureUploader.new(post, :picture) }
 
   before do
     PictureUploader.enable_processing = true
