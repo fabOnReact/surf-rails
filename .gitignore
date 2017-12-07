@@ -19,3 +19,5 @@
 .byebug_history
 todolist
 spec/fixtures
+app/assets/images
+public/assets

@@ -10,10 +10,11 @@ $third: #43FF6A; //green
 $fourth: #E8BC0C; //orange
 $base: #FFFFFF; //white
 
-$modularscale: (
+// Commented after installing Bootstrap 4
+/*$modularscale: (
   base: 16px 980px,
   ratio: 1.618
-);
+);*/
 
 /* Mixins */
 
@@ -36,7 +37,9 @@ $modularscale: (
 /* Declaration of fonts */
 
 // h {	&1 { font-size: ms(6); } &2 { font-size: ms(5); } &3 { font-size: ms(4); } &4 { font-size: ms(3); } &5 { font-size: ms(2); } &6 { font-size: ms(1); }}
-h {	&1 { @include fontSize(4.236) } &2 { @include fontSize(3.971) } &3 { @include fontSize(2.618) } &4 { @include fontSize(2.454) } &5 { @include fontSize(1.618) } &6 { @include fontSize(1.517) }}
+
+// Commented after installing Bootstrap 4
+/*h {	&1 { @include fontSize(4.236) } &2 { @include fontSize(3.971) } &3 { @include fontSize(2.618) } &4 { @include fontSize(2.454) } &5 { @include fontSize(1.618) } &6 { @include fontSize(1.517) }}*/
 
 /* Links */
 
