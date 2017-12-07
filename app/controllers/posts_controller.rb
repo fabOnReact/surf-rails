@@ -1,5 +1,9 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, except: [:landing, :index]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+
+  def landing
+  end
 
   # GET /posts
   # GET /posts.json
