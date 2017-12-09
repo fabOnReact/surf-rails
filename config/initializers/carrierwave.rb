@@ -23,4 +23,5 @@ end
 
 CarrierWave.configure do |config|
 	config.asset_host = ActionController::Base.asset_host
+	config.permissions = 0600
 end

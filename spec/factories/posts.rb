@@ -4,8 +4,10 @@ FactoryBot.define do
     stars 1
     user
 
-    after :create do |b|
-    	b.update_column(:picture, "spec/fixtures/files/image.png")
-    end
+	factory :post_with_picture do
+	    after :create do |b|
+	    	b.update_column(:picture, "spec/fixtures/files/image.png")
+	    end
+	end
   end
 end

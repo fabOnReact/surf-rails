@@ -51,6 +51,7 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'rspec-rails', '~> 3.6', '>= 3.6.1'
+  gem 'rspec-mocks'
   gem 'factory_bot_rails', '~> 4.8'
   gem "pry-rails"
   gem "pry-byebug"
@@ -75,3 +76,4 @@ gem 'rails_12factor', group: :production
 gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.2'
 gem 'carrierwave', '~> 1.1'
 gem 'simple_form', '~> 3.5'
+gem 'mini_magick'

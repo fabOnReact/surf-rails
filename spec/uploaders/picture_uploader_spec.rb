@@ -4,12 +4,12 @@ require 'carrierwave/test/matchers'
 describe PictureUploader do
   include CarrierWave::Test::Matchers
 
-  let(:post) { double('post') }
+  let(:post) { FactoryBot.create(:post) }
   let(:uploader) { PictureUploader.new(post, :picture) }
 
   before do
     PictureUploader.enable_processing = true
-    File.open(path_to_file) { |f| uploader.store!(f) }
+    File.open(File.join(Rails.root, "spec/fixtures/files/image.png")) { |f| uploader.store!(f) }
   end
 
   after do
