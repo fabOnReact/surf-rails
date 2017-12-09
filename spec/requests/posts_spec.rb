@@ -3,12 +3,12 @@ include Warden::Test::Helpers
 Warden.test_mode!
 
 RSpec.describe "Posts", type: :request do
-	let(:valid_attributes) { FactoryBot.attributes_for(:post)} 
-
 	before(:each) do
-		user = FactoryBot.create(:user)
-		login_as(user, :scope => :user)
+		@user = FactoryBot.create(:user)
+		login_as(@user, :scope => :user)
 	end
+
+	let(:valid_attributes) { FactoryBot.attributes_for(:post, user_id: @user.id)} 
 
 	after(:each) do
 		Warden.test_reset!
