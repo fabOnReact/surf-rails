@@ -11,10 +11,10 @@
 // about supported directives.
 //
 
-//= require jquery3
+//= require jquery/dist/jquery
 //= require rails-ujs
-//= require popper
-//= require bootstrap-sprockets
+//= require popper-custom
+//= require bootstrap/dist/js/bootstrap
 //= require cookieconsent
 //= require main
 //= require turbolinks
