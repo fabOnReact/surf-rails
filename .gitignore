@@ -23,3 +23,5 @@ spec/support/uploads
 app/assets/images
 public/assets
 cutout
+client_id.json
+client_id_old.json

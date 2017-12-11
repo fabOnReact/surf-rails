@@ -1,5 +1,9 @@
 = simple_form_for post do |f|
-  = render 'partials/error_messages', object: post
-  = f.input :description
-  = f.input :stars
-  = f.button :submit
+	= render 'partials/error_messages', object: post
+	.form-group
+		%label{:for => 'inputDescription'} Email address
+		= f.input :description, {id: 'inputDescription'}
+	.form-group
+		%label{:for => 'inputStars'} Stars
+		= f.input :stars, {id: 'inputStars'}
+	= f.button :submit
