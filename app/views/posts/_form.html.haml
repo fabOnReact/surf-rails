@@ -1,9 +1,10 @@
-= simple_form_for post do |f|
+= form_for post do |f|
 	= render 'partials/error_messages', object: post
 	.form-group
-		%label{:for => 'inputDescription'} Email address
-		= f.input :description, {id: 'inputDescription'}
+		= f.label :description, {for: 'inputDescription'}
+		= f.text_area :description, {type: 'text', class: 'form-control', id: 'inputDescription'}
 	.form-group
-		%label{:for => 'inputStars'} Stars
-		= f.input :stars, {id: 'inputStars'}
-	= f.button :submit
+		= f.label :stars, {for: 'inputStars'}
+		= f.number_field :stars, {type: 'number', class: 'form-control',id: 'inputStars'}
+	= f.submit :submit, class: 'btn btn-primary btn-lg'
+	= render 'partials/links'
