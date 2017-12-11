@@ -1,0 +1,23 @@
+.container
+  - if flash[:notice]
+    .alert.alert-success.fade.in
+      %button.close.close-sm{"data-dismiss" => "alert", :type => "button"}
+        %i.icon-remove
+      %strong Well done!
+      = flash[:notice]
+  - if flash[:error]
+    .alert.alert-block.alert-danger.fade.in
+      %button.close.close-sm{"data-dismiss" => "alert", :type => "button"}
+        %i.icon-remove
+      %strong Oh snap!
+      = flash[:error]
+  - if flash[:alert]
+    .alert.alert-block.alert-danger.fade.in
+      %button.close.close-sm{"data-dismiss" => "alert", :type => "button"}
+        %i.icon-remove
+      %strong Oh snap!
+      = flash[:alert]
+  - if flash[:warning]
+    .alert.alert-warning
+      %strong Oh snap!
+      = flash[:warning]
