@@ -11,5 +11,10 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe PostsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#link_path' do
+    it 'return the correct path' do
+      allow(controller).to receive(:action_name).and_return('new')
+      expect(link_path).to eql(posts_path)
+    end
+  end
 end
