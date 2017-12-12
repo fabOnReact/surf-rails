@@ -1,7 +1,9 @@
 module PostsHelper
   def link_path
     case action_name
-      when 'new' || 'edit' then posts_path
+      when action_name = 'index'
+      else 
+        posts_path        
     end
   end    
 end

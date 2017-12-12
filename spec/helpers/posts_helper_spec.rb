@@ -12,9 +12,14 @@ require 'rails_helper'
 # end
 RSpec.describe PostsHelper, type: :helper do
   describe '#link_path' do
-    it 'return the correct path' do
+    it 'return the correct path during the new action' do
       allow(controller).to receive(:action_name).and_return('new')
       expect(link_path).to eql(posts_path)
     end
+
+    it 'return the correct path during the edit action' do
+      allow(controller).to receive(:action_name).and_return('edit')
+      expect(link_path).to eql(posts_path)
+    end    
   end
 end
