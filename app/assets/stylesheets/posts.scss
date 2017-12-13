@@ -1,3 +1,29 @@
 // Place all the styles related to the posts controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.carousel, .carousel-inner, .carousel-item, img {
+  // setting height 100% for main page carousel
+  height: 100%;
+  h1 {
+    @include positionElement();
+    color: $white;
+  }
+}
+
+// carousel on main page
+.carousel-item {
+  @include backgroundSettings(cover, center, $cover-max-height);
+
+  h1.display-3 {
+  text-shadow: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-shadow: -1px 0 1px #000;
+  }
+}
+
+// Carousel image-url for the .first, .second and .third-image
+@each $id, $image in (first, balangan1), (second, bronte), (third, balangan4), (fourth, bondi3), (fifth, tamarama2), (sixth, tamaramarail2) {
+  .#{$id}-image {
+    background-image: image-url('#{$image}.JPG');
+  }
+}

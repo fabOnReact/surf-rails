@@ -1,37 +1,20 @@
-// variables
-$cover-max-height: 95%;
+@import 'partials/variables';
+@import 'partials/mixins';
+@import 'posts';
 
-// change colors
-@mixin colors($color: black, $background-color: white) {
-  color: $color;
-  background-color: $background-color;
-}
-
-// font size in em
-@mixin fontSize($size) { font-size: $size + em; }
-// background settings
-@mixin backgroundSettings($size, $position, $max-height: 100%) {
-  -webkit-background-size: $size;
-  -moz-background-size: $size;
-  -o-background-size: $size;
-  background-size: $size;	
-  background-position: $position;
-	max-height: $max-height;	
-}
-
-html, body, .carousel, .carousel-inner, .carousel-item, img {
+html, body {
 	// setting height 100% for main page carousel
 	height: 100%;
 }
 
-// carousel on main page
-.carousel-item {
-	@include backgroundSettings(cover, center, $cover-max-height);
+@include media-breakpoint-up(sm) {
+  /*fontDisplay:*/
 }
 
-// Carousel image-url for the .first, .second and .third-image
-@each $id, $image in (first, balangan1), (second, bronte), (third, balangan4) {
-	.#{$id}-image {
-		background-image: image-url('#{$image}.JPG');
-	}
+@include media-breakpoint-up(md) {
+  @include fontDisplay(5.5);
+}
+
+@include media-breakpoint-up(xl) {
+  @include fontDisplay(9.5); 
 }

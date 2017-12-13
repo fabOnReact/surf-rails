@@ -1,0 +1,34 @@
+// This file contains mixins 
+
+// change colors
+@mixin colors($color: black, $background-color: white) {
+  color: $color;
+  background-color: $background-color;
+}
+
+// font size in em
+@mixin fontSize($size) { font-size: $size + em; }
+
+// background settings
+@mixin backgroundSettings($size, $position, $max-height: 100%) {
+  -webkit-background-size: $size;
+  -moz-background-size: $size;
+  -o-background-size: $size;
+  background-size: $size; 
+  background-position: $position;
+  max-height: $max-height;  
+}
+
+// positioning settings
+@mixin positionElement($top: 50%, $text-align: center){
+  position: relative;
+  top: $top;
+  transform: translateY(-50%);
+  text-align: $text-align;  
+}
+
+@mixin fontDisplay($font-size) {
+  .display-3 {
+    font-size: $font-size + rem;
+  }
+}
