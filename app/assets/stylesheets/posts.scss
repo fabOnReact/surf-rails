@@ -21,6 +21,16 @@
   }
 }
 
+// jumbotron second screen of main page
+.jumbotron {
+  i {
+    color: $white;
+    padding-bottom: 4px;
+  };
+
+  a.btn.rounded-circle { background-color: $dark; };
+}
+
 // Carousel image-url for the .first, .second and .third-image
 @each $id, $image in (first, balangan1), (second, bronte), (third, balangan4), (fourth, bondi3), (fifth, tamarama2), (sixth, tamaramarail2) {
   .#{$id}-image {

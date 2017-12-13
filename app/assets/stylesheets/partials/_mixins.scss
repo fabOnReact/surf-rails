@@ -27,6 +27,7 @@
   text-align: $text-align;  
 }
 
+// mixin for changing the carousel text in different screens
 @mixin fontDisplay($font-size) {
   .display-3 {
     font-size: $font-size + rem;
