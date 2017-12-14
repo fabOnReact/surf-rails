@@ -8,7 +8,7 @@ RSpec.describe "Posts", type: :request do
 		login_as(@user, :scope => :user)
 	end
 
-	let(:valid_attributes) { FactoryBot.attributes_for(:post, user_id: @user.id)} 
+	let(:valid_attributes) { FactoryBot.attributes_for(:post)} #, user_id: @user.id
 
 	after(:each) do
 		Warden.test_reset!

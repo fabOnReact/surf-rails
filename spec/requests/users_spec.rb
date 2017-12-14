@@ -37,7 +37,7 @@ RSpec.describe "Users", type: :request do
         follow_redirect!
 
         expect(response).to render_template(:landing)
-        expect(response.body).to include("landing page")
+        expect(response.body.downcase).to include("is an app that allows you to see the surf at different time")
       end
 
       it 're-render the sign-in page and an error message' do 
@@ -65,7 +65,7 @@ RSpec.describe "Users", type: :request do
       get root_path
       expect(response).to render_template(:landing)
       expect(response.body.downcase).not_to include('error')
-      expect(response.body.downcase).to include("landing page")
+      expect(response.body.downcase).to include("is an app that allows you to see the surf at different time")
     end
 
     it 'displays the posts/index page without authentication' do 

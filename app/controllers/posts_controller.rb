@@ -1,8 +1,7 @@
 class PostsController < ApplicationController
-  binding.pry
   before_action :authenticate_user!, except: [:landing, :index]
-  before_action :set_post, only: [:create, :update]
-  before_action :find_post, only: [:show, :edit, :destroy]
+  before_action :set_post, only: [:create]
+  before_action :find_post, only: [:show, :edit, :update, :destroy]
 
   def landing
   end
@@ -22,7 +21,6 @@ class PostsController < ApplicationController
   end
 
   def create
-    binding.pry
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
@@ -36,6 +34,7 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
+        #binding.pry
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
       else
         format.html { render :edit }
@@ -52,17 +51,16 @@ class PostsController < ApplicationController
 
   private
     def find_post
+      #binding.pry
       @post = Post.find(params[:id])
     end
 
-    def set_post
-      binding.pry
+    def set_post     
       @post = Post.new(post_params)
       @post.user_id = current_user.id
     end
 
-    def post_params
-      binding.pry
-      params.require(:post).permit(:description, :user_id)
+    def post_params   
+      params.require(:post).permit(:description)
     end
 end
