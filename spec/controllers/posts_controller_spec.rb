@@ -2,13 +2,14 @@ require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do
   login_user
-  let(:valid_attributes) { FactoryBot.attributes_for(:post, user_id: @user.id) }
+  let(:valid_attributes) { FactoryBot.attributes_for(:post) }
 
-  let(:invalid_attributes) { FactoryBot.attributes_for(:post, stars: "a string") }
+  let(:invalid_attributes) { FactoryBot.attributes_for(:post) }
+
+  let(:post) { FactoryBot.create(:post) }
 
   describe "GET #index" do
     it "returns a success response" do
-      post = Post.create! valid_attributes
       get :index, params: {}
       expect(response).to be_success
     end
@@ -16,7 +17,6 @@ RSpec.describe PostsController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      post = Post.create! valid_attributes
       get :show, params: {id: post.to_param}
       expect(response).to be_success
     end
@@ -31,7 +31,6 @@ RSpec.describe PostsController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      post = Post.create! valid_attributes
       get :edit, params: {id: post.to_param}
       expect(response).to be_success
     end
@@ -40,8 +39,9 @@ RSpec.describe PostsController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Post" do
+        binding.pry
         expect {
-          post :create, params: {post: valid_attributes}
+          post posts_url, params: { post: FactoryBot.build(:post)}
         }.to change(Post, :count).by(1)
       end
 
@@ -72,14 +72,12 @@ RSpec.describe PostsController, type: :controller do
       }
 
       it "updates the requested post" do
-        post = Post.create! valid_attributes
         put :update, params: {id: post.to_param, post: new_attributes}
         post.reload
         expect(post.description).to eql('new description')
       end
 
       it "redirects to the post" do
-        post = Post.create! valid_attributes
         put :update, params: {id: post.to_param, post: valid_attributes}
         expect(response).to redirect_to(post)
       end
@@ -87,7 +85,6 @@ RSpec.describe PostsController, type: :controller do
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        post = Post.create! valid_attributes
         put :update, params: {id: post.to_param, post: invalid_attributes}
         expect(response).to be_success
       end
@@ -96,14 +93,12 @@ RSpec.describe PostsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested post" do
-      post = Post.create! valid_attributes
       expect {
         delete :destroy, params: {id: post.to_param}
       }.to change(Post, :count).by(-1)
     end
 
     it "redirects to the posts list" do
-      post = Post.create! valid_attributes
       delete :destroy, params: {id: post.to_param}
       expect(response).to redirect_to(posts_url)
     end
