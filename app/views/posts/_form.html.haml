@@ -3,8 +3,5 @@
 	.form-group
 		= f.label :description, {for: 'inputDescription'}
 		= f.text_area :description, {type: 'text', class: 'form-control', id: 'inputDescription'}
-	.form-group
-		= f.label :stars, {for: 'inputStars'}
-		= f.number_field :stars, {type: 'number', class: 'form-control',id: 'inputStars'}
 	= f.submit :submit, class: 'btn btn-primary btn-lg'
 	= link_to 'Back', link_path, { class: 'btn btn-primary btn-lg', role: 'buttons'}
