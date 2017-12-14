@@ -7,12 +7,25 @@ html, body {
 	height: 100%;
 }
 
-@include media-breakpoint-up(sm) {
-  /*fontDisplay:*/
+@include media-breakpoint-up(md) {
+  // changing carousel text size for big screens
+  @include fontDisplay(5.5);
 }
 
-@include media-breakpoint-up(md) {
-  @include fontDisplay(5.5);
+@include media-breakpoint-up(lg) {
+  // carousel and jumbotron in one page 
+  .carousel.slide {
+    width: 100%;
+    height: 50%;
+  } 
+
+  .jumbotron {
+    padding: 2rem 2rem; 
+  }
+
+  .container-jumbotron {
+    max-width: initial;
+  }
 }
 
 @include media-breakpoint-up(xl) {
