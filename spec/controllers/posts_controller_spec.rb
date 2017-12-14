@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do
   login_user
-  let(:valid_attributes) { FactoryBot.attributes_for(:post) }
+  
+  let(:valid_attributes) { FactoryBot.attributes_for(:post, user: @user.id) }
 
   let(:invalid_attributes) { FactoryBot.attributes_for(:post) }
 
@@ -41,7 +42,7 @@ RSpec.describe PostsController, type: :controller do
       it "creates a new Post" do
         binding.pry
         expect {
-          post posts_url, params: { post: FactoryBot.build(:post)}
+          post posts_url, params: { post: FactoryBot.attributes_for(:post)}
         }.to change(Post, :count).by(1)
       end
 
