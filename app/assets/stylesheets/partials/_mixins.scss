@@ -33,3 +33,10 @@
     font-size: $font-size + rem;
   }
 }
+
+// setting backgroundImages in @each loo posts.scss:40
+@mixin backgroundImage($class, $path, $image-name) {
+  .#{$class}-image {
+    background-image: image-url('#{$path}#{$image-name}.JPG');
+  }
+}
