@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :post do
     description "MyText"
-    stars 1
     user
 
 	factory :post_with_picture do
