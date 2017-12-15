@@ -5,5 +5,5 @@ module PostsHelper
       else 
         posts_path        
     end
-  end    
+  end     
 end

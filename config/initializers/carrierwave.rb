@@ -5,9 +5,6 @@ if Rails.env.test? or Rails.env.cucumber?
   end
 end
 
-
-PictureUploader
-
 CarrierWave::Uploader::Base.descendants.each do |klass|
 	next if klass.anonymous?
 	klass.class_eval do

@@ -46,6 +46,11 @@ RSpec.describe PostsController, type: :controller do
         }.to change(Post, :count).by(1)
       end
 
+      it "creates a post with user_id and ip address" do
+        post :create, params: {post: valid_attributes}
+        expect(Post.last).to have_attributes(user_id: @user.id, ip_code: '98.236.166.116')
+      end
+      
       it "redirects to the created post" do
         post :create, params: {post: valid_attributes}
         expect(response).to redirect_to(Post.last)

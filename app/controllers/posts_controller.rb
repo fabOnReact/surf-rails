@@ -34,7 +34,6 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
-        #binding.pry
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
       else
         format.html { render :edit }
@@ -51,13 +50,14 @@ class PostsController < ApplicationController
 
   private
     def find_post
-      #binding.pry
       @post = Post.find(params[:id])
     end
 
     def set_post     
       @post = Post.new(post_params)
-      @post.user_id = current_user.id
+      binding.pry
+      @post.assign_attributes(user_id: current_user.id, ip_code: request.ip_finder)
+      #@post.set_ip(request.ip_finder)
     end
 
     def post_params   
