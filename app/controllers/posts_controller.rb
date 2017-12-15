@@ -55,9 +55,7 @@ class PostsController < ApplicationController
 
     def set_post     
       @post = Post.new(post_params)
-      binding.pry
       @post.assign_attributes(user_id: current_user.id, ip_code: request.ip_finder)
-      #@post.set_ip(request.ip_finder)
     end
 
     def post_params   

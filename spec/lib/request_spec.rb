@@ -4,12 +4,12 @@ require 'core_ext/action_dispatch/http/request'
 describe ActionDispatch::Request do 
   before(:each) do 
     @request = ActionDispatch::Request.new({})
-    @request.remote_ip=('127.0.0.1')
+    @request.remote_ip=('0.0.0.0')
   end
 
   describe ':get_remote_ip' do
     it 'return the ip' do
-      expect(@request.get_remote_ip).to eql('127.0.0.1')
+      expect(@request.get_remote_ip).to eql('0.0.0.0')
     end
   end
 

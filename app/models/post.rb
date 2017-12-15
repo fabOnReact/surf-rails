@@ -3,7 +3,7 @@ class Post < ApplicationRecord
   attr_accessor :ip_code
 
 	mount_uploader :picture, PictureUploader
-  geocoded_by :ip_code, :latitude => :lat, :longitude => :lon
+  geocoded_by :ip_code, :latitude => :latitude, :longitude => :longitude
   after_validation :geocode
 
   #def set_ip(ip)
