@@ -23,11 +23,9 @@ class PostsController < ApplicationController
   def create
     respond_to do |format|
       if @post.save
-        flash[:notice] = 'lasdf'
-        format.html { redirect_to posts_path} #, :flash => { :notice => 'Post was successfully created.' } 
+        format.html { redirect_to posts_path, notice: 'Post was successfully created.' } 
       else
-        flash[:alert] = 'An error occurred and your post was not saved' 
-        format.html { render :new}
+        format.html { render :new, alert: 'An error occurred and your post was not saved' }
       end
     end
   end
