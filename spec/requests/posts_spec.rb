@@ -40,11 +40,16 @@ RSpec.describe "Posts", type: :request do
 
 	  		post posts_path, params: {post: valid_attributes }
 
-	  		expect(response).to redirect_to(assigns(:post))
+	  		expect(response).to redirect_to(posts_path)
 	  		follow_redirect!
 
-	  		expect(response).to render_template(:show)
+	  		expect(response).to render_template(:index)
 	  		expect(response.body).to include("Post was successfully created.")
 		end
+
+    it 'creates a post and the post has latitude and longitude' do
+        post posts_path, params: {post: valid_attributes }
+        expect(Post.last.longitude).not_to eql(0.0)
+    end
 	end
 end

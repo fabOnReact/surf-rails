@@ -60,10 +60,15 @@ RSpec.describe PostsController, type: :controller do
         post :create, params: {post: valid_attributes}
         expect(Post.last.longitude).to be_present
       end
+
+      it 'the longitude is not equal to zero' do
+        post :create, params: {post: valid_attributes}
+        expect(Post.last.longitude).not_to be(0.0)
+      end
       
       it "redirects to the created post" do
         post :create, params: {post: valid_attributes}
-        expect(response).to redirect_to(Post.last)
+        expect(response).to redirect_to(posts_path)
       end
     end
 
@@ -76,7 +81,13 @@ RSpec.describe PostsController, type: :controller do
       it "render an alert" 
         #post :create, params: {post: invalid_attributes}
         #expect(controller).to set_flash
+    end
 
+    context 'private methods' do 
+      it 'replaces the ip with a static ip' do
+        post :create, params: {post: valid_attributes}
+        expect(request.static_ip_finder).to eql(ActionDispatch::Request.my_static_ip)
+      end
     end
   end
 
