@@ -37,7 +37,7 @@
 // Carousel image-url for the .first, .second and .third-image for > md devices
 // Setting images with @mixin backgroundImage from mixins partial
 @each $class, $image in (first, balangan1-min), (second, bronte-min), (third, balangan4-min), (fourth, bondi3-min), (fifth, tamarama2-min), (sixth, tamaramarail2-min) {
-  @include media-breakpoint-up(md) {  
+  @include media-breakpoint-up(sm) {  
     @include backgroundImage($class, "md/", $image);
   }
 

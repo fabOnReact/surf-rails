@@ -9,5 +9,5 @@
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     = render partial: 'partials/navbar' 
-    = render partial: 'partials/flash'if flash.present?
+    = render partial: 'partials/flash' if flash.present?
     = yield
