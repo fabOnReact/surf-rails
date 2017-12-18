@@ -1,9 +1,18 @@
 $(document).on('turbolinks:load', function() {
+  //console.log('turbolinks:load - ' + event.data.url);
+  //console.log('the pathname is - ' + event.currentTarget.location.pathname);
+
+  var location_path = event.currentTarget.location.pathname /*$(location).attr('pathname');*/
   
-  var location_path = $(location).attr('pathname');
-  if (location_path == '/posts/new') {
-    getLocation();
-  };
+  // switch statement triggers functions based on the visited page
+  switch(location_path) {
+  	case '/':
+  		containerStyle();
+  		break;
+  	case '/posts/new':
+  		getLocation();
+  		break;
+  }
 
   function getLocation(){
     if(navigator.geolocation) {
@@ -18,11 +27,17 @@ $(document).on('turbolinks:load', function() {
     $('input[name="post[longitude]"').val(position.coords.longitude);
   }
 
+  function containerStyle(){
+  	var alertHeight = $('.alert').outerHeight(true);
+  	$('.container').css('margin-bottom', - alertHeight );
+  	$('.alert').addClass('carouselAlerts');
+  }
+
 });
 
 
 // js animation for scrolling down page with arrow button
-$('#circleArrow').hover(function(){
+/*$('#circleArrow').hover(function(){
     $(this).effect("bounce", {times: 3}, 2000);
   });
 
@@ -38,4 +53,29 @@ function scrollToParagraph(target) {
 
 function animateLink(target) {
   target.effect("bounce", "slow");
-}
+}*/
+
+
+// Understanding Turbolinks 5 events
+/*
+$(document).on('turbolinks:before-visit', function(){
+  // switch statement triggers functions based on the visited page
+  console.log('before visit - ' + event.data.url);
+  console.log('the pathname is - ' + event.currentTarget.location.pathname);
+
+  switch(event.data.url) {
+  	case '/':
+  	case '':
+  		console.log('switch at root page');
+  		containerStyle();
+  		break;
+  	case '/posts/new':
+  		console.log('switch at posts/new');
+  		getLocation();
+  		break;
+  }	
+});
+$(document).on('turbolinks:request-start', function(){
+	console.log('request-start - ' + event.data.xhr);
+	console.log('the pathname is - ' + event.currentTarget.location.pathname);
+});*/

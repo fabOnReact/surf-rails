@@ -8,7 +8,6 @@
 				- if user_signed_in?			
 					= link_to "Logout", destroy_user_session_path, method: :delete, class: 'nav-link'
 			%li.nav-item
-				%a.nav-link{:href => "#"}
-					Home
+				%a.nav-link{:href => "#"} Home
 			%li.nav-item
-				%a.nav-link{:href => "#"} Link
+				= link_to "Profile", edit_user_registration_path, class: 'nav-link'
