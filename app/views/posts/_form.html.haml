@@ -3,5 +3,11 @@
 	.form-group
 		= f.label :description, {for: 'inputDescription'}
 		= f.text_area :description, {type: 'text', class: 'form-control', id: 'inputDescription'}
+	.form-group
+		%label.custom-file.btn-block	
+			= f.file_field :picture, class:"custom-file-input"
+			%span.custom-file-control.btn.btn-primary Upload Picture	
+	= f.hidden_field :latitude
+	= f.hidden_field :longitude
 	= f.submit :submit, class: 'btn btn-primary btn-lg'
 	= link_to 'Back', link_path, { class: 'btn btn-primary btn-lg', role: 'buttons'}

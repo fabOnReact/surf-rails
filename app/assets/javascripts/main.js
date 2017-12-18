@@ -3,8 +3,7 @@ $(document).on('turbolinks:load', function() {
   var location_path = $(location).attr('pathname');
   if (location_path == '/posts/new') {
     getLocation();
-  }  
-  /*getLocation();*/
+  };
 
   function getLocation(){
     if(navigator.geolocation) {
@@ -15,7 +14,8 @@ $(document).on('turbolinks:load', function() {
   }
 
   function showPosition(position) {
-    alert('Latitude: ' + position.coords.latitude + "Longitude: " + position.coords.longitude);
+    $('input[name="post[latitude]"').val(position.coords.latitude);
+    $('input[name="post[longitude]"').val(position.coords.longitude);
   }
 
 });

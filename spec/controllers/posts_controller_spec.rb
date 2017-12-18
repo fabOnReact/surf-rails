@@ -53,7 +53,7 @@ RSpec.describe PostsController, type: :controller do
 
       it 'create an instance with user_id and ip_code' do
         post :create, params: {post: valid_attributes}
-        expect(assigns(:post)).to have_attributes(user_id: @user.id, ip_code: '98.236.166.116')
+        expect(assigns(:post)).to have_attributes(user_id: @user.id, ip_code: '82.54.103.29')
       end
 
       it 'the created post has a longitude' do

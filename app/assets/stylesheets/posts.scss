@@ -1,4 +1,8 @@
 // All the styles related to the posts controller
+.container {
+	margin-top: 1rem;
+}
+
 .carousel, .carousel-inner, .carousel-item, img {
   // setting height 100% for main page carousel
   height: 100%;
@@ -44,4 +48,18 @@
   @include media-breakpoint-down(xs) {
     @include backgroundImage($class, "", $image);
   }
+}
+
+// file input posts#new
+
+label.custom-file {
+	span.custom-file-control {
+		color: white;
+	}
+}
+
+// posts#show 
+
+img {
+	margin-bottom: 1rem;
 }
