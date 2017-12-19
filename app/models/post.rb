@@ -3,6 +3,6 @@ class Post < ApplicationRecord
   attr_accessor :ip_code
 
 	mount_uploader :picture, PictureUploader
-  #reverse_geocoded_by :latitude, :longitude
-  #after_validation :reverse_geocode
+  reverse_geocoded_by :latitude, :longitude, :address => :location
+  after_validation :reverse_geocode
 end
