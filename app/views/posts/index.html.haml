@@ -14,3 +14,5 @@
 					%td= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }
 	%br/
 	= link_to 'New Post', new_post_path, { class: 'btn btn-primary btn-lg', role: 'buttons' }
+= link_to new_post_path do
+	%i.fa.fa-5x.fa-plus-circle.fixed-bottom
