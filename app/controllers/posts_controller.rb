@@ -6,6 +6,9 @@ class PostsController < ApplicationController
   def landing
   end
 
+  def pictures
+  end
+
   def index
     @posts = Post.all
   end

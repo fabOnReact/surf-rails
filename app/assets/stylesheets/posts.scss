@@ -3,6 +3,12 @@
 	margin-top: 1rem;
 }
 
+// Class to fix alert messages with carousel
+.carouselAlerts {
+	z-index: 1;
+	opacity: 0.9;
+}
+
 .carousel, .carousel-inner, .carousel-item, img {
   // setting height 100% for main page carousel
   height: 100%;
