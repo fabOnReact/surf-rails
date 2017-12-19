@@ -16,7 +16,7 @@
 - if devise_mapping.omniauthable?
   log in with
   %br/
-  = link_to user_google_oauth2_omniauth_authorize_path do
-    %i.fa.fa-2x.fa-google{"aria-hidden" => "true"}
-  = link_to user_facebook_omniauth_authorize_path do
-    %i.fa.fa-2x.fa-facebook{"aria-hidden" => "true"}
+  = link_to user_google_oauth2_omniauth_authorize_path, class:'btn btn-info btn-block' do
+    %i.fa.fa-2x.fa-google{"aria-hidden" => "true"}~ " Google"
+  = link_to user_facebook_omniauth_authorize_path, class:'btn btn-success btn-block' do
+    %i.fa.fa-2x.fa-facebook{"aria-hidden" => "true"}~ " Facebook"
