@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:landing, :pictures]
+  before_action :authenticate_user!, except: [:landing, :pictures, :show]
   before_action :set_post, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 

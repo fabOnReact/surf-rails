@@ -1,8 +1,4 @@
 .container
-	%h1 Display Post Picture
-	%p
-		%strong Description:
-		= @post.description
-	= image_tag @post.picture.url.to_s, class:'img-fluid'
+	= render 'card', post: @post
 	= link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary btn-lg'
 	= link_to 'Back', :back, class: 'btn btn-primary btn-lg'
