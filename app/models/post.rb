@@ -11,4 +11,8 @@ class Post < ApplicationRecord
   def utc_date
   	self.created_at.utc
   end  
+
+  def owner?(user)
+  	self.user == user
+  end      
 end

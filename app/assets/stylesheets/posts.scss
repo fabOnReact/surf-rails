@@ -51,8 +51,14 @@
     @include backgroundImage($class, "md/", $image);
   }
 
-  @include media-breakpoint-down(xs) {
+  /*@include media-breakpoint-down(xs) {
     @include backgroundImage($class, "", $image);
+  }*/
+}
+
+@include media-breakpoint-down(xs) {
+  .carousel-item.active {
+  	background-image: image-url("balangan1-min.JPG");
   }
 }
 

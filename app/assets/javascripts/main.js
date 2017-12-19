@@ -14,6 +14,8 @@ $(document).on('turbolinks:load', function() {
   		break;
   }
 
+	startCarousel();
+
   function getLocation(){
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
@@ -31,6 +33,14 @@ $(document).on('turbolinks:load', function() {
   	var alertHeight = $('.alert').outerHeight(true);
   	$('.container').css('margin-bottom', - alertHeight );
   	$('.alert').addClass('carouselAlerts');
+  }
+
+  function pauseCarouselonMobile(){
+  	if (window.matchMedia('(min-width: 576px)').matches){
+  		$('.carousel').carousel({
+  			interval: 2800
+  		});
+  	}
   }
 
 });

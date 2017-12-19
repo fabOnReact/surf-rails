@@ -32,5 +32,5 @@
     %h2 Cancel my account
     %p
       Unhappy? #{button_to "Cancel my account", registration_path(resource_name), class: "btn btn-danger", data: { confirm: "Are you sure? You cannot undo this." }, method: :delete}
-    = link_to "Back", :back
+    = link_to "Back", :back, class: 'btn btn-lg btn-primary'
     %hr/
