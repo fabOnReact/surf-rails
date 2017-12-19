@@ -1,16 +1,17 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:landing, :index]
+  before_action :authenticate_user!, except: [:landing, :pictures]
   before_action :set_post, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
-  def landing
+  def landing	
   end
 
   def pictures
+  	@posts = Post.all.newest
   end
 
   def index
-    @posts = Post.all
+    @posts = current_user.posts
   end
 
   def show
@@ -61,6 +62,6 @@ class PostsController < ApplicationController
     end
 
     def post_params   
-      params.require(:post).permit(:description, :longitude, :latitude, :picture)
+      params.require(:post).permit(:description, :longitude, :latitude, :picture, :location)
     end
 end

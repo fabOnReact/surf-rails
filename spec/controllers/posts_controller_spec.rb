@@ -65,6 +65,11 @@ RSpec.describe PostsController, type: :controller do
         post :create, params: {post: valid_attributes}
         expect(Post.last.longitude).not_to be(0.0)
       end
+
+      it 'the longitude is not equal to zero' do
+        post :create, params: {post: valid_attributes}
+        expect(Post.last.location).to be_present
+      end      
       
       it "redirects to the created post" do
         post :create, params: {post: valid_attributes}

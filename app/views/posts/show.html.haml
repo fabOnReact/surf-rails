@@ -5,4 +5,4 @@
 		= @post.description
 	= image_tag @post.picture.url.to_s, class:'img-fluid'
 	= link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary btn-lg'
-	= link_to 'Back', posts_path, class: 'btn btn-primary btn-lg'
+	= link_to 'Back', :back, class: 'btn btn-primary btn-lg'
