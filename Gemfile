@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.3'
+ruby '2.5.0'
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
@@ -80,3 +80,4 @@ gem 'mini_magick'
 gem 'haml'
 gem 'haml-rails'
 gem 'geocoder'
+gem 'webpacker', '~> 3.5'
