@@ -1,28 +1,19 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:landing, :pictures, :show]
+  # rubocop:disable Style/SingleLineMethods
+  # rubocop:disable Layout/EmptyLineBetweenDefs
+  before_action :authenticate_user!, except: [:landing, :index]
+  acts_as_token_authentication_handler_for User, except: [:landing]
   before_action :set_post, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
-  def landing	
-  end
+  def landing; end
 
-  def pictures
-  	@posts = Post.all.newest
-  end
+  def index; @posts = Post.all.newest; end
 
-  def index
-    @posts = current_user.posts
-  end
-
-  def show
-  end
-
-  def new
-    @post = Post.new
-  end
-
-  def edit
-  end
+  # def index; @posts = current_user.posts; end
+  def show; end
+  def new; @post = Post.new; end
+  def edit; end
 
   def create
     respond_to do |format|

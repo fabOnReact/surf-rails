@@ -1,7 +1,7 @@
 .card.mb-3
-	= image_tag post.picture.url.to_s, class: 'card-img-top', alt: 'Card image cap'
-	.card-body
-		%h4.card-title = post.location
-		%p.card-text posted #{distance_of_time_in_words(server_date, post.utc_date)} ago #{post.description}
-		- if action_name == "pictures"
-			= link_to "Display", post_path(post), class: 'btn btn-primary'
+  = image_tag post.picture.url.to_s, class: 'card-img-top', alt: 'Card image cap'
+  .card-body
+    %h4.card-title #{post.location}
+    %p.card-text posted #{distance_of_time_in_words(server_date, post.utc_date)} ago #{post.description}
+    - if action_name == "pictures"
+      = link_to "Display", post_path(post), class: 'btn btn-primary'
