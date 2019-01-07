@@ -20,7 +20,7 @@
 todolist
 spec/fixtures
 spec/support/uploads
-app/assets/images
+# app/assets/images
 public/assets
 cutout
 client_id.json
