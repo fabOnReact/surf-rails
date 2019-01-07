@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   # rubocop:disable Style/SingleLineMethods
   # rubocop:disable Layout/EmptyLineBetweenDefs
   before_action :authenticate_user!, except: [:landing, :index]
-  acts_as_token_authentication_handler_for User, except: [:landing]
+  acts_as_token_authentication_handler_for User, except: [:landing, :index]
   before_action :set_post, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 

@@ -1,18 +1,5 @@
-.container  
-  %h1 Posts
-  %table.table
-    %thead
-      %tr
-        %th Description
-        %th{:colspan => "3"}
-    %tbody
-      - @posts.each do |post|
-        %tr
-          %td= post.description
-          %td= link_to 'Show', post
-          %td= link_to 'Edit', edit_post_path(post)
-          %td= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }
-  %br/
-= link_to 'New Post', new_post_path, { class: 'btn btn-primary btn-lg', role: 'buttons' }
-= link_to new_post_path do
-  %i.fa.fa-5x.fa-plus-circle.fixed-bottom
+.container
+  .row
+    = render partial: "post", collection: @posts
+    = link_to new_post_path do
+      %i.fa.fa-5x.fa-plus-circle.fixed-bottom
