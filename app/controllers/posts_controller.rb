@@ -7,10 +7,7 @@ class PostsController < ApplicationController
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
   def landing; end
-
   def index; @posts = Post.all.newest; end
-
-  # def index; @posts = current_user.posts; end
   def show; end
   def new; @post = Post.new; end
   def edit; end

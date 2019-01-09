@@ -20,8 +20,9 @@
 todolist
 spec/fixtures
 spec/support/uploads
-# app/assets/images
-# public/assets
+app/assets/images
+public/assets
+public/uploads
 cutout
 client_id.json
 client_id_old.json
