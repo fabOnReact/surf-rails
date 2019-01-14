@@ -42,13 +42,10 @@ ActiveRecord::Schema.define(version: 20190104101712) do
     t.datetime "updated_at", null: false
     t.string "provider"
     t.string "uid"
-    t.boolean "allow_password_change", default: false
-    t.json "tokens"
     t.string "authentication_token"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["id", "authentication_token"], name: "index_users_on_id_and_authentication_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
   add_foreign_key "posts", "users"

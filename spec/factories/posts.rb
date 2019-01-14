@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :post do
-    description "MyText"
+    description { "MyText" }
     user
     longitude { Faker::Address.longitude }
     latitude { Faker::Address.latitude }
