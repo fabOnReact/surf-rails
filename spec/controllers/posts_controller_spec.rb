@@ -134,7 +134,7 @@ RSpec.describe PostsController, type: :controller do
       end
     end
 
-    context 'delete requests' do
+    context 'with delete requests' do
       describe 'DELETE #destroy' do
         it 'destroys the requested post' do
           expect { delete :destroy, params: { id: post } }.to change(
@@ -151,20 +151,39 @@ RSpec.describe PostsController, type: :controller do
   end
 
   context 'with json format' do
+    let(:user) { FactoryBot.create(:user) }
+    let(:post_attributes) { FactoryBot.attributes_for(:post, user: user) }
+    let(:valid_base64_image){ Base64.encode64(File.read('spec/controllers/test_image.jpg')) }
+
     describe 'POST #create' do
-      let(:headers) do
+      let(:authentication_params) do
         {
-          'X-User-Email': 'fg@email.com',
-          'X-User-Token': 'EBNbDysWKEYqURfpDkWo',
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token,
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data;'
         }
       end
 
-      it 'return a json response' do
-        expect(
-          post :create, params: { post: post }, headers: headers
-        ).to have_http_status(:success)
+      context 'with authentication headers' do
+        before(:each) { request.headers.merge!(authentication_params) }
+        it 'not trigger authentication error' do
+          expect(
+            post :create, params: { post: post_attributes }
+          ).to_not have_http_status(401)
+        end
+
+        it 'save the post' do
+          attributes = {
+            picture_path: { file: valid_base64_image },
+            original_filename: "original filename",
+            filename: 'my filename'
+          }
+          post_attributes.merge!(attributes)
+          expect(
+            post :create, params: { post: post_attributes }
+          ).to have_http_status(200)
+        end
       end
     end
   end

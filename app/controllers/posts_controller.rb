@@ -15,12 +15,14 @@ class PostsController < ApplicationController
     if params[:post][:picture_path]['file']
       picture_path_params = params[:picture][:picture_path]
       tempfile = Tempfile.new('fileupload')
+      tempfile.binmode
+      tempfile.write(Base64.decode64(picture_path_params['file']))
       uploaded_file = ActionDispatch::Http::UploadedFile.new(
         tempfile: tempfile,
         filename: picture_path_params['filename'],
         original_filename: picture_path_params['original_filename']
       )
-      params[:picture][:picture_path] = uploaded_file 
+      params[:picture][:picture_path] = uploaded_file
     end
 
     @post = Post.new(description: 'test', picture: params[:picture])
@@ -31,7 +33,7 @@ class PostsController < ApplicationController
         format.json { render json: @post, status: :created, location: @post }
       else
         format.html { render :new, alert: 'An error occurred and your post was not saved' }
-        format.json { render json: @picture.errors, status: :unprocessable_entity }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
   end
