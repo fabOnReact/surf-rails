@@ -1,8 +1,11 @@
+require 'upload/cache'
+
 class PostsController < ApplicationController
   # rubocop:disable Style/SingleLineMethods
   # rubocop:disable Layout/EmptyLineBetweenDefs
   # rubocop:disable Metrics/LineLength 
   before_action :set_post, only: [:create]
+  before_action :set_picture, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
   def landing; end
@@ -12,21 +15,6 @@ class PostsController < ApplicationController
   def edit; end
 
   def create
-    if params[:post][:picture_path]['file']
-      picture_path_params = params[:picture][:picture_path]
-      tempfile = Tempfile.new('fileupload')
-      tempfile.binmode
-      tempfile.write(Base64.decode64(picture_path_params['file']))
-      uploaded_file = ActionDispatch::Http::UploadedFile.new(
-        tempfile: tempfile,
-        filename: picture_path_params['filename'],
-        original_filename: picture_path_params['original_filename']
-      )
-      params[:picture][:picture_path] = uploaded_file
-    end
-
-    @post = Post.new(description: 'test', picture: params[:picture])
-
     respond_to do |format|
       if @post.save
         format.html { redirect_to posts_path, notice: 'Post was successfully created.' }
@@ -56,16 +44,25 @@ class PostsController < ApplicationController
   end
 
   private
-  def find_post
-    @post = Post.find(params[:id])
+  def set_picture
+    cache = Upload::Cache.new(params[:post][:picture])
+    @post.picture = PictureUploader.new
+    @post.picture.store!(Upload::Image.new(cache))
   end
 
   def set_post
     @post = Post.new(post_params)
-    @post.assign_attributes(user_id: current_user.id, ip_code: request.static_ip_finder)
+    @post.assign_attributes(
+      user_id: current_user.id,
+      ip_code: request.static_ip_finder
+    )
+  end
+
+  def find_post
+    @post = Post.find(params[:id])
   end
 
   def post_params   
-    params.require(:post).permit(:description, :longitude, :latitude, :picture, :location)
+    params.require(:post).permit(:description, :longitude, :latitude, :location, :picture)
   end
 end
