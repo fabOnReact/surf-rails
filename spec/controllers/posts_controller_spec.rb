@@ -1,6 +1,7 @@
 # rubocop:disable Metricts/BlockLength
 # rubocop:disable Style/NestedParenthesizedCalls
 require 'rails_helper'
+require 'json'
 
 RSpec.describe PostsController, type: :controller do
   let(:valid_attributes) { FactoryBot.attributes_for(:post) }
@@ -153,7 +154,7 @@ RSpec.describe PostsController, type: :controller do
   context 'with json format' do
     let(:user) { FactoryBot.create(:user) }
     let(:post_attributes) { FactoryBot.attributes_for(:post, user: user) }
-    let(:valid_base64_image){ Base64.encode64(File.read('spec/controllers/test_image.jpg')) }
+    let(:valid_base64_image) { Base64.encode64(File.read('spec/assets/test_image.jpg')) }
 
     describe 'POST #create' do
       let(:authentication_params) do
@@ -166,23 +167,23 @@ RSpec.describe PostsController, type: :controller do
       end
 
       context 'with authentication headers' do
-        before(:each) { request.headers.merge!(authentication_params) }
+        before(:each) do
+          request.headers.merge!(authentication_params)
+          post_attributes[:picture] = { file: valid_base64_image, name: 'test.png' }
+        end
+
         it 'not trigger authentication error' do
-          expect(
-            post :create, params: { post: post_attributes }
-          ).to_not have_http_status(401)
+          expect(post :create, params: { post: post_attributes }).to_not have_http_status(401)
         end
 
         it 'save the post' do
-          attributes = {
-            picture_path: { file: valid_base64_image },
-            original_filename: "original filename",
-            filename: 'my filename'
-          }
-          post_attributes.merge!(attributes)
-          expect(
-            post :create, params: { post: post_attributes }
-          ).to have_http_status(200)
+          expect(post :create, params: { post: post_attributes }).to have_http_status(201)
+        end
+
+        it 'store the picture' do
+          post :create, params: { post: post_attributes }
+          json = JSON.parse(response.body, symbolize_names: true)
+          expect(json[:picture][:url]).to eq "/uploads/test.png"
         end
       end
     end
