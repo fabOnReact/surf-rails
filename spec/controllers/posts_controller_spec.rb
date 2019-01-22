@@ -7,18 +7,20 @@ RSpec.describe PostsController, type: :controller do
   let(:valid_attributes) { FactoryBot.attributes_for(:post) }
   let(:invalid_attributes) { FactoryBot.attributes_for(:post) }
 
-  context 'with html format' do
+  context 'without authentication' do
+    describe 'GET #index' do
+      it 'returns a success response' do
+        get :index, params: {}
+        expect(response).to be_success
+      end
+    end
+  end
+
+  context 'with web authentication' do
     login_user
     let(:post) { FactoryBot.create(:post, user: @user) }
 
     context 'get requests' do
-      describe 'GET #index' do
-        it 'returns a success response' do
-          get :index, params: {}
-          expect(response).to be_success
-        end
-      end
-
       describe 'GET #show' do
         it 'returns a success response' do
           get :show, params: { id: post.to_param }
@@ -151,7 +153,7 @@ RSpec.describe PostsController, type: :controller do
     end
   end
 
-  context 'with json format' do
+  context 'with json token' do
     let(:user) { FactoryBot.create(:user) }
     let(:post_attributes) { FactoryBot.attributes_for(:post, user: user) }
     let(:valid_base64_image) { Base64.encode64(File.read('spec/assets/test_image.jpg')) }

@@ -4,6 +4,7 @@ class PostsController < ApplicationController
   # rubocop:disable Style/SingleLineMethods
   # rubocop:disable Layout/EmptyLineBetweenDefs
   # rubocop:disable Metrics/LineLength 
+  acts_as_token_authentication_handler_for User, except: [:landing, :index]
   before_action :set_post, only: [:create]
   before_action :set_picture, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
