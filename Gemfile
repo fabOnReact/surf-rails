@@ -30,7 +30,7 @@ gem 'jbuilder', '~> 2.5'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-gem 'devise', '~> 4.3'
+gem "devise", ">= 4.6.0"
 gem 'devise-bootstrapped', '~> 0.1.1'
 gem 'omniauth-google-oauth2', '~> 0.5.2'
 gem 'omniauth-facebook', '~> 4.0'
@@ -80,6 +80,7 @@ gem 'mini_magick'
 gem 'haml'
 gem 'haml-rails'
 gem 'geocoder'
-gem 'webpacker', '~> 3.5'
+gem 'webpacker', '~> 4.0', '>= 4.0.2'
 gem 'simple_token_authentication', '~> 1.15', '>= 1.15.1'
 gem 'rubocop-rspec'
+gem "actionview", ">= 5.1.6.2"
