@@ -5,6 +5,7 @@ class PostsController < ApplicationController
   # rubocop:disable Layout/EmptyLineBetweenDefs
   # rubocop:disable Metrics/LineLength 
   acts_as_token_authentication_handler_for User, except: [:landing, :index]
+  skip_before_action :verify_authenticity_token
   before_action :set_post, only: [:create]
   before_action :set_picture, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
@@ -64,6 +65,6 @@ class PostsController < ApplicationController
   end
 
   def post_params   
-    params.require(:post).permit(:description, :longitude, :latitude, :location, :picture)
+    params.require(:post).permit(:description, :longitude, :latitude, :location, picture: {})
   end
 end

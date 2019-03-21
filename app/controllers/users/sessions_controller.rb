@@ -3,6 +3,7 @@
 class Users::SessionsController < Devise::SessionsController
   # skip_before_action :verify_authenticity_token, only: [:create, :new]
   # before_action :configure_sign_in_params, only: [:create]
+  skip_before_action :verify_authenticity_token
 
   def create
     respond_to do |format|
