@@ -7,15 +7,15 @@ class Users::SessionsController < Devise::SessionsController
 
   def create
     respond_to do |format|
-      format.json { 
-        self.resource = warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")
-        render :status => 200, :json => resource
+      format.json {
+        self.resource = warden.authenticate!(scope: resource_name, recall: "#{controller_path}#new")
+        render status: 200, json: resource
       }
       format.html { super }
     end
   end
 
   def login_failed
-    render json: {error: 'Login failed, credentials invalid'}, status: 401
+    render json: { error: 'Login failed, credentials invalid' }, status: 401
   end
 end

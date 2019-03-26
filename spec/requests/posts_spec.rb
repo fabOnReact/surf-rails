@@ -28,7 +28,7 @@ RSpec.describe "Posts", type: :request do
 
 	describe "GET /post/new" do
 		it "does not render a different template" do
-			get new_post_path
+            get new_post_path
 			expect(response).to_not render_template(:show)
 		end
 	end
