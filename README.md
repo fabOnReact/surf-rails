@@ -8,4 +8,4 @@ Download
     Yarn install
 
 run `rspec` for running test suite
-[ReactNative] Mobile App(https://github.com/fabriziobertoglio1987/surfnative)
+[ReactNative Mobile App](https://github.com/fabriziobertoglio1987/surfnative)
