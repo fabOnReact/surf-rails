@@ -84,3 +84,4 @@ gem 'webpacker', '~> 4.0', '>= 4.0.2'
 gem 'simple_token_authentication', '~> 1.15', '>= 1.15.1'
 gem 'rubocop-rspec'
 gem "actionview", ">= 5.1.6.2"
+gem "httparty"
