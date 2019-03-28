@@ -28,4 +28,5 @@ RSpec.describe User, type: :model do
   		expect(User.new_with_session(params, session).email).to eql("second@email.com")
   	end
   end
+
 end
