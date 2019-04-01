@@ -11,10 +11,15 @@ class PostsController < ApplicationController
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
   def landing; end
-  def index; @posts = Post.all.newest; end
   def show; end
   def new; @post = Post.new; end
   def edit; end
+
+  def index
+    @posts = Post
+      .paginate(page: params[:page], per_page: params[:per_page])
+      .newest
+  end
 
   def create
     respond_to do |format|
