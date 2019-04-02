@@ -1,9 +1,6 @@
 require 'upload/cache'
 
 class PostsController < ApplicationController
-  # rubocop:disable Style/SingleLineMethods
-  # rubocop:disable Layout/EmptyLineBetweenDefs
-  # rubocop:disable Metrics/LineLength 
   acts_as_token_authentication_handler_for User, except: [:landing, :index]
   skip_before_action :verify_authenticity_token
   before_action :set_post, only: [:create]
