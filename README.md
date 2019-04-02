@@ -4,7 +4,6 @@ This is the backend of the [SurfCheck Mobile Android and Iphone app](https://git
 The repository includes also a webapplication built with ruby on rails.
 
 ## Installation Instructions
-
 ruby version `ruby 2.5.0`
 
 rails `5.1.3`
