@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+  include ActionView::Helpers::DateHelper
+
   scope :newest, -> { order(created_at: :desc) }
 
   belongs_to :user
@@ -15,7 +17,7 @@ class Post < ApplicationRecord
   end
 
   def creation_date
-    "#{time_ago_in_words(created_at)} ago"
+    "#{time_ago_in_words created_at} ago"
   end
 
   def utc_date
