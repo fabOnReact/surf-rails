@@ -16,6 +16,10 @@ class Post < ApplicationRecord
     end
   end
 
+  def liked(user_id)
+    favorites.include? user_id
+  end
+
   def creation_date
     "#{time_ago_in_words created_at} ago"
   end
