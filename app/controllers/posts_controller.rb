@@ -14,6 +14,7 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post
+      .near([params[:latitude], params[:longitude]])
       .paginate(page: params[:page], per_page: params[:per_page])
       .newest
   end
