@@ -1,7 +1,7 @@
 require 'upload/cache'
 
 class PostsController < ApplicationController
-  acts_as_token_authentication_handler_for User, except: [:landing, :index]
+  acts_as_token_authentication_handler_for User, except: [:landing]
   skip_before_action :verify_authenticity_token
   before_action :set_post, only: [:create]
   before_action :set_picture, only: [:create]
@@ -9,14 +9,16 @@ class PostsController < ApplicationController
 
   def landing; end
   def show; end
-  def new; @post = Post.new; end
   def edit; end
 
+  def new; @post = Post.new; end
+
   def index
-    @posts = Post
-      .near([params[:latitude], params[:longitude]])
-      .paginate(page: params[:page], per_page: params[:per_page])
-      .newest
+    @posts = Post.near([params[:latitude], params[:longitude]]) if request.format.json?
+    # https://github.com/alexreisner/geocoder#geocoding-http-requests  
+    # Post.near("#{request.location.city}, #{request.location.country}") 
+    @posts = Post.all if request.format.html?
+    @posts.paginate(page: params[:page], per_page: params[:per_page]).newest
   end
 
   def create
