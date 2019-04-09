@@ -18,7 +18,7 @@ class PostsController < ApplicationController
     # https://github.com/alexreisner/geocoder#geocoding-http-requests  
     # Post.near("#{request.location.city}, #{request.location.country}") 
     @posts = Post.all if request.format.html?
-    @posts.paginate(page: params[:page], per_page: params[:per_page]).newest
+    @posts = @posts.newest.paginate(page: params[:page], per_page: params[:per_page])
   end
 
   def create
@@ -34,6 +34,7 @@ class PostsController < ApplicationController
   end
 
   def update
+    @post.favorites.send(method_name, current_user.id) unless liked_param.nil?
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
@@ -67,11 +68,17 @@ class PostsController < ApplicationController
     )
   end
 
+  def method_name; liked_param ? :push : :delete; end
+
   def find_post
     @post = Post.find(params[:id])
   end
 
   def post_params   
     params.require(:post).permit(:description, :longitude, :latitude, :location, :likes, picture: {})
+  end
+
+  def liked_param
+    params[:post][:liked]
   end
 end
