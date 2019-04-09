@@ -8,8 +8,8 @@ class PostsController < ApplicationController
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
   def landing; end
-  def show; end
   def edit; end
+  def show; end
 
   def new; @post = Post.new; end
 
@@ -33,9 +33,14 @@ class PostsController < ApplicationController
     end
   end
 
+  def liked
+    params[:post][:liked]
+  end
+
   def update
-    method = params[:liked] ? :push : :delete
-    @post.favorites.send(method, current_user.id) if params[:liked].present?
+    method = liked ? :push : :delete
+    @post.favorite.send(method,current_user.id) unless [nil || ""].include? liked
+    @post.favorite.uniq!
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }

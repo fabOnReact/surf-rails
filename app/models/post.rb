@@ -1,3 +1,5 @@
+require 'favorite'
+
 class Post < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
@@ -17,7 +19,7 @@ class Post < ApplicationRecord
   end
 
   def liked(user_id)
-    favorites.include? user_id
+    favorite.include? user_id
   end
 
   def creation_date
