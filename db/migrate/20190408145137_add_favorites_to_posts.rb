@@ -1,6 +1,6 @@
 class AddFavoritesToPosts < ActiveRecord::Migration[5.1]
   def change
-    add_column :posts, :favorites, :integer, array: true, default: []
-    add_index :posts, :favorites, using: 'gin'
+    add_column :posts, :favorite, :integer, array: true, default: []
+    add_index :posts, :favorite, using: 'gin'
   end
 end

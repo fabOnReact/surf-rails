@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 20190408145137) do
     t.string "address"
     t.string "city"
     t.integer "likes", default: 0
-    t.integer "favorites", default: [], array: true
-    t.index ["favorites"], name: "index_posts_on_favorites", using: :gin
+    t.integer "favorite", default: [], array: true
+    t.index ["favorite"], name: "index_posts_on_favorite", using: :gin
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
