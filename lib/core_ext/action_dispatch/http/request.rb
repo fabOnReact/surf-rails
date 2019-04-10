@@ -1,7 +1,7 @@
 module ActionDispatch
   class Request
-    SERVER_IP = ['0.0.0.0', '127.0.0.1']
-    MY_STATIC_IP = '82.54.103.29'
+    SERVER_IP = ['0.0.0.0', '192.168.1.95']
+    MY_STATIC_IP = '80.180.144.221'
     
     def static_ip_finder
       case self.remote_ip
