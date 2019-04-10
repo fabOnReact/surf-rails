@@ -38,9 +38,10 @@ class PostsController < ApplicationController
   end
 
   def update
-    method = liked ? :push : :delete
-    @post.favorite.send(method,current_user.id) unless [nil || ""].include? liked
+    @post.favorite.push(current_user.id) if liked == true
+    @post.favorite.delete(current_user.id) if liked == false
     @post.favorite.uniq!
+
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
