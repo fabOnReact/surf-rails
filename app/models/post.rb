@@ -1,5 +1,3 @@
-require 'favorite'
-
 class Post < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
