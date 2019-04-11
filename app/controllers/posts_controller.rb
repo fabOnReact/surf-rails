@@ -1,6 +1,9 @@
 require 'upload/cache'
+require 'core_ext/actionpack/lib/action_controller/metal/strong_parameters'
 
 class PostsController < ApplicationController
+  ActionController::Parameters.include(Parameters::Validations)
+
   acts_as_token_authentication_handler_for User, except: [:landing]
   skip_before_action :verify_authenticity_token
   before_action :set_post, only: [:create]
@@ -13,11 +16,11 @@ class PostsController < ApplicationController
 
   def new; @post = Post.new; end
 
+  # https://github.com/alexreisner/geocoder#geocoding-http-requests  
+  # Post.near("#{request.location.city}, #{request.location.country}") 
   def index
-    @posts = Post.near([params[:latitude], params[:longitude]]) if request.format.json?
-    # https://github.com/alexreisner/geocoder#geocoding-http-requests  
-    # Post.near("#{request.location.city}, #{request.location.country}") 
-    @posts = Post.all if request.format.html?
+    @posts = Post.near([params[:latitude], params[:longitude]]) if params.location?
+    @posts = Post.all if no_results 
     @posts = @posts.newest.paginate(page: params[:page], per_page: params[:per_page])
   end
 
@@ -78,6 +81,8 @@ class PostsController < ApplicationController
   def find_post
     @post = Post.find(params[:id])
   end
+
+  def no_results; @posts.nil? || @posts.empty?; end
 
   def post_params   
     params.require(:post).permit(:description, :longitude, :latitude, :location, :likes, picture: {})
