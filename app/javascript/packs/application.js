@@ -23,6 +23,8 @@ $(document).on('turbolinks:load', function() {
         setLocation()
         break;
     case '/posts':
+    case '/users/sign_in':
+    case '/users/sign_up':
         getLocation();
         break;
   }
