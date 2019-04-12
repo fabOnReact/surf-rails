@@ -65,7 +65,7 @@ gem 'mini_magick'
 gem 'haml'
 gem 'haml-rails'
 gem 'geocoder'
-gem 'webpacker', '~> 4.0', '>= 4.0.2'
+gem 'webpacker', '~> 3.5'
 gem 'simple_token_authentication', '~> 1.15', '>= 1.15.1'
 gem 'rubocop-rspec'
 gem "actionview", ">= 5.1.6.2"
