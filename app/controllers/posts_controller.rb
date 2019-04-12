@@ -19,9 +19,12 @@ class PostsController < ApplicationController
   # https://github.com/alexreisner/geocoder#geocoding-http-requests  
   # Post.near("#{request.location.city}, #{request.location.country}") 
   def index
-    puts "-----------------------------------------------"
-    puts request.location.city
-    puts "-----------------------------------------------"
+    # puts "-----------------------------------------------"
+    # puts "request.location.city #{request.location.city}"
+    # puts "-----------------------------------------------"
+    logger.warn "--------------------------------------------------"
+    logger.warn "request.location.city #{request.location.city}"
+    logger.warn "--------------------------------------------------"
     @posts = Post.near([params[:latitude], params[:longitude]]) if params.location?
     @posts = Post.all if no_results 
     @posts = @posts.newest.paginate(page: params[:page], per_page: params[:per_page])
