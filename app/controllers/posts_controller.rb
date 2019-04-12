@@ -24,6 +24,9 @@ class PostsController < ApplicationController
     # puts "-----------------------------------------------"
     logger.warn "--------------------------------------------------"
     logger.warn "request.location.city #{request.location.city}"
+    logger.warn "request.location.latitude #{request.location.latitude}"
+    logger.warn "request.location.inspect #{request.location.inspect}"
+    logger.warn "request.safe_location.inspect #{request.location.inspect}"
     logger.warn "--------------------------------------------------"
     @posts = Post.near([params[:latitude], params[:longitude]]) if params.location?
     @posts = Post.all if no_results 
