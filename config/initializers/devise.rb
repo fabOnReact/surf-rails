@@ -275,8 +275,8 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
   config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], {}
-  config.omniauth :facebook, ENV["APP_ID"], ENV["APP_SECRET"], callback_url: "https://surfcheck.herokuapp.com/users/auth/facebook/callback"
-  # config.omniauth :facebook, ENV["APP_ID"], ENV["APP_SECRET"], callback_url: "http://127.0.0.1:3000/users/auth/facebook/callback"
+  # config.omniauth :facebook, ENV["APP_ID"], ENV["APP_SECRET"], callback_url: ""
+  config.omniauth :facebook, ENV["APP_ID"], ENV["APP_SECRET"], callback_url: "http://lvh.me:3000/users/auth/facebook/callback"
 
   # speeding up test cases disabling encryption 
   config.stretches = Rails.env.test? ? 1 : 10
