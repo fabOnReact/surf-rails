@@ -16,8 +16,6 @@ class PostsController < ApplicationController
 
   def new; @post = Post.new; end
 
-  # https://github.com/alexreisner/geocoder#geocoding-http-requests  
-  # Post.near("#{request.location.city}, #{request.location.country}") 
   def index
     @posts = Post.near([params[:latitude], params[:longitude]]) if params.location?
     @posts = Post.all if no_results 
