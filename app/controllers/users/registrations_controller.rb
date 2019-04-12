@@ -7,6 +7,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     respond_to do |format|
+      # binding.pry
       format.html { super }
       build_resource(sign_up_params)
       set_oauth_user if valid_token?
@@ -38,5 +39,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def token
     @token ||= params.require(:user).permit(:accessToken).to_h[:accessToken]
+  end
+
+  def sign_up_params
+    devise_parameter_sanitizer.sanitize(:sign_up)
   end
 end
