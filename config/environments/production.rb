@@ -92,7 +92,7 @@ config.webpacker.check_yarn_integrity = false
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.default_url_options = { host: 'https://surfcheck.herokuapp.com/' }
+  config.action_mailer.default_url_options = { host: '' }
 
   # heroku config instead of rails_12factor gem
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
