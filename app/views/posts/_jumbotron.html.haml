@@ -6,10 +6,10 @@
     %p.text-center You will be able to see different surf spots and angles at different times of the day
     .row
       .col-3.d-flex.justify-content-center
-        = link_to posts_path, class: "btn btn-primary rounded-circle" do
+        = link_to "/", class: "btn btn-primary rounded-circle" do
           %i.fa.fa-android.fa-2x
-      .col-6.text-center#posts_path
-        =# link_to "Try it!", posts_path, class: "btn btn-success btn-lg px-4"
+      .col-6.text-center
+        = link_to "Try it!", posts_path, class: "btn btn-success btn-lg px-4", id: "posts_path"
       .col-3.d-flex.justify-content-center
-        = link_to posts_path, class: "btn rounded-circle" do
+        = link_to "/", class: "btn rounded-circle" do
           %i.fa.fa-apple.fa-2x

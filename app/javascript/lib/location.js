@@ -1,4 +1,14 @@
-export default function getLocation(){
+export const setLocation = async () => {
+  let latitude = await localStorage.getItem('latitude') 
+  let longitude = localStorage.getItem('longitude')
+  let url = `/posts?latitude=${latitude}&longitude=${longitude}`
+  $("#posts_path").attr("href", url)
+}
+
+function getLatitude() { 
+}
+
+export const getLocation = () => {
   if(navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
   } else {
@@ -7,9 +17,11 @@ export default function getLocation(){
 }
 
 function showPosition(position) {
-  let lat = position.coords.latitude
-  let long = position.coords.longitude
-  let href = `/posts?latitude=${lat}&longitude=${long}`
-  let link = `<a href=${href} class='btn btn-success btn-lg px-4'>Try it!</a>`
-  $('#posts_path').append(link)
+  let coords = position.coords
+  localStorage.setItem('latitude', latitude)
+  localStorage.setItem('longitude', longitude)
+  let $lat = `<input type='hidden' name='latitude' id='latitude' value=${coords.latitude}>`
+  let $long = `<input type='hidden' name='longitude' id='longitude' value=${coords.longitude}>`
+  let $hiddenInput = $lat + $long
+  $("#new_user").append($hiddenInput)
 }

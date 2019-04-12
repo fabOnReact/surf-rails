@@ -6,7 +6,7 @@
 //
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
-import getLocation from '../lib/location'
+import { getLocation, setLocation } from '../lib/location'
 
 function containerStyle(){
   var alertHeight = $('.alert').outerHeight(true);
@@ -20,9 +20,10 @@ $(document).on('turbolinks:load', function() {
   switch(location_path) {
     case '/':
         containerStyle();
-        getLocation();
+        setLocation()
         break;
-    case '/posts/new':
+    case '/posts':
+        getLocation();
         break;
   }
 });

@@ -6,8 +6,6 @@ module Parameters
 
     def gps
       [self[:latitude], self[:longitude]]
-      # request.location.latitude 
-      # request.location.longitude
     end
   end
 end

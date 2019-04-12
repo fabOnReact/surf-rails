@@ -13,7 +13,6 @@ class Users::SessionsController < Devise::SessionsController
       end
       format.html do 
         super
-        resource.update_attributes(longitude: "", latitude: "")
       end
     end
   end
