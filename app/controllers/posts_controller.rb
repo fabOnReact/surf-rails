@@ -28,7 +28,8 @@ class PostsController < ApplicationController
     logger.warn "request.location.inspect #{request.location.inspect}"
     logger.warn "request.safe_location.inspect #{request.location.inspect}"
     logger.warn "--------------------------------------------------"
-    @posts = Post.near([params[:latitude], params[:longitude]]) if params.location?
+    @posts = Post.near(params.gps, 200, units: :km) if params.location?
+    # @posts = Post.near([params[:latitude], params[:longitude]], 200, units: :km) if params.location?
     @posts = Post.all if no_results 
     @posts = @posts.newest.paginate(page: params[:page], per_page: params[:per_page])
   end
