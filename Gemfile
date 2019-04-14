@@ -72,3 +72,4 @@ gem "actionview", ">= 5.1.6.2"
 gem "httparty"
 gem 'rack-cors'
 gem 'will_paginate'
+gem 'mechanize'
