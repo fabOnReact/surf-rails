@@ -7,9 +7,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource(sign_up_params)
-    
-    resource.save
     set_oauth_user if valid_token?
+    resource.save
     respond_to do |format|
       if resource.persisted?
         if resource.active_for_authentication?
