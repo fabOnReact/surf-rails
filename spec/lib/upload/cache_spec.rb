@@ -15,7 +15,6 @@ describe Upload::Cache do
       picture = { file: base64, name: 'file.jpg' }
       cache_file = Upload::Cache.new(picture)
       cache_file.rewind
-      puts cache_file.path
       expect(cache_file.path).to_not be ""
     end
   end

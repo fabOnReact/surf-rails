@@ -16,8 +16,6 @@ class PostsController < ApplicationController
 
   def new; @post = Post.new; end
 
-  # https://github.com/alexreisner/geocoder#geocoding-http-requests  
-  # Post.near("#{request.location.city}, #{request.location.country}") 
   def index
     # puts "-----------------------------------------------"
     # puts "request.location.city #{request.location.city}"

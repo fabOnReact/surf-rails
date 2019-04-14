@@ -7,11 +7,13 @@ class Users::SessionsController < Devise::SessionsController
 
   def create
     respond_to do |format|
-      format.json {
+      format.json do 
         self.resource = warden.authenticate!(scope: resource_name, recall: "#{controller_path}#new")
         render status: 200, json: resource
-      }
-      format.html { super }
+      end
+      format.html do 
+        super
+      end
     end
   end
 

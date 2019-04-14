@@ -6,24 +6,23 @@ require 'json'
 RSpec.describe PostsController, type: :controller do
   let(:valid_attributes) { FactoryBot.attributes_for(:post) }
   let(:invalid_attributes) { FactoryBot.attributes_for(:post) }
+  let(:valid_base64_image) { Base64.encode64(File.read('spec/assets/test_image.jpg')) }
 
-  context 'without authentication' do
-    describe 'GET #index' do
-      it 'returns a success response' do
-        get :index, params: {}
-        expect(response).to be_success
-      end
-    end
-  end
+  login_user
 
   context 'with web authentication' do
-    login_user
-    let(:post) { FactoryBot.create(:post, user: @user) }
+    let(:new_post) { FactoryBot.create(:post, user: @user) }
 
     context 'get requests' do
+      describe 'GET #index' do
+        it 'returns a success response' do
+          get :index, params: {}
+          expect(response).to be_success
+        end
+      end
       describe 'GET #show' do
         it 'returns a success response' do
-          get :show, params: { id: post.to_param }
+          get :show, params: { id: new_post.to_param }
           expect(response).to be_success
         end
       end
@@ -37,7 +36,7 @@ RSpec.describe PostsController, type: :controller do
 
       describe 'GET #edit' do
         it 'returns a success response' do
-          get :edit, params: { id: post.to_param }
+          get :edit, params: { id: new_post.to_param }
           expect(response).to be_success
         end
       end
@@ -46,6 +45,10 @@ RSpec.describe PostsController, type: :controller do
     context 'post requests' do
       describe 'POST #create' do
         context 'with valid params' do
+          before(:each) do
+            valid_attributes[:picture] = { file: valid_base64_image, name: 'test.png' }
+          end
+
           it 'creates a new Post' do
             expect {
               post :create, params: { post: valid_attributes }
@@ -57,12 +60,12 @@ RSpec.describe PostsController, type: :controller do
             expect(Post.last).to have_attributes(user_id: @user.id)
           end
 
-          it 'create an instance with user_id and ip_code' do
-            post :create, params: { post: valid_attributes }
-            expect(assigns(:post)).to have_attributes(
-              user_id: @user.id, ip_code: '82.54.103.29'
-            )
-          end
+          # it 'create an instance with user_id and ip_code' do
+          #   post :create, params: { post: valid_attributes }
+          #   expect(assigns(:post)).to have_attributes(
+          #     user_id: @user.id, ip_code: '82.54.103.29'
+          #   )
+          # end
 
           it 'the created post has a longitude' do
             post :create, params: { post: valid_attributes }
@@ -74,9 +77,9 @@ RSpec.describe PostsController, type: :controller do
             expect(Post.last.longitude).not_to be(0.0)
           end
 
-          it 'the longitude is not equal to zero' do
+          it 'the latitude is not equal to zero' do
             post :create, params: { post: valid_attributes }
-            expect(Post.last.location).to be_present
+            expect(Post.last.latitude).to be_present
           end
 
           it 'redirects to the created post' do
@@ -96,14 +99,6 @@ RSpec.describe PostsController, type: :controller do
             # expect(controller).to set_flash
         end
 
-        context 'private methods' do 
-          it 'replaces the ip with a static ip' do
-            post :create, params: { post: valid_attributes }
-            expect(request.static_ip_finder).to eql(
-              ActionDispatch::Request.my_static_ip
-            )
-          end
-        end
       end
     end
 
@@ -116,21 +111,21 @@ RSpec.describe PostsController, type: :controller do
           }
 
           it 'updates the requested post' do
-            put :update, params: { id: post, post: new_attributes }
-            post.reload
-            expect(post.description).to eql('new description')
+            put :update, params: { id: new_post, post: new_attributes }
+            new_post.reload
+            expect(new_post.description).to eql('new description')
           end
 
           it 'redirects to the post' do
-            put :update, params: { id: post, post: valid_attributes }
-            expect(response).to redirect_to(post)
+            put :update, params: { id: new_post, post: valid_attributes }
+            expect(response).to redirect_to(new_post)
           end
         end
 
         context 'with invalid params' do
           it "returns a success response (i.e. to display the 'edit' template)" do
             #post = Post.create! valid_attributes
-            put :update, params: { id: post, post: invalid_attributes }
+            put :update, params: { id: new_post, post: invalid_attributes }
             expect(response.status).to be(302)
           end
         end
@@ -140,13 +135,14 @@ RSpec.describe PostsController, type: :controller do
     context 'with delete requests' do
       describe 'DELETE #destroy' do
         it 'destroys the requested post' do
-          expect { delete :destroy, params: { id: post } }.to change(
+          new_post
+          expect { delete :destroy, params: { id: new_post } }.to change(
             Post, :count
           ).by(-1)
         end
 
         it 'redirects to the posts list' do
-          delete :destroy, params: { id: post.to_param }
+          delete :destroy, params: { id: new_post.to_param }
           expect(response).to redirect_to(posts_url)
         end
       end
@@ -155,8 +151,7 @@ RSpec.describe PostsController, type: :controller do
 
   context 'with json token' do
     let(:user) { FactoryBot.create(:user) }
-    let(:post_attributes) { FactoryBot.attributes_for(:post, user: user) }
-    let(:valid_base64_image) { Base64.encode64(File.read('spec/assets/test_image.jpg')) }
+    # let(:post_attributes) { FactoryBot.attributes_for(:post, user: user) }
 
     describe 'POST #create' do
       let(:authentication_params) do
@@ -171,19 +166,19 @@ RSpec.describe PostsController, type: :controller do
       context 'with authentication headers' do
         before(:each) do
           request.headers.merge!(authentication_params)
-          post_attributes[:picture] = { file: valid_base64_image, name: 'test.png' }
+          valid_attributes[:picture] = { file: valid_base64_image, name: 'test.png' }
         end
 
         it 'not trigger authentication error' do
-          expect(post :create, params: { post: post_attributes }).to_not have_http_status(401)
+          expect(post :create, params: { post: valid_attributes }).to_not have_http_status(401)
         end
 
         it 'save the post' do
-          expect(post :create, params: { post: post_attributes }).to have_http_status(201)
+          expect(post :create, params: { post: valid_attributes }).to have_http_status(201)
         end
 
         it 'store the picture' do
-          post :create, params: { post: post_attributes }
+          post :create, params: { post: valid_attributes }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json[:picture][:url]).to eq "/uploads/test.png"
         end

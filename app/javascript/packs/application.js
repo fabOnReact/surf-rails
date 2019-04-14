@@ -6,5 +6,26 @@
 //
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
+import { getLocation, setLocation } from '../lib/location'
 
-console.log('Hello World from Webpacker')
+function containerStyle(){
+  var alertHeight = $('.alert').outerHeight(true);
+  $('.container').css('margin-bottom', - alertHeight );
+  $('.alert').addClass('carouselAlerts');
+}
+
+$(document).on('turbolinks:load', function() {
+  // switch statement triggers functions based on the visited page
+  var location_path = event.currentTarget.location.pathname 
+  switch(location_path) {
+    case '/':
+        containerStyle();
+        setLocation()
+        break;
+    case '/posts':
+    case '/users/sign_in':
+    case '/users/sign_up':
+        getLocation();
+        break;
+  }
+});

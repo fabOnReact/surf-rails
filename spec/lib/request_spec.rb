@@ -16,7 +16,7 @@ describe ActionDispatch::Request do
     end
 
     it 'replaces the ip when it is 127.0.0.1' do
-        @request.remote_ip=('127.0.0.1')
+      @request.remote_ip=('127.0.0.1')
       expect(@request.static_ip_finder).to eql(subject.my_static_ip)
     end
 

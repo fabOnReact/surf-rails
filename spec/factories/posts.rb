@@ -4,8 +4,8 @@ FactoryBot.define do
   factory :post do
     description { "MyText" }
     user
-    longitude { Faker::Address.longitude }
-    latitude { Faker::Address.latitude }
+    longitude { "7.696240" }
+    latitude { "45.072300" }
 
     factory :post_with_picture do
       after :create do |b|
