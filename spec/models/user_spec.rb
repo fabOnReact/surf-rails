@@ -16,8 +16,8 @@ RSpec.describe User, type: :model do
 
   describe '.from_omniauth' do
   	it 'should respond with the user' do
-	  	token = OmniAuth::AuthHash.new({"info" => {"email" => @user.email }}) 	
-	  	expect(User.from_omniauth(token)).to be_instance_of(User)
+      token = OmniAuth::AuthHash.new({"info" => {"email" => @user.email }}) 	
+      expect(User.from_omniauth(token)).to be_instance_of(User)
   	end
   end
 
@@ -28,5 +28,4 @@ RSpec.describe User, type: :model do
   		expect(User.new_with_session(params, session).email).to eql("second@email.com")
   	end
   end
-
 end
