@@ -10,10 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190415162927) do
+ActiveRecord::Schema.define(version: 20190415180033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "locations", force: :cascade do |t|
+    t.string "direction"
+    t.string "experience"
+    t.string "frequency"
+    t.string "bottom"
+    t.string "wave_quality"
+    t.string "name"
+    t.string "latitude"
+    t.string "longitude"
+    t.string "country"
+    t.string "area"
+    t.string "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "alternative_name"
+    t.index ["country", "name"], name: "index_locations_on_country_and_name", unique: true
+  end
 
   create_table "posts", force: :cascade do |t|
     t.text "description"
@@ -29,23 +47,6 @@ ActiveRecord::Schema.define(version: 20190415162927) do
     t.integer "favorite", default: [], array: true
     t.index ["favorite"], name: "index_posts_on_favorite", using: :gin
     t.index ["user_id"], name: "index_posts_on_user_id"
-  end
-
-  create_table "spots", force: :cascade do |t|
-    t.string "direction"
-    t.string "experience"
-    t.string "frequency"
-    t.string "type"
-    t.string "wave_quality"
-    t.string "name"
-    t.string "latitude"
-    t.string "longitude"
-    t.string "country"
-    t.string "area"
-    t.string "address"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["country", "name"], name: "index_spots_on_country_and_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
