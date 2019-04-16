@@ -17,15 +17,6 @@ class PostsController < ApplicationController
   def new; @post = Post.new; end
 
   def index
-    # puts "-----------------------------------------------"
-    # puts "request.location.city #{request.location.city}"
-    # puts "-----------------------------------------------"
-    logger.warn "--------------------------------------------------"
-    logger.warn "request.location.city #{request.location.city}"
-    logger.warn "request.location.latitude #{request.location.latitude}"
-    logger.warn "request.location.inspect #{request.location.inspect}"
-    logger.warn "request.safe_location.inspect #{request.location.inspect}"
-    logger.warn "--------------------------------------------------"
     @posts = Post.near(params.gps, 200, units: :km) if params.location?
     # @posts = Post.near([params[:latitude], params[:longitude]], 200, units: :km) if params.location?
     @posts = Post.all if no_results 
