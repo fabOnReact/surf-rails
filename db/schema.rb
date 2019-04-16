@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190415180033) do
+ActiveRecord::Schema.define(version: 20190416144857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,9 @@ ActiveRecord::Schema.define(version: 20190415180033) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "alternative_name"
+    t.string "pictures", array: true
     t.index ["country", "name"], name: "index_locations_on_country_and_name", unique: true
+    t.index ["pictures"], name: "index_locations_on_pictures", using: :gin
   end
 
   create_table "posts", force: :cascade do |t|
