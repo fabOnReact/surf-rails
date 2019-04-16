@@ -73,3 +73,4 @@ gem "httparty"
 gem 'rack-cors'
 gem 'will_paginate'
 gem 'mechanize'
+gem 'seed_dump'
