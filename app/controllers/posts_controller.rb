@@ -2,7 +2,7 @@ require 'upload/cache'
 require 'core_ext/actionpack/lib/action_controller/metal/strong_parameters'
 
 class PostsController < ApplicationController
-  ActionController::Parameters.include(Parameters::Validations)
+  ActionController::Parameters.include(Parameters::Location)
 
   acts_as_token_authentication_handler_for User, except: [:landing]
   skip_before_action :verify_authenticity_token
@@ -18,7 +18,6 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.near(params.gps, 200, units: :km) if params.location?
-    # @posts = Post.near([params[:latitude], params[:longitude]], 200, units: :km) if params.location?
     @posts = Post.all if no_results 
     @posts = @posts.newest.paginate(page: params[:page], per_page: params[:per_page])
   end
