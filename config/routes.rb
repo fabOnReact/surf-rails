@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  resources :posts
-  # get 'posts_pictures', to: 'posts#pictures', as: 'posts_pictures'
+  resources :posts, :locations
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
