@@ -21,7 +21,12 @@ run `rspec` for running test suite
 The [repository of the ReactNative Mobile App](https://github.com/fabriziobertoglio1987/surfnative).
 
 ## Features
-- API/Web Authentication was built with [Devise](https://github.com/plataformatec/devise), [simple token authentication](https://github.com/gonzalo-bulnes/simple_token_authentication). I enhanced the [devise registration and sessions controllers](https://github.com/fabriziobertoglio1987/surfcheck/tree/master/app/controllers/users) to handle API-Authentication
+- API/Web Authentication was built with [Devise](https://github.com/plataformatec/devise) as explained in this [stackoverflow answer](https://stackoverflow.com/questions/55788412/rails-admin-not-authenticating-with-cancancan-or-devise/55940092#55940092), [simple token authentication](https://github.com/gonzalo-bulnes/simple_token_authentication). I enhanced the [devise registration and sessions controllers](https://github.com/fabriziobertoglio1987/surfcheck/tree/master/app/controllers/users) to handle API-Authentication
 - Web/API pictures upload built with [carrierwave](https://github.com/carrierwaveuploader/carrierwave) and the [following solution](https://stackoverflow.com/questions/54202366/api-upload-multipartform-data)
 - Responsive WebPage built with `Twitter-Bootstrap 4`
-- `Geocoder` to locate the user based on GPS coordinates
+- [`Geocoder`][1] to `reverse geocode` database entries based on the GPS latitude and longitude coordinates
+- `Geospatial Queries` by [user coordinates or bounding box][2]
+
+
+[1]: https://github.com/alexreisner/geocoder
+[2]: https://github.com/alexreisner/geocoder#advanced-database-queries
