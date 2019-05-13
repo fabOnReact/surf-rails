@@ -45,6 +45,8 @@ group :development, :test do
   gem "pry-byebug"
   gem 'shoulda-matchers', '~> 3.1'
   gem 'rails-controller-testing'
+  gem 'rubocop-rspec'
+  gem 'rubocop-performance'
 end
 
 group :development do
@@ -67,7 +69,6 @@ gem 'haml-rails'
 gem 'geocoder'
 gem 'webpacker', '~> 3.5'
 gem 'simple_token_authentication', '~> 1.15', '>= 1.15.1'
-gem 'rubocop-rspec'
 gem "actionview", ">= 5.1.6.2"
 gem "httparty"
 gem 'rack-cors'
