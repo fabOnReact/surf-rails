@@ -26,6 +26,12 @@ The [repository of the ReactNative Mobile App](https://github.com/fabriziobertog
 - Responsive WebPage built with `Twitter-Bootstrap 4`
 - [`Geocoder`][1] to `reverse geocode` database entries based on the GPS latitude and longitude coordinates
 - `Geospatial Queries` by [user coordinates or bounding box][2]
+- Database with over 1 Million surfspots in the world with gps coordinates, pictures and information (Database information is kept private and is available in the App)
+- Hosting on Digital Ocean
+
+
+The OpenSource project is a mirror of the backend and includes 95% of the functionalities. 
+Some features are kept private and they are not disclosed to the public.
 
 
 [1]: https://github.com/alexreisner/geocoder
