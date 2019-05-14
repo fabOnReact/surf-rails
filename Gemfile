@@ -56,6 +56,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'mechanize'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -73,6 +74,5 @@ gem "actionview", ">= 5.1.6.2"
 gem "httparty"
 gem 'rack-cors'
 gem 'will_paginate'
-gem 'mechanize'
 gem 'seed_dump'
 gem 'fog-aws'
