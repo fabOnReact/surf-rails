@@ -1,0 +1,15 @@
+.container.container-jumbotron
+  .jumbotron.my-3
+    %h1.display-3 Spots Pictures
+    %p.lead.text-center SurfCheck is an app that allows you to see the surf at different times of the day from different point of view. It is aimed to get the best information about the surf quality at a certain time.
+    %hr.my-4
+    %p.text-center You will be able to see different surf spots and angles at different times of the day
+    .row
+      .col-3.d-flex.justify-content-center
+        = link_to "/", class: "btn btn-primary rounded-circle" do
+          %i.fa.fa-android.fa-2x
+      .col-6.text-center
+        = link_to "Try it!", posts_path, class: "btn btn-success btn-lg px-4", id: "posts_path"
+      .col-3.d-flex.justify-content-center
+        = link_to "/", class: "btn rounded-circle" do
+          %i.fa.fa-apple.fa-2x
