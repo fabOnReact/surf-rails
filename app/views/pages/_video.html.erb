@@ -1,25 +1,25 @@
 <section id="video-container">   
   <%#= video_tag ["runner.webm","runner.mp4"], autoplay: true, loop: true, muted: true, preload: "none", poster: "runner.png", class: "hidden-md hidden-lg" %>
   <video autoplay="true", loop="true", muted="true", preload="none", poster="https://s3.eu-central-1.amazonaws.com/portfoliofabrizio/runner_low.jpg">
-    <source src="https://s3.eu-central-1.amazonaws.com/portfoliofabrizio/runner.webm" type="video/webm">
-    <source src="https://s3.eu-central-1.amazonaws.com/portfoliofabrizio/runner.mp4" type="video/mp4">
+    <source src="https://s3.eu-central-1.amazonaws.com/surfcheck/City+-+9464.mp4" type="video/webm">
+    <source src="https://s3.eu-central-1.amazonaws.com/surfcheck/City+-+9464.mp4" type="video/mp4">
   </video>
   <div class="centered px-5">
     <h1>SurfCheck</h1>
     <p class="lead text-center">SurfCheck is an app that allows you to see the surf at different times of the day from different point of view. It is aimed to get the best information about the surf quality at a certain time.</p>
     <div class="row">
-      <div class="col-3 d-flex-justify-content-center">
-        <%= link_to "", class:"btn btn-primary" do %>
+      <div class="col-6 col-sm-3 d-flex flex-row justify-content-start align-items-center">
+        <%= link_to "", class:"btn btn-blue" do %>
           <i class="fa fa-apple fa-4x"></i>
         <% end %>
       </div>
-      <div class="col-6 text-center">
-        <%= link_to "Try it", posts_path, class: "btn btn-success btn-lg px-4", id: "posts_path" %>
+      <div class="col-6 d-none d-sm-block text-center">
+        <%= link_to "Try it", posts_path, class: "btn btn-purple btn-lg px-4", id: "posts_path" %>
         </br>
-        <p>.. or Download it for Iphone and Android!</p>
+        <p class="d-none d-sm-block">Download it for Iphone and Android!</p>
       </div>
-      <div class="col-3 d-flex-justify-content-center">
-        <%= link_to "", class:"btn btn-primary" do %>
+      <div class="col-6 col-sm-3 d-flex flex-row justify-content-end align-items-center">
+        <%= link_to "", class:"btn btn-green" do %>
           <i class="fa fa-android fa-4x"></i>
         <% end %>
       </div>

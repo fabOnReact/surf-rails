@@ -1,5 +1,6 @@
 .container
-	= render 'card', post: @post
-	- if @post.owner?(current_user)
-		= link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary btn-lg'
-	= link_to 'Back', :back, class: 'btn btn-primary btn-lg'
+  = render 'card', post: @post
+  - if @post.owner?(current_user)
+    = link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary btn-lg'
+  = link_to 'Back', :back, class: 'btn btn-primary btn-lg'
+  = link_to 'All Pictures', posts_path, class: 'btn btn-primary btn-lg'

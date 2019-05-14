@@ -6,5 +6,5 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
   get "/pages/:page" => "pages#show"
-  root 'posts#landing'
+  root 'pages#show'
 end
