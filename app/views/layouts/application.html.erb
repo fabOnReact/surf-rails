@@ -14,7 +14,7 @@
   </head>
 
   <body>
-    <%= render partial: 'partials/navbar' %>
+    <%= render partial: 'partials/navbar' unless controller_name == "pages" %>
     <%= render partial: "partials/flash" if flash.present? %>
     <%= yield %>
   </body>
