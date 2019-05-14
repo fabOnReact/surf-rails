@@ -281,6 +281,8 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.7)
+    rubocop-performance (1.3.0)
+      rubocop (>= 0.68.0)
     rubocop-rspec (1.33.0)
       rubocop (>= 0.60.0)
     ruby-progressbar (1.10.0)
@@ -368,7 +370,7 @@ DEPENDENCIES
   actionview (>= 5.1.6.2)
   byebug
   capybara (~> 2.13)
-  carrierwave (~> 1.1)
+  carrierwave
   coffee-rails (~> 4.2)
   devise (>= 4.6.0)
   devise-bootstrapped (~> 0.1.1)
@@ -396,6 +398,7 @@ DEPENDENCIES
   rails-controller-testing
   rspec-mocks
   rspec-rails (~> 3.6, >= 3.6.1)
+  rubocop-performance
   rubocop-rspec
   sass-rails (~> 5.0)
   seed_dump
