@@ -4,13 +4,12 @@ require 'core_ext/actionpack/lib/action_controller/metal/strong_parameters'
 class PostsController < ApplicationController
   ActionController::Parameters.include(Parameters::Location)
 
-  acts_as_token_authentication_handler_for User, except: [:landing]
+  acts_as_token_authentication_handler_for User
   skip_before_action :verify_authenticity_token
   before_action :set_post, only: [:create]
   before_action :set_picture, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
-  def landing; end
   def edit; end
   def show; end
 
