@@ -5,6 +5,6 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
-  get "/pages/:page" => "pages#show"
+  get "/pages/:page" => "pages#show", as: :page
   root 'pages#show'
 end
