@@ -9,8 +9,13 @@ class PictureUploader < CarrierWave::Uploader::Base
     process resize_to_fit: [318, 180]
   end
 
+  version :mobile do
+    process resize_to_fit: [627, 355]
+  end
+
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    date = Date.today
+    "uploads/#{model.class.to_s.underscore}/#{date.year}/#{date.month}/#{model.user.id}"
   end
 
 

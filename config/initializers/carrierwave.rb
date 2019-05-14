@@ -32,7 +32,7 @@ CarrierWave.configure do |config|
       :aws_secret_access_key  => ENV['S3_SECRET'],
       :region                 => 'eu-central-1',
       :host                   => 's3.eu-central-1.amazonaws.com',
-      :endpoint               => 'https://s3.eu-central-1.amazonaws.com/'   
+      :endpoint               => 'https://s3.eu-central-1.amazonaws.com'   
     }
     # config.storage = :fog
     # config.fog_use_ssl_for_aws = true
