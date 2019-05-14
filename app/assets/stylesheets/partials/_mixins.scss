@@ -6,6 +6,11 @@
   background-color: $background-color;
 }
 
+@mixin btnColor($color: white, $border: 1px solid white) {
+  color: $color;
+  border: $border;
+}
+
 // font size in em
 @mixin fontSize($size) { font-size: $size + em; }
 

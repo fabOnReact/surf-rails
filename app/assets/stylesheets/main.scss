@@ -1,5 +1,6 @@
 @import 'partials/variables';
 @import 'partials/mixins';
+@import 'partials/buttons';
 @import 'posts';
 @import 'pages/video';
 
@@ -31,4 +32,8 @@ html, body {
 
 @include media-breakpoint-up(xl) {
   @include fontDisplay(9.5); 
+}
+
+@media (min-width: 1200px) {
+  .card { max-width: 800px; }
 }

@@ -24,7 +24,8 @@ video {
   h1 { color: #FCFFFD; font-size: 9vw; font-weight: bold; margin: 0 0; }
   h3 { color: #FCFFFD; font-size: 4vw; font-weight: bold; margin: 0 0; } 
   span { color: red; }
-  p { color: white; }
+  p { color: white; font-size: 1.4rem; text-shadow: 1px 1px black; }
+  .btn-lg { width: 100%; }
   .links { 
     display: flex;
     height: 150px;
@@ -51,12 +52,6 @@ video {
 
 .centered h1:hover {
   color: #FF0000;
-}
-
-.centered .button:hover, .navbar-nav > li:hover {
-  background-color: #FF0000;
-  color: #0100E8;
-  border: solid 5px #0100E8;
 }
 
 /* Iframe */ 
