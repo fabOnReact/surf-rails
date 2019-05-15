@@ -15,8 +15,9 @@
   </head>
 
   <body>
-    <%= render partial: 'partials/navbar' unless (controller_name == "pages" && params[:page] == "landing") %>
+    <%= render partial: 'partials/navbar' unless params[:page] == "landing" %>
     <%= render partial: "partials/flash" if flash.present? %>
     <%= yield %>
+    <%= render partial: "partials/footer" unless params[:page] == "landing" %>
   </body>
 </html>

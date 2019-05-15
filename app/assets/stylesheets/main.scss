@@ -9,6 +9,8 @@ html, body {
 	height: 100%;
 }
 
+.center { text-align: center; }
+
 @include media-breakpoint-up(md) {
   // changing carousel text size for big screens
   @include fontDisplay(5.5);
