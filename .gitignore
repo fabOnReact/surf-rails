@@ -20,7 +20,6 @@
 todolist
 spec/fixtures
 spec/support/uploads
-app/assets/images
 public/assets
 public/uploads
 cutout
