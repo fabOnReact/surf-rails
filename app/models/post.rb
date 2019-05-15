@@ -11,7 +11,7 @@ class Post < ApplicationRecord
 
   reverse_geocoded_by :latitude, :longitude do |obj, results| 
     geo = results.first
-    if geo.data["error"].nil?
+    if geo.present? && geo.data["error"].nil?
       obj.address = geo.address
       obj.city = geo.city if geo.city
     end

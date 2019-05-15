@@ -16,6 +16,6 @@ module ApplicationHelper
   end
 
   def iphone?
-    false
+    request.env["HTTP_USER_AGENT"].match(/iPhone/).present?
   end
 end
