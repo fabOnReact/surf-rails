@@ -5,11 +5,17 @@
 @import 'pages/video';
 
 html, body {
-	// setting height 100% for main page carousel
-	height: 100%;
+  // setting height 100% for main page carousel
+  height: 100%;
 }
 
-.center { text-align: center; }
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container { flex: 1 0 auto; }
+.footer { flex-shrink: 0; text-align: center; }
 
 @include media-breakpoint-up(md) {
   // changing carousel text size for big screens
