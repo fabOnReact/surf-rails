@@ -10,8 +10,6 @@
 }
 
 .carousel, .carousel-inner, .carousel-item, img {
-  // setting height 100% for main page carousel
-  height: 100%;
   h1 {
     @include positionElement();
     color: $white;
