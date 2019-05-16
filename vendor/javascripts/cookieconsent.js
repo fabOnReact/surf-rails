@@ -1495,12 +1495,4 @@ $(document).on('turbolinks:load', function(){
 
   }(window.cookieconsent || {}));
 
-  window.cookieconsent.initialise({
-    palette:{
-      popup: {background: "black"},
-      button: {background: "#aa0000"},
-    },
-    position: 'top'
-  });    
-
 });

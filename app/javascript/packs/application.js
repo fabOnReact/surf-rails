@@ -28,4 +28,20 @@ $(document).on('turbolinks:load', function() {
         getLocation();
         break;
   }
+
+  // Skip cookie consent on android/ios devices
+  var notAndroid = navigator.userAgent.match(/Android/) === null
+  var notIos = navigator.userAgent.match(/iPhone/) === null
+
+  // Trigger cookie consent
+  if (notAndroid && notIos) { 
+    window.cookieconsent.initialise({
+      palette:{
+        popup: {background: "black"},
+        button: {background: "#aa0000"},
+      },
+      position: 'top'
+    });    
+  }
+
 });
