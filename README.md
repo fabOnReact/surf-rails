@@ -28,6 +28,7 @@ The [repository of the ReactNative Mobile App](https://github.com/fabriziobertog
 - `Geospatial Queries` by [user coordinates or bounding box][2]
 - Database with over 1 Million surfspots in the world with gps coordinates, pictures and information (Database information is kept private and is available in the App)
 - Hosting on Digital Ocean
+- Native Mobile Iphone and Android application
 
 
 The OpenSource project is a mirror of the backend and includes 95% of the functionalities. 
