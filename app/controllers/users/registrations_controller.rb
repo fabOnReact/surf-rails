@@ -2,7 +2,6 @@
 require 'api/google_auth'
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  # https://stackoverflow.com/questions/7600347/rails-api-design-without-disabling-csrf-protection#15056471
   skip_before_action :verify_authenticity_token, only: [:create]
 
   def create
