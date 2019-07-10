@@ -22,7 +22,7 @@ default: &default
 
 development:
   <<: *default
-  password: <%= ENV['DATABASE_PW'] %>
+#  password: <%= ENV['DATABASE_PW'] %>
   database: db/development_surfcheck
 
 # Warning: The database defined as "test" will be erased and
