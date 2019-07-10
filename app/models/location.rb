@@ -3,7 +3,7 @@ class Location < ApplicationRecord
 
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     geo = results.first
-    if geo.data["error"].nil?
+    if geo && geo.data["error"].nil?
       obj.address = geo.address
     end
   end
