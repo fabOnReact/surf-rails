@@ -18,7 +18,24 @@ describe StormGlass do
     end
 
     it 'queries the next 12 hours of forecast' do
-      expect(storm.getWeather["hours"].size).to be 12
+      expect(storm.getWeather["hours"].size).to be 25
+    end
+  end
+
+  describe '#getWaveForecast' do 
+    before { @keys = storm.getWaveForecast[0].keys }
+    it 'retrieves the wave forecast for every hour'
+
+    it 'return wave swell/wave height, period, direction and wind speed/direction' do
+      expect(@keys).to match_array StormGlass::FIELDS 
+    end
+
+    it 'deletes any other info' do
+      expect(@keys).not_to include "iceCover"
+    end
+
+    it 'returns an array' do
+      expect(storm.getWaveForecast.class).to be Array
     end
   end
 end
