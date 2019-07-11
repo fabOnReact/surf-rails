@@ -27,6 +27,7 @@ describe StormGlass do
     it 'retrieves the wave forecast for every hour'
 
     it 'return wave swell/wave height, period, direction and wind speed/direction' do
+      puts storm.getWaveForecast
       expect(@keys).to match_array StormGlass::FIELDS 
     end
 

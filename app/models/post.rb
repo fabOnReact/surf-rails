@@ -1,3 +1,5 @@
+require 'api/storm_glass'
+
 class Post < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
@@ -5,6 +7,7 @@ class Post < ApplicationRecord
 
   belongs_to :user
   after_validation :reverse_geocode
+  before_save :set_forecast
   attr_accessor :ip_code
 
   mount_uploader :picture, PictureUploader
@@ -15,6 +18,11 @@ class Post < ApplicationRecord
       obj.address = geo.address
       obj.city = geo.city if geo.city
     end
+  end
+
+  def set_forecast
+    api = StormGlass.new(latitude, longitude) 
+    self.forecast = api.getWaveForecast
   end
 
   def liked(user_id)
