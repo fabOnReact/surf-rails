@@ -1,12 +1,5 @@
 require 'fog/aws'
 
-if Rails.env.test? or Rails.env.cucumber?
-  CarrierWave.configure do |config|
-    config.storage = :file
-    config.enable_processing = false
-  end
-end
-
 CarrierWave::Uploader::Base.descendants.each do |klass|
 	next if klass.anonymous?
 	klass.class_eval do
