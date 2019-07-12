@@ -8,6 +8,7 @@ class Post < ApplicationRecord
   belongs_to :user
   after_validation :reverse_geocode
   before_save :set_forecast
+  after_create :set_cron_job
   attr_accessor :ip_code
 
   mount_uploader :picture, PictureUploader
@@ -23,6 +24,10 @@ class Post < ApplicationRecord
   def set_forecast
     api = StormGlass.new(latitude, longitude) 
     self.forecast = api.getWaveForecast
+  end
+
+  def set_cron_job
+    Sidekiq::Cron::Job.create(name: 'Post - update forecast data - every 24 hours', cron: '* 24 * *', class: 'PostWorker', args: self.id )
   end
 
   def liked(user_id)
