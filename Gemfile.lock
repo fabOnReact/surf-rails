@@ -82,6 +82,8 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.8.0)
     erubis (2.7.0)
+    et-orbi (1.2.1)
+      tzinfo
     excon (0.64.0)
     execjs (2.7.0)
     factory_bot (4.11.1)
@@ -113,6 +115,9 @@ GEM
     font-awesome-rails (4.7.0.5)
       railties (>= 3.2, < 6.1)
     formatador (0.2.5)
+    fugit (1.2.2)
+      et-orbi (~> 1.1, >= 1.1.8)
+      raabro (~> 1.1)
     geocoder (1.5.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -216,8 +221,11 @@ GEM
       pry (>= 0.10.4)
     public_suffix (3.0.3)
     puma (3.12.1)
+    raabro (1.1.6)
     rack (2.0.7)
     rack-cors (1.0.3)
+    rack-protection (2.0.5)
+      rack
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -254,6 +262,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
+    redis (4.1.2)
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
       railties (>= 4.2.0, < 6.0)
@@ -310,6 +319,14 @@ GEM
     sexp_processor (4.12.0)
     shoulda-matchers (3.1.3)
       activesupport (>= 4.0.0)
+    sidekiq (5.2.7)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack (>= 1.5.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
+    sidekiq-cron (1.1.0)
+      fugit (~> 1.1)
+      sidekiq (>= 4.2.1)
     simple_form (3.5.1)
       actionpack (> 4, < 5.2)
       activemodel (> 4, < 5.2)
@@ -404,6 +421,8 @@ DEPENDENCIES
   seed_dump
   selenium-webdriver
   shoulda-matchers (~> 3.1)
+  sidekiq
+  sidekiq-cron (~> 1.1)
   simple_form (~> 3.5)
   simple_token_authentication (~> 1.15, >= 1.15.1)
   spring
@@ -419,4 +438,4 @@ RUBY VERSION
    ruby 2.5.0p0
 
 BUNDLED WITH
-   2.0.1
+   2.0.2
