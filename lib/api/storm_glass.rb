@@ -1,6 +1,6 @@
 class StormGlass
   include HTTParty
-  FIELDS = %w(swellHeight swellPeriod swellDirection waveHeight wavePeriod waveDirection windDirection windSpeed seaLevel)
+  FIELDS = %w(time swellHeight swellPeriod swellDirection waveHeight wavePeriod waveDirection windDirection windSpeed seaLevel)
   base_uri "https://api.stormglass.io/v1"
 
   def initialize(latitude, longitude) 

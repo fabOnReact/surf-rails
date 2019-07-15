@@ -45,4 +45,12 @@ class Post < ApplicationRecord
   def owner?(owner)
     user == owner
   end
+
+  def current_forecast
+    forecast.select { |row| row["time"] == timeNow }
+  end
+
+  def timeNow
+    DateTime.now.utc.in_time_zone(-1).beginning_of_hour.xmlschema
+  end
 end
