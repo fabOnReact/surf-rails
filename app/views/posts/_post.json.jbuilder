@@ -1,4 +1,5 @@
 json.extract! post, :id, :description, :created_at, :updated_at, :user_id, :picture, :latitude, :longitude, :city
+json.location post.location.name
 json.forecast post.current_forecast
 json.liked post.liked(current_user.id)
 json.date post.creation_date

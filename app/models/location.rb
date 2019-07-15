@@ -1,5 +1,6 @@
 class Location < ApplicationRecord
   after_validation :reverse_geocode, if: ->(obj){ obj.latitude.present? and obj.longitude.present? }
+  has_many :posts
 
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     geo = results.first

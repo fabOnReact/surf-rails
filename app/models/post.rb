@@ -5,9 +5,10 @@ class Post < ApplicationRecord
 
   scope :newest, -> { order(created_at: :desc) }
 
-  belongs_to :user
+  belongs_to :user 
+  belongs_to :location
   after_validation :reverse_geocode
-  before_save :set_forecast
+  before_validation :set_additional_data
   after_create :set_cron_job
   attr_accessor :ip_code
 
@@ -21,9 +22,10 @@ class Post < ApplicationRecord
     end
   end
 
-  def set_forecast
+  def set_additional_data
     api = StormGlass.new(latitude, longitude) 
     self.forecast = api.getWaveForecast
+    self.location = Location.near([self.latitude, self.longitude], 50).first
   end
 
   def set_cron_job
@@ -47,7 +49,7 @@ class Post < ApplicationRecord
   end
 
   def current_forecast
-    forecast.select { |row| row["time"] == timeNow }
+    forecast.select { |row| row["time"] == timeNow } if forecast.present?
   end
 
   def timeNow
