@@ -49,7 +49,7 @@ class Post < ApplicationRecord
   end
 
   def current_forecast
-    forecast.select { |row| row["time"] == timeNow } if forecast.present?
+    forecast.select { |row| row["time"] == timeNow }.first if forecast.present?
   end
 
   def timeNow
