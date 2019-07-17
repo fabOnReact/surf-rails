@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190715135531) do
+ActiveRecord::Schema.define(version: 20190717091311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20190715135531) do
     t.string "alternative_name"
     t.string "pictures", array: true
     t.jsonb "areas", default: "{}", null: false
+    t.jsonb "forecast"
     t.index ["areas"], name: "index_locations_on_areas", using: :gin
     t.index ["country", "area", "name"], name: "index_locations_on_country_and_area_and_name", unique: true
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude"
@@ -50,7 +51,6 @@ ActiveRecord::Schema.define(version: 20190715135531) do
     t.string "city"
     t.integer "likes", default: 0
     t.integer "favorite", default: [], array: true
-    t.jsonb "forecast"
     t.integer "location_id"
     t.index ["favorite"], name: "index_posts_on_favorite", using: :gin
     t.index ["latitude", "longitude"], name: "index_posts_on_latitude_and_longitude"
