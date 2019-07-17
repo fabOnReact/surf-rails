@@ -1,5 +1,3 @@
-require 'api/storm_glass'
-
 class Post < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
@@ -23,9 +21,8 @@ class Post < ApplicationRecord
   end
 
   def set_additional_data
-    api = StormGlass.new(latitude, longitude) 
-    self.forecast = api.getWaveForecast
     self.location = Location.near([self.latitude, self.longitude], 50).first
+    location.update_attribute(:forecast, location.api.getWaveForecast)
   end
 
   def set_cron_job
@@ -46,13 +43,5 @@ class Post < ApplicationRecord
 
   def owner?(owner)
     user == owner
-  end
-
-  def current_forecast
-    forecast.select { |row| row["time"] == timeNow }.first if forecast.present?
-  end
-
-  def timeNow
-    DateTime.now.utc.in_time_zone(-1).beginning_of_hour.xmlschema
   end
 end
