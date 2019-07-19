@@ -5,9 +5,8 @@ class Post < ApplicationRecord
 
   belongs_to :user 
   belongs_to :location
-  after_validation :reverse_geocode
   before_validation :set_additional_data
-  after_create :set_cron_job
+  after_validation :reverse_geocode
   attr_accessor :ip_code
 
   mount_uploader :picture, PictureUploader
@@ -21,12 +20,9 @@ class Post < ApplicationRecord
   end
 
   def set_additional_data
-    self.location = Location.near([self.latitude, self.longitude], 50).first
-    location.update_attribute(:forecast, location.api.getWaveForecast)
-  end
-
-  def set_cron_job
-    Sidekiq::Cron::Job.create(name: 'Post - update forecast data - every 24 hours', cron: '* 24 * *', class: 'PostWorker', args: self.id )
+    location = Location.near([self.latitude, self.longitude], 50).first
+    location.save if location.present?
+    self.location = location
   end
 
   def liked(user_id)
