@@ -77,3 +77,16 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+Geocoder.configure(lookup: :test, ip_lookup: :test)
+Geocoder::Lookup::Test.add_stub(
+  [1.0, 1.0], [
+    {
+      'address'      => 'New York, NY, USA',
+      'state'        => 'New York',
+      'state_code'   => 'NY',
+      'country'      => 'United States',
+      'country_code' => 'US'
+    }
+  ]
+)
