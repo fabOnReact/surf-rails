@@ -4,14 +4,15 @@ require 'rails_helper'
 require 'json'
 
 RSpec.describe PostsController, type: :controller do
-  let(:valid_attributes) { FactoryBot.attributes_for(:post) }
-  let(:invalid_attributes) { FactoryBot.attributes_for(:post) }
+  let(:valid_attributes) { FactoryBot.attributes_for(:post, latitude: 1, longitude: 1) }
+  let(:invalid_attributes) { FactoryBot.attributes_for(:post, latitude: 1, longitude: 1) }
   let(:valid_base64_image) { Base64.encode64(File.read('spec/assets/test_image.jpg')) }
 
   login_user
 
   context 'with web authentication' do
-    let(:new_post) { FactoryBot.create(:post, user: @user) }
+    let(:new_post) { FactoryBot.create(:post, user: @user, latitude: 1, longitude: 1) }
+    let(:location) { FactoryBot.create(:location, latitude: 1, longitude: 1) }
 
     context 'get requests' do
       describe 'GET #index' do
@@ -54,51 +55,7 @@ RSpec.describe PostsController, type: :controller do
               post :create, params: { post: valid_attributes }
             }.to change(Post, :count).by(1)
           end
-
-          it 'creates a post with user_id' do
-            post :create, params: { post: valid_attributes }
-            expect(Post.last).to have_attributes(user_id: @user.id)
-          end
-
-          # it 'create an instance with user_id and ip_code' do
-          #   post :create, params: { post: valid_attributes }
-          #   expect(assigns(:post)).to have_attributes(
-          #     user_id: @user.id, ip_code: '82.54.103.29'
-          #   )
-          # end
-
-          it 'the created post has a longitude' do
-            post :create, params: { post: valid_attributes }
-            expect(Post.last.longitude).to be_present
-          end
-
-          it 'the longitude is not equal to zero' do
-            post :create, params: { post: valid_attributes }
-            expect(Post.last.longitude).not_to be(0.0)
-          end
-
-          it 'the latitude is not equal to zero' do
-            post :create, params: { post: valid_attributes }
-            expect(Post.last.latitude).to be_present
-          end
-
-          it 'redirects to the created post' do
-            post :create, params: { post: valid_attributes }
-            expect(response).to redirect_to(posts_path)
-          end
         end
-
-        context 'with invalid params' do
-          render_views
-          it "returns a success response (i.e. to display the 'new' template)"
-            # post :create, params: { post: invalid_attributes }
-            # expect(response.status).to eql(200)
-
-          it 'render an alert' 
-            # post :create, params: { post: invalid_attributes }
-            # expect(controller).to set_flash
-        end
-
       end
     end
 
@@ -107,7 +64,7 @@ RSpec.describe PostsController, type: :controller do
       describe 'PUT #update' do
         context 'with valid params' do
           let(:new_attributes) {
-            FactoryBot.attributes_for(:post, description: 'new description')
+            FactoryBot.attributes_for(:post, description: 'new description', latitude: 1, longitude: 1)
           }
 
           it 'updates the requested post' do
@@ -180,7 +137,7 @@ RSpec.describe PostsController, type: :controller do
         it 'store the picture' do
           post :create, params: { post: valid_attributes }
           json = JSON.parse(response.body, symbolize_names: true)
-          expect(json[:picture][:url]).to eq "/uploads/test.png"
+          expect(json[:picture][:url]).to match "http://localhost:3000/uploads/post/"
         end
       end
     end
