@@ -10,6 +10,10 @@ module Parameters
       [sw, ne]
     end
 
+    def corners?
+      keys.to_set.superset? Set['southWest', 'northEast']
+    end
+
     def gps
       [self[:latitude], self[:longitude]]
     end
