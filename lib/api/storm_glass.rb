@@ -27,6 +27,7 @@ class StormGlass
   end
   
   def getWaveForecast 
+    raise ArgumentError, "The weather API returned the following error. #{getWeather["errors"]}" if getWeather["errors"].present?
     getWeather["hours"].map do |row|
       row.keep_if {|key, value| FIELDS.include? key }
     end
