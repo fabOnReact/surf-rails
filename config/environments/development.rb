@@ -58,4 +58,7 @@ config.webpacker.check_yarn_integrity = true
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   config.i18n.fallbacks = true
+ 
+  # Whitelist server ip
+  config.web_console.whitelisted_ips = '192.168.100.14'
 end
