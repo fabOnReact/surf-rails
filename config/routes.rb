@@ -1,3 +1,6 @@
+require 'sidekiq/web'
+require 'sidekiq/cron/web'
+
 Rails.application.routes.draw do
   resources :posts, :locations
   devise_for :users, controllers: {
@@ -7,4 +10,5 @@ Rails.application.routes.draw do
   }
   get "/pages/:page" => "pages#show", as: :page
   root 'pages#show'
+  mount Sidekiq::Web => '/sidekiq'
 end
