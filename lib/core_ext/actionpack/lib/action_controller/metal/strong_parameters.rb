@@ -17,6 +17,10 @@ module Parameters
     def gps
       [self[:latitude], self[:longitude]]
     end
+
+    def gps?
+      self[:latitude].present? && self[:longitude].present?
+    end
   end
 end
 
