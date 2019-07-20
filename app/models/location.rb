@@ -12,6 +12,12 @@ class Location < ApplicationRecord
     end
   end
 
+  def distance_from_user(user_gps)
+    Geocoder::Calculations.distance_between(user_gps, gps, units: :km).round(1)
+  end
+
+  def gps; [latitude, longitude]; end
+
   def set_forecast
     set_job if forecast.nil?
     self.forecast = api.getWaveForecast
