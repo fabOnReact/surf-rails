@@ -8,7 +8,7 @@ class LocationsController < ApplicationController
   def index
     if params.corners?
       @locations = Location.within_bounding_box(params.corners) 
-    else
+    elsif params.gps?
       @locations = Location.near(params.gps, 20, units: :km).paginate(page: params[:page], per_page: params[:per_page]) 
       @locations.where(forecast: nil).each {|location| location.save }
     end
