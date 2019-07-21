@@ -20,9 +20,8 @@ class Post < ApplicationRecord
   end
 
   def set_additional_data
-    location = Location.near([self.latitude, self.longitude], 50).first
+    self.location = Location.near([self.latitude, self.longitude], 50).first
     location.save if location.present?
-    self.location = location
   end
 
   def liked(user_id)
