@@ -1,3 +1,13 @@
+class ApiError
+  def initialize(errors)
+    @errors = errors
+  end
+
+  def method_missing(*args, &block)
+    STDERR.puts "JOB ERROR - Api Call failed with the following error #{@errors}"
+  end
+end
+
 class StormGlass
   include HTTParty
   FIELDS = %w(time swellHeight swellPeriod swellDirection waveHeight wavePeriod waveDirection windDirection windSpeed seaLevel)
@@ -22,13 +32,18 @@ class StormGlass
     endTime.to_datetime.to_s
   end
 
-  def getWeather
-    @weather ||= self.class.get("/weather/point", @options)
+  def weather
+    self.class.get("/weather/point", @options)
   end
-  
-  def getWaveForecast 
-    raise ArgumentError, "The weather API returned the following error. #{getWeather["errors"]}" if getWeather["errors"].present?
-    getWeather["hours"].map do |row|
+
+  def errors; weather['errors']; end
+
+  def getWeather
+    weather["hours"] || ApiError.new(errors)
+  end
+
+  def getWaveForecast
+    getWeather.map do |row|
       row.keep_if {|key, value| FIELDS.include? key }
     end
   end

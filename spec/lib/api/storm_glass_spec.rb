@@ -4,6 +4,7 @@ require 'api/storm_glass'
 describe StormGlass do 
   let(:storm) { StormGlass.new('-8.720425','115.169207') } 
   let(:date) { DateTime.new(2019, 07, 10, 02, 00, 00) }
+  let(:error) {{"errors": "Maximum number of calls reached"}}
 
   describe '#timestamp' do 
     it 'returns the correct format' do
@@ -23,20 +24,35 @@ describe StormGlass do
   end
 
   describe '#getWaveForecast' do 
-    before { @keys = storm.getWaveForecast[0].keys }
-    it 'retrieves the wave forecast for every hour'
+    context "with sucessfull api response" do
+      before { @keys = storm.getWaveForecast[0].keys }
+      it 'retrieves the wave forecast for every hour'
 
-    it 'return wave swell/wave height, period, direction and wind speed/direction' do
-      puts storm.getWaveForecast
-      expect(@keys).to match_array StormGlass::FIELDS 
+      it 'return wave swell/wave height, period, direction and wind speed/direction' do
+        expect(@keys).to match_array StormGlass::FIELDS 
+      end
+
+      it 'deletes any other info' do
+        expect(@keys).not_to include "iceCover"
+      end
+
+      it 'returns an array' do
+        expect(storm.getWaveForecast.class).to be Array
+      end
     end
 
-    it 'deletes any other info' do
-      expect(@keys).not_to include "iceCover"
+    context 'when the api fails' do
+      it 'returns null object if api fails' do
+        allow(storm).to receive(:weather).and_return(error)
+        expect(storm.getWaveForecast).to be nil
+      end
     end
+  end
 
-    it 'returns an array' do
-      expect(storm.getWaveForecast.class).to be Array
+  describe "#getWeather" do
+    it 'returns ApiError for failures' do 
+      allow(storm).to receive(:weather).and_return(error)
+      expect(storm.getWeather.class).to be ApiError
     end
   end
 end
