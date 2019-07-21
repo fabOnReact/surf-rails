@@ -1,7 +1,7 @@
 require 'api/storm_glass' 
 
 class Location < ApplicationRecord
-  before_save :set_forecast
+  before_save :set_forecast, if: Proc.new {|location| location.forecast.nil? }
   after_validation :reverse_geocode, if: ->(obj){ obj.latitude.present? and obj.longitude.present? }
   has_many :posts
 
@@ -19,12 +19,14 @@ class Location < ApplicationRecord
   def gps; [latitude, longitude]; end
 
   def set_forecast
-    set_job if forecast.nil?
-    self.forecast = api.getWaveForecast
+    set_job
+    self.forecast = api.getWaveForecast 
   end
 
   def set_job
-    Sidekiq::Cron::Job.create(name: 'Location - update forecast data - every 24 hours', cron: '* 24 * *', class: 'LocationWorker', args: self.id ) 
+    # job = Sidekiq::Cron::Job.new(name: 'Location - update forecast data - every day at 00:00', cron: '0 0 */1 * *', class: 'LocationWorker', args: self.id)
+    job = Sidekiq::Cron::Job.new(name: 'Location - update forecast data - every day at 00:00', cron: '*/1 * * * *', class: 'LocationWorker', args: self.id)
+    puts job.errors unless job.save
   end
 
   def current_forecast
