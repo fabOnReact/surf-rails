@@ -4,7 +4,7 @@ class ApiError
   end
 
   def method_missing(*args, &block)
-    STDERR.puts "JOB ERROR - Api Call failed with the following error #{@errors}"
+    STDERR.puts "->>>>> API ERROR - Api Call failed with the following error #{@errors}"
   end
 end
 
