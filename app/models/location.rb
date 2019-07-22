@@ -24,8 +24,7 @@ class Location < ApplicationRecord
   end
 
   def set_job
-    # job = Sidekiq::Cron::Job.new(name: 'Location - update forecast data - every day at 00:00', cron: '0 0 */1 * *', class: 'LocationWorker', args: self.id)
-    job = Sidekiq::Cron::Job.new(name: 'Location - update forecast data - every day at 00:00', cron: '*/1 * * * *', class: 'LocationWorker', args: self.id)
+    job = Sidekiq::Cron::Job.new(name: "Location name: #{self.name}, country: #{self.country}, id: #{self.id} - update forecast data - every day at 00:00", cron: '0 0 */1 * *', class: 'LocationWorker', args: self.id)
     puts job.errors unless job.save
   end
 
