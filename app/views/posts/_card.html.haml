@@ -1,5 +1,5 @@
 .card.mb-3
-  = image_tag post.picture.card.url.to_s, class: 'card-img-top', alt: 'Card image cap'
+  = image_tag post.picture.url.to_s, class: 'card-img-top', alt: 'Card image cap'
   .card-body
     - current_forecast = post.location.current_forecast
     %p.card-title #{post.location.name} (#{post.city}) 
