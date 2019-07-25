@@ -74,6 +74,20 @@ img {
 	margin-bottom: 1rem;
 }
 
+.map {
+  height: 500px;
+  width: 500px;
+  background-size: cover;
+  .wind-arrow { z-index: 1; }
+  .wave-arrow { 
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+  }
+}
+
+
 // posts#index and pictures
 i.fixed-bottom {
 	right: 4%;

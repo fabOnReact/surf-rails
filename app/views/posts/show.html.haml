@@ -4,7 +4,10 @@
     .col-md-4
       = image_tag @post.picture.url.to_s, class: 'img-fluid', alt: 'Responsive image'
     .col-md-6
-      = image_tag @post.location.google_map
+      - current_forecast = @post.location.current_forecast
+      .map.d-flex.align-items-center{style: "background-image: url(#{@post.location.google_map})"}
+        = image_tag "down-arrow.png", class: 'wind-arrow', style: "transform: rotate(#{current_forecast["windDirection"].first["value"]}deg)"
+        = image_tag "down-cursor.png", class: 'wave-arrow', style: "transform: rotate(#{current_forecast["waveDirection"].first["value"]}deg)"
       %p.card-title #{@post.location.name} in #{@post.city} 
       %p.card-text #{@post.location.current_forecast["waveHeight"].first["value"]} mt. Waves
       %p.card-text posted #{distance_of_time_in_words(server_date, @post.utc_date)} ago #{@post.description}
