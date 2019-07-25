@@ -39,4 +39,8 @@ class Location < ApplicationRecord
   def timeNow
     DateTime.now.utc.in_time_zone(-1).beginning_of_hour.xmlschema
   end
+
+  def google_map
+    "https://maps.googleapis.com/maps/api/staticmap?center=#{gps.join(',')}&zoom=11&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=500x500&maptype=satellite"
+  end
 end
