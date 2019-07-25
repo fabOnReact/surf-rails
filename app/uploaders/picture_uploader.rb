@@ -9,6 +9,10 @@ class PictureUploader < CarrierWave::Uploader::Base
     process resize_to_fit: [318, 180]
   end
 
+  version :web do
+    process resize_to_fit: [700, 300]
+  end
+
   version :mobile do
     process resize_to_fit: [627, 355]
   end
