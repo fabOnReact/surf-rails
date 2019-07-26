@@ -3,70 +3,13 @@
 	margin-top: 1rem;
 }
 
-// Class to fix alert messages with carousel
-.carouselAlerts {
-	z-index: 1;
-	opacity: 0.9;
-}
-
-.carousel, .carousel-inner, .carousel-item, img {
-  h1 {
-    @include positionElement();
-    color: $white;
-  }
-}
-
-// carousel on main page
-.carousel-item {
-  @include backgroundSettings(cover, center, $cover-max-height);
-
-  h1.display-3 {
-  text-shadow: none;
-  font-weight: 700;
-  text-transform: uppercase;
-  text-shadow: -1px 0 1px #000;
-  }
-}
-
-// jumbotron second screen of main page
-.jumbotron {
-  i {
-    color: $white;
-    padding-bottom: 4px;
-  };
-
-  a.btn.rounded-circle { background-color: $dark; };
-
-  h1 {
-    text-align: center;
-  };
-}
-
-// Carousel image-url for the .first, .second and .third-image for > md devices
-// Setting images with @mixin backgroundImage from mixins partial
-@each $class, $image in (first, balangan1-min), (second, bronte-min), (third, balangan4-min), (fourth, bondi3-min), (fifth, tamarama2-min), (sixth, tamaramarail2-min) {
-  @include media-breakpoint-up(sm) {  
-    @include backgroundImage($class, "md/", $image);
-  }
-
-  /*@include media-breakpoint-down(xs) {
-    @include backgroundImage($class, "", $image);
-  }*/
-}
-
-@include media-breakpoint-down(xs) {
-  .carousel-item.active {
-  	background-image: image-url("balangan1-min.JPG");
-  }
-}
-
 // file input posts#new
 
-label.custom-file {
-	span.custom-file-control {
-		color: white;
-	}
-}
+// label.custom-file {
+// 	span.custom-file-control {
+// 		color: white;
+// 	}
+// }
 
 // posts#show 
 
@@ -78,17 +21,21 @@ img {
   height: 300px;
   width: 300px;
   background-size: cover;
-  .wind-arrow { z-index: 1; }
+  border: 1px solid rgb(90, 97, 103);
+  border-radius: 7px;
+  .arrow { margin: 50px 50px; }
+  .wind-arrow { 
+    z-index: 1; 
+  }
   .wave-arrow { 
     position: absolute;
-    left: 0;
-    top: 0;
+    top: 5;
+    left: 14px;
     z-index: 2;
-    height:300px;
-    width:300px;
   }
 }
 
+.arrow-small { height: 25px; } 
 
 // posts#index and pictures
 i.fixed-bottom {
