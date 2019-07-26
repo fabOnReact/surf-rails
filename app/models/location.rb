@@ -30,8 +30,20 @@ class Location < ApplicationRecord
     puts job.errors unless job.save
   end
 
+ def tide
+   upcoming_forecast.map {|x| x["seaLevel"].first["value"] }
+ end
+
+ def tideDates
+   upcoming_forecast.map {|x| x["time"] }
+ end
+
   def current_forecast
     forecast.select { |row| row["time"] == timeNow }.first if forecast.present?
+  end
+
+  def upcoming_forecast
+    @upcoming_forecast = forecast.select { |row| row["time"] >= timeNow }
   end
 
   def waveHeight
