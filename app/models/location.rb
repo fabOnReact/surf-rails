@@ -1,6 +1,8 @@
 require 'api/storm_glass' 
+require 'core_ext/array'
 
 class Location < ApplicationRecord
+  Array.include(Array::Forecast)
   before_save :set_forecast, if: Proc.new {|location| location.forecast.nil? }
   after_validation :reverse_geocode, if: ->(obj){ obj.latitude.present? and obj.longitude.present? }
   has_many :posts
@@ -32,6 +34,22 @@ class Location < ApplicationRecord
     forecast.select { |row| row["time"] == timeNow }.first if forecast.present?
   end
 
+  def waveHeight
+    current_forecast["waveHeight"].minMaxString
+  end
+
+  def windDirection
+    current_forecast["windDirection"].first["value"]
+  end
+
+  def waveDirection
+    current_forecast["waveDirection"].first["value"]
+  end
+  
+  def windSpeed
+    current_forecast["windSpeed"].minMaxString
+  end
+
   def api 
     @api = StormGlass.new(latitude, longitude)
   end
@@ -41,6 +59,6 @@ class Location < ApplicationRecord
   end
 
   def google_map
-    "https://maps.googleapis.com/maps/api/staticmap?center=#{gps.join(',')}&zoom=11&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=500x500&maptype=satellite"
+    "https://maps.googleapis.com/maps/api/staticmap?center=#{gps.join(',')}&zoom=11&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=300x300&maptype=satellite"
   end
 end
