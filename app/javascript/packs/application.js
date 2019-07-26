@@ -7,6 +7,7 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 import { getLocation, setLocation } from '../lib/location'
+import { renderTideChart } from '../lib/tide'
 
 function containerStyle(){
   var alertHeight = $('.alert').outerHeight(true);
@@ -15,7 +16,6 @@ function containerStyle(){
 }
 
 $(document).on('turbolinks:load', function() {
-  // switch statement triggers functions based on the visited page
   var location_path = event.currentTarget.location.pathname 
   switch(location_path) {
     case '/':
@@ -27,6 +27,13 @@ $(document).on('turbolinks:load', function() {
     case '/users/sign_up':
         getLocation();
         break;
+  }
+
+  if (location_path.match(/posts\/[0-9][0-9]/)) { 
+    var tide = $('#forecast-data').data('tide')
+    var dates = $('#forecast-data').data('dates')
+    var times = dates.map((time) => new Date(time).getHours())
+    renderTideChart(tide, times) 
   }
 
   // Skip cookie consent on android/ios devices
@@ -45,3 +52,4 @@ $(document).on('turbolinks:load', function() {
   }
 
 });
+
