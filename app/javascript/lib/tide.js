@@ -16,11 +16,14 @@ export function renderTideChart(tide, times) {
     },
     options: {
       legend: { display: false },
+      responsive: true,
+      mantainAspectRatio: false,
       scales: {
         yAxes: [{
             scaleLabel: { display: false },
+            weight: 0,
             ticks: {
-              beginAtZero: false,
+              beginAtZero: true,
               display: false,
             },
             gridLines: { 
@@ -28,18 +31,28 @@ export function renderTideChart(tide, times) {
                 color: 'rgb(204, 0, 0)',
                 lineWidth: 0,
             },
-            tickMarkLength: 1,
+            tickMarkLength: 0,
         }],
         xAxes: [{
+          display: true,
+          weight: 0,
           gridLines: {
             display: true,
-            zeroLineWidth: 10,
+            zeroLineWidth: 0,
             zeroLineColor: '#ffcc33',
+            tickMarkLength: 10,
           },
           ticks: {
             display: true,
+            fontColor: 'black',
+            fontFamily: 'Arial',
+            fontStyle: 'normal',
+            fontSize: 10,
+            lineHeight: 1,
+            maxRotation: 0,
+            minRotation: 0,
+            autoSkip:false,
           },
-          tickMarkLength: 10,
           color: 'red',
         }],
       }

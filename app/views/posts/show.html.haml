@@ -15,8 +15,7 @@
         %h3.mr-3 #{location.windSpeed} mt/s wind
         = image_tag "down-arrow-black", class: "arrow-small", style: "transform: rotate(#{location.windDirection}deg)"
       // %p.card-text posted #{distance_of_time_in_words(server_date, @post.utc_date)} ago #{@post.description}
-    .col-md-5
-      %canvas{id: "tideChart", width: "800", height: "200"}
+      %canvas{id: "tideChart", height: 70}
   .row.mt-2.pl-3
     - location.posts.each do |post|
       .col-md-2.px-1

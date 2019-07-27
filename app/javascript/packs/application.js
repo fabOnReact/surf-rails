@@ -32,7 +32,9 @@ $(document).on('turbolinks:load', function() {
   if (location_path.match(/posts\/[0-9][0-9]/)) { 
     var tide = $('#forecast-data').data('tide')
     var dates = $('#forecast-data').data('dates')
+    console.log(tide)
     var times = dates.map((time) => new Date(time).getHours())
+    console.log(times)
     renderTideChart(tide, times) 
   }
 
