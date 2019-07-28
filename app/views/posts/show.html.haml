@@ -1,5 +1,5 @@
 - location = @post.location
-= tag :meta, id: "forecast-data", name: "forecast_data", data: { tides: location.tides, dates: location.tidesDates, tide: location.tide, forecast: location.waveForecast } 
+= tag :meta, id: "forecast-data", name: "forecast_data", data: { tides: location.tides, dates: location.dates, tide: location.tide, waves: location.upcomingWaves } 
 
 .container
   %h3 CURRENT SURF REPORT FOR #{location.name.upcase}
