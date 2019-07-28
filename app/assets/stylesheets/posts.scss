@@ -18,17 +18,21 @@ img {
     z-index: 1; 
   }
   .wave-arrow { 
-    position: absolute;
+    position: relative;
     z-index: 2;
+    top: -100%;
   }
 }
 
+.forecast { min-width: 350px; }
+.surf-images { margin-left: -3px; }
+
 canvas { 
-  // width: 430px !important;
-  // height: 100px !important;
+  border: 1px solid #d9d9d9;  
+  height: 70px !important;
 }
 
-.arrow-small { height: 25px; } 
+.arrow-small { height: 25px; margin: 0 0; } 
 
 // posts#index and pictures
 i.fixed-bottom {
