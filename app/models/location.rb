@@ -22,21 +22,28 @@ class Location < ApplicationRecord
 
   def set_forecast
     set_job
-    self.forecast = api.getWaveForecast 
+    assign_attributes({ forecast: api.getWaveForecast, tide: api.getTide })
   end
 
   def set_job
-    job = Sidekiq::Cron::Job.new(name: "Location name: #{self.name}, country: #{self.country}, id: #{self.id} - update forecast data - every day at 00:00", cron: "0 0 * * *", class: 'LocationWorker', args: self.id)
-    puts job.errors unless job.save
+    Sidekiq::Cron::Job.load_from_array(jobs_params)
   end
 
- def tide
-   upcoming_forecast.map {|x| x["seaLevel"].first["value"] }
- end
+  def tideHighs
+    tide["extremes"].select {|row| row["type"] == "high" }
+  end
 
- def tideDates
-   upcoming_forecast.map {|x| x["time"] }
- end
+  def tideLows
+    tide["extremes"].select {|row| row["type"] == "high" }
+  end
+
+  def tides
+    upcoming_forecast.map {|x| x["seaLevel"].first["value"] }[0..24]
+  end
+
+  def tidesDates
+    upcoming_forecast.map {|x| x["time"] }[0..24]
+  end
 
   def current_forecast
     forecast.select { |row| row["time"] == timeNow }.first if forecast.present?
@@ -46,24 +53,58 @@ class Location < ApplicationRecord
     @upcoming_forecast = forecast.select { |row| row["time"] >= timeNow }
   end
 
+  def swellHeight
+    current_forecast["swellHeight"].minMaxString
+  end
+
   def waveHeight
     current_forecast["waveHeight"].minMaxString
+  end
+
+  def waveHeights
+    current_forecast["waveHeight"].collect {|x| x["value"] }
+  end
+
+  def waveAverage
+    sum = waveHeights.inject { |sum, el| sum + el }.to_f 
+    (sum / waveHeights.size).round(1)
+  end
+
+  def windSpeed
+    current_forecast["windSpeed"].minMaxString
+  end
+
+  def swellDirection
+    current_forecast["swellDirection"].first["value"]
+  end
+
+  def waveDirection
+    current_forecast["waveDirection"].first["value"]
   end
 
   def windDirection
     current_forecast["windDirection"].first["value"]
   end
 
-  def waveDirection
-    current_forecast["waveDirection"].first["value"]
+  def swellPeriod
+    current_forecast["swellPeriod"].minMaxString
   end
-  
-  def windSpeed
-    current_forecast["windSpeed"].minMaxString
+
+  def swellPeriods
+    current_forecast["swellPeriod"].collect {|x| x["value"] }
+  end
+
+  def periodsAverage
+    sum = swellPeriods.inject { |sum, el| sum + el }.to_f 
+    (sum / swellPeriods.size).round()
   end
 
   def api 
     @api = StormGlass.new(latitude, longitude)
+  end
+
+  def timeMorning
+    DateTime.now.utc.in_time_zone(-1)
   end
 
   def timeNow
@@ -72,5 +113,9 @@ class Location < ApplicationRecord
 
   def google_map
     "https://maps.googleapis.com/maps/api/staticmap?center=#{gps.join(',')}&zoom=11&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=300x300&maptype=satellite"
+  end
+
+  def jobs_params
+    [{ name: "Location name: #{self.name}, country: #{self.country}, id: #{self.id} - update forecast data - every day at 00:00", cron: "0 0 * * *", class: 'LocationWorker', args: self.id }]
   end
 end
