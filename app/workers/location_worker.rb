@@ -5,7 +5,7 @@ class LocationWorker
 
   def perform(*args)
     @location = Location.find(args.first)
-    @location.update_attribute(:forecast, api.getWaveForecast)
+    @location.update(forecast: api.getWaveForecast, tide: api.getTide)
   end
 
   def api 
