@@ -1,61 +1,26 @@
-import Chart from 'chart.js';
+import { isToday, isTomorrow } from 'date-fns'
 
-export function renderTideChart(tide, times) {
-  var ctx = document.getElementById('tideChart');
-  var myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: times,
-        datasets: [{
-          data: tide,
-          backgroundColor: ["rgb(0, 128, 0)"],
-          borderColor: [],
-          borderWidth: 1,
-          pointRadius: 0,
-        }]
-    },
-    options: {
-      legend: { display: false },
-      responsive: true,
-      mantainAspectRatio: false,
-      scales: {
-        yAxes: [{
-            scaleLabel: { display: false },
-            weight: 0,
-            ticks: {
-              beginAtZero: true,
-              display: false,
-            },
-            gridLines: { 
-                display: true,
-                color: 'rgb(204, 0, 0)',
-                lineWidth: 0,
-            },
-            tickMarkLength: 0,
-        }],
-        xAxes: [{
-          display: true,
-          weight: 0,
-          gridLines: {
-            display: true,
-            zeroLineWidth: 0,
-            zeroLineColor: '#ffcc33',
-            tickMarkLength: 10,
-          },
-          ticks: {
-            display: true,
-            fontColor: 'black',
-            fontFamily: 'Arial',
-            fontStyle: 'normal',
-            fontSize: 10,
-            lineHeight: 1,
-            maxRotation: 0,
-            minRotation: 0,
-            autoSkip:false,
-          },
-          color: 'red',
-        }],
-      }
-    }
-  });
+export default class Tide {
+  constructor(props) {
+    this._date = new Date(props.timestamp)
+    this._day = this.typeOfDay
+    this._time = this.date.toLocaleTimeString()
+    this._height = props.height.toPrecision(2)
+    this._type = props.type
+  }
+
+  get row() { 
+    return `<tr>${ this.type + this.dateAndTime + this.height }</tr>`;
+  }
+
+  get type() { return `<td>${ this._type }</td>` }
+  get height() { return `<td>${ this._height }m</td>` }
+  get time() { return this._time }
+  get dateAndTime() { return `<td>${this.day} at ${this.time}</td>` }
+  get date() { return this._date }
+  get day() { return this._day }
+  get typeOfDay() {
+    if (isToday(this.date)) { return "Today" }
+    if (isTomorrow(this.date)) { return "Tomorrow" }
+  }
 }
