@@ -29,14 +29,6 @@ class Location < ApplicationRecord
     Sidekiq::Cron::Job.load_from_array(jobs_params)
   end
 
-  def tideHighs
-    tide["extremes"].select {|row| row["type"] == "high" }
-  end
-
-  def tideLows
-    tide["extremes"].select {|row| row["type"] == "high" }
-  end
-
   def tides
     upcoming_forecast.map {|x| x["seaLevel"].first["value"] }[0..24]
   end
@@ -53,59 +45,32 @@ class Location < ApplicationRecord
     @upcoming_forecast = forecast.select { |row| row["time"] >= timeNow }
   end
 
-  def swellHeight
-    current_forecast["swellHeight"].minMaxString
+  def upcomingWaves
+    upcoming_forecast.collectWaveHeights {|x| x.collectValues.average }
+  end
+    
+  %w(swellHeight waveHeight windSpeed swellPeriod).each do |method|
+    define_method(method) { current_forecast[method].minMaxString }
   end
 
-  def waveHeight
-    current_forecast["waveHeight"].minMaxString
+  %w(swellHeight waveHeight windSpeed).each do |method|
+    define_method(method) { current_forecast[method].first["value"] } 
   end
 
-  def waveHeights
-    current_forecast["waveHeight"].collect {|x| x["value"] }
+  %w(waveHeight swellPeriod).each do |method|
+    define_method(method.pluralize) { current_forecast[method].collect {|x| x["value"]}}
   end
 
-  def waveAverage
-    sum = waveHeights.inject { |sum, el| sum + el }.to_f 
-    (sum / waveHeights.size).round(1)
-  end
-
-  def windSpeed
-    current_forecast["windSpeed"].minMaxString
-  end
-
-  def swellDirection
-    current_forecast["swellDirection"].first["value"]
-  end
-
-  def waveDirection
-    current_forecast["waveDirection"].first["value"]
-  end
-
-  def windDirection
-    current_forecast["windDirection"].first["value"]
-  end
-
-  def swellPeriod
-    current_forecast["swellPeriod"].minMaxString
-  end
-
-  def swellPeriods
-    current_forecast["swellPeriod"].collect {|x| x["value"] }
-  end
-
-  def periodsAverage
-    sum = swellPeriods.inject { |sum, el| sum + el }.to_f 
-    (sum / swellPeriods.size).round()
-  end
+  def waveAverage; waveHeights.average; end
+  def periodsAverage; swellPeriods.average; end
 
   def api 
     @api = StormGlass.new(latitude, longitude)
   end
 
-  def timeMorning
-    DateTime.now.utc.in_time_zone(-1)
-  end
+  # def timeMorning
+  #   DateTime.now.utc.in_time_zone(-1)
+  # end
 
   def timeNow
     DateTime.now.utc.in_time_zone(-1).beginning_of_hour.xmlschema
