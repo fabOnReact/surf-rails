@@ -42,6 +42,10 @@ class StormGlass
     weather["hours"] || ApiError.new(errors)
   end
 
+  def getTide
+    self.class.get("/tide/extremes/point", @options)
+  end
+
   def getWaveForecast
     getWeather.map do |row|
       row.keep_if {|key, value| FIELDS.include? key }
