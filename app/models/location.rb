@@ -33,7 +33,7 @@ class Location < ApplicationRecord
     upcoming_forecast.map {|x| x["seaLevel"].first["value"] }[0..24]
   end
 
-  def tidesDates
+  def dates
     upcoming_forecast.map {|x| x["time"] }[0..24]
   end
 
@@ -46,7 +46,7 @@ class Location < ApplicationRecord
   end
 
   def upcomingWaves
-    upcoming_forecast.collectWaveHeights {|x| x.collectValues.average }
+    upcoming_forecast.collectWaveHeights {|x| x.collectValues.average }[0..24]
   end
     
   %w(swellHeight waveHeight windSpeed swellPeriod).each do |method|
@@ -59,6 +59,10 @@ class Location < ApplicationRecord
 
   %w(waveHeight swellPeriod).each do |method|
     define_method(method.pluralize) { current_forecast[method].collect {|x| x["value"]}}
+  end
+
+  %w(windDirection waveDirection swellDirection).each do |method|
+    define_method(method) { current_forecast[method].first["value"] }
   end
 
   def waveAverage; waveHeights.average; end
