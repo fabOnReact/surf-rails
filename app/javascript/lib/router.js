@@ -1,6 +1,6 @@
 import { renderTideChart } from '../lib/tideChart'
 import Tide from '../lib/tide'
-import { renderChart, waveChart, options } from '../lib/waveChart'
+import { renderChart, options } from '../lib/waveChart'
 
 export function router() {
   var location_path = event.currentTarget.location.pathname 
@@ -21,11 +21,16 @@ export function router() {
     var dates = $('#forecast-data').data('dates')
     var tideData = $('#forecast-data').data('tide')['extremes']
     var $tideTable = $('#tideTable')
-    console.log($tideTable[0].childElementCount)
     if ($tideTable[0].childElementCount == 0) { appendTideData(tideData, $tideTable) }
     var times = dates.map((time) => new Date(time).getHours())
     renderTideChart(tides, times) 
-    renderChart()
+    var waves = $('#forecast-data').data('waves')
+    console.log('waves', waves)
+    console.log('times', times)
+    console.log('waveTable', waveTable)
+    console.log('options', options)
+    var waveTable = document.getElementById('waveChart');
+    renderChart(waves, times, waveTable, options )
   }
 }
 
