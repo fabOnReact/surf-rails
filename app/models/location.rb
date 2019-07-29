@@ -15,7 +15,7 @@ class Location < ApplicationRecord
   end
 
   def forecastDecorator
-    { tides: tides, dates: dates, tide: tide, waves: upcomingWavesAverage }
+    { tides: tides, hours: hours, days: days, tide: upcomingTide, waves: upcomingWavesAverage }
   end
 
   def distance_from_user(user_gps)
@@ -37,8 +37,16 @@ class Location < ApplicationRecord
     upcoming_forecast.map {|x| x["seaLevel"].first["value"] }[0..24]
   end
 
-  def dates
+  def upcomingTide
+    tide["extremes"][0..4]
+  end
+
+  def hours
     upcoming_forecast.map {|x| x["time"] }[0..24]
+  end
+
+  def days
+    upcoming_forecast.map {|x| x["time"] }[0..152]
   end
 
   def current_forecast
@@ -49,8 +57,12 @@ class Location < ApplicationRecord
     @upcoming_forecast = forecast.select { |row| row["time"] >= timeNow }
   end
 
+  def dailyWavesAverage
+    # calculate the daily average waves
+  end
+
   def upcomingWavesAverage
-    upcoming_forecast.collectWaveHeights {|x| x.collectValues.average }[0..24]
+    upcoming_forecast.collectWaveHeights {|x| x.collectValues.average }[0..152]
   end
     
   %w(swellHeight waveHeight windSpeed swellPeriod).each do |method|
