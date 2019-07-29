@@ -4,7 +4,7 @@
 .container
   %h3 CURRENT SURF REPORT FOR #{location.name.upcase}
   .d-flex.flex-column.flex-md-row.flex-ld-row.justify-content-between
-    .map.d-sm-none.d-md-block.d-flex.align-items-center{style: "background-image: url(#{location.google_map})"}
+    .map.d-none.d-sm-none.d-md-block.d-flex.align-items-center{style: "background-image: url(#{location.google_map})"}
       = image_tag "down-arrow.png", class: 'arrow wind-arrow', style: "transform: rotate(#{location.windDirection}deg)"
       = image_tag "down-cursor.png", class: 'arrow wave-arrow', style: "transform: rotate(#{location.waveDirection}deg)"
     .forecast.d-flex.flex-column.ml-2
