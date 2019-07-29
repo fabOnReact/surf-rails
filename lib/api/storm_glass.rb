@@ -25,7 +25,7 @@ class StormGlass
   end
 
   def endTime
-    DateTime.now.utc.to_time + 24.hours
+    DateTime.now.utc.to_time + 7.days
   end
 
   def timestamp
@@ -40,6 +40,10 @@ class StormGlass
 
   def getWeather
     weather["hours"] || ApiError.new(errors)
+  end
+
+  def getTide
+    self.class.get("/tide/extremes/point", @options)
   end
 
   def getWaveForecast

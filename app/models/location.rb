@@ -1,6 +1,8 @@
 require 'api/storm_glass' 
+require 'core_ext/array'
 
 class Location < ApplicationRecord
+  Array.include(Array::Forecast)
   before_save :set_forecast, if: Proc.new {|location| location.forecast.nil? }
   after_validation :reverse_geocode, if: ->(obj){ obj.latitude.present? and obj.longitude.present? }
   has_many :posts
@@ -12,6 +14,10 @@ class Location < ApplicationRecord
     end
   end
 
+  def forecastDecorator
+    { tides: tides, hours: hours, days: days, tide: upcomingTide, waves: upcomingWavesAverage }
+  end
+
   def distance_from_user(user_gps)
     Geocoder::Calculations.distance_between(user_gps, gps, units: :km).round(1)
   end
@@ -20,23 +26,82 @@ class Location < ApplicationRecord
 
   def set_forecast
     set_job
-    self.forecast = api.getWaveForecast 
+    assign_attributes({ forecast: api.getWaveForecast, tide: api.getTide })
   end
 
   def set_job
-    job = Sidekiq::Cron::Job.new(name: "Location name: #{self.name}, country: #{self.country}, id: #{self.id} - update forecast data - every day at 00:00", cron: "0 0 * * *", class: 'LocationWorker', args: self.id)
-    puts job.errors unless job.save
+    Sidekiq::Cron::Job.load_from_array(jobs_params)
+  end
+
+  def tides
+    upcoming_forecast.map {|x| x["seaLevel"].first["value"] }[0..24]
+  end
+
+  def upcomingTide
+    tide["extremes"][0..4]
+  end
+
+  def hours
+    upcoming_forecast.map {|x| x["time"] }[0..24]
+  end
+
+  def days
+    upcoming_forecast.map {|x| x["time"] }[0..152]
   end
 
   def current_forecast
     forecast.select { |row| row["time"] == timeNow }.first if forecast.present?
   end
 
+  def upcoming_forecast
+    @upcoming_forecast = forecast.select { |row| row["time"] >= timeNow }
+  end
+
+  def dailyWavesAverage
+    # calculate the daily average waves
+  end
+
+  def upcomingWavesAverage
+    upcoming_forecast.collectWaveHeights {|x| x.collectValues.average }[0..152]
+  end
+    
+  %w(swellHeight waveHeight windSpeed swellPeriod).each do |method|
+    define_method(method) { current_forecast[method].minMaxString }
+  end
+
+  %w(swellHeight waveHeight windSpeed).each do |method|
+    define_method(method) { current_forecast[method].first["value"] } 
+  end
+
+  %w(waveHeight swellPeriod).each do |method|
+    define_method(method.pluralize) { current_forecast[method].collect {|x| x["value"]}}
+  end
+
+  %w(windDirection waveDirection swellDirection).each do |method|
+    define_method(method) { current_forecast[method].first["value"] }
+  end
+
+  def waveAverage; waveHeights.average; end
+  def periodsAverage; swellPeriods.average; end
+
   def api 
     @api = StormGlass.new(latitude, longitude)
   end
 
+  # def timeMorning
+  #   DateTime.now.utc.in_time_zone(-1)
+  # end
+
   def timeNow
     DateTime.now.utc.in_time_zone(-1).beginning_of_hour.xmlschema
+  end
+
+  def google_map
+    gpsString = gps.join(',')
+    "https://maps.googleapis.com/maps/api/staticmap?center=#{gpsString}&zoom=11&markers=#{gpsString}&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=300x300&maptype=satellite"
+  end
+
+  def jobs_params
+    [{ name: "Location name: #{self.name}, country: #{self.country}, id: #{self.id} - update forecast data - every day at 00:00", cron: "0 0 * * *", class: 'LocationWorker', args: self.id }]
   end
 end

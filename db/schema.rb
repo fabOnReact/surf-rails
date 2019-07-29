@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190717091311) do
+ActiveRecord::Schema.define(version: 20190727110433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20190717091311) do
     t.string "pictures", array: true
     t.jsonb "areas", default: "{}", null: false
     t.jsonb "forecast"
+    t.jsonb "tide"
     t.index ["areas"], name: "index_locations_on_areas", using: :gin
     t.index ["country", "area", "name"], name: "index_locations_on_country_and_area_and_name", unique: true
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude"

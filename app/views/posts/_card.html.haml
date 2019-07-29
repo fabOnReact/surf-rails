@@ -1,8 +1,10 @@
-.card.mb-3
-  = image_tag post.picture.url.to_s, class: 'card-img-top', alt: 'Card image cap'
-  .card-body
-    %p.card-title #{post.location.name} (#{post.city}) 
-    %p.card-text #{post.location.current_forecast["waveHeight"].first["value"]} mt. Waves
-    %p.card-text posted #{distance_of_time_in_words(server_date, post.utc_date)} ago #{post.description}
-    - if action_name == "index"
-      = link_to "Display", post_path(post), class: 'btn btn-primary'
+- if current_forecast = post.location.current_forecast
+  .card.mb-3
+    = image_tag post.picture.url.to_s, class: 'card-img-top', alt: 'Card image cap'
+    .card-body
+      %p.card-title #{post.location.name} (#{post.city}) 
+      %p.card-text #{current_forecast["waveHeight"].first["value"]} mt. Waves
+      %p.card-text #{current_forecast["windSpeed"].first["value"]} mt/s wind 
+      %p.card-text posted #{distance_of_time_in_words(server_date, post.utc_date)} ago #{post.description}
+      - if action_name == "index"
+        = link_to "Display", post_path(post), class: 'btn btn-primary'
