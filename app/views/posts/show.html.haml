@@ -1,21 +1,47 @@
-.container
-  =# render 'card', post: @post
-  .row 
-    .col-md-4
-      - current_forecast = @post.location.current_forecast
-      .map.d-flex.align-items-center{style: "background-image: url(#{@post.location.google_map})"}
-        = image_tag "down-arrow.png", class: 'wind-arrow', style: "transform: rotate(#{current_forecast["windDirection"].first["value"]}deg)"
-        = image_tag "down-cursor.png", class: 'wave-arrow', style: "transform: rotate(#{current_forecast["waveDirection"].first["value"]}deg)"
-    .col-md-8
-  .row.mt-5
-    .col-md-2
-      = image_tag @post.picture.url.to_s, class: 'img-fluid', alt: 'Responsive image'
-  
-      // %p.card-title #{@post.location.name} in #{@post.city} 
-      // %p.card-text #{@post.location.current_forecast["waveHeight"].first["value"]} mt. Waves
-      // %p.card-text posted #{distance_of_time_in_words(server_date, @post.utc_date)} ago #{@post.description}
+- location = @post.location
+= tag :meta, id: "forecast-data", name: "forecast_data", data: { forecast: location.forecastDecorator} 
 
-  -# if @post.owner?(current_user)
+.container
+  %h3 CURRENT SURF REPORT FOR #{location.name.upcase}
+  .d-flex.flex-column.flex-md-row.flex-ld-row.justify-content-between
+    .map.d-none.d-sm-none.d-md-block.d-flex.align-items-center{style: "background-image: url(#{location.google_map})"}
+      = image_tag "down-arrow.png", class: 'arrow wind-arrow', style: "transform: rotate(#{location.windDirection}deg)"
+      = image_tag "down-cursor.png", class: 'arrow wave-arrow', style: "transform: rotate(#{location.waveDirection}deg)"
+    .forecast.d-flex.flex-column.ml-2
+      .d-flex.flex-row.justify-content-between.align-items-center 
+        %h3.mr-3 #{location.waveAverage} mt. waves at #{location.swellPeriod} s.
+        = image_tag "down-cursor-black", class: "arrow-small", style: "transform: rotate(#{location.waveDirection}deg)"
+      .d-flex.flex-row.justify-content-between.align-items-center
+        %h3.mr-3 #{location.windSpeed} mt/s wind
+        = image_tag "down-arrow-black", class: "arrow-small", style: "transform: rotate(#{location.windDirection}deg)"
+      .d-flex.flex-row.justify-content-between.align-items-center 
+        %h3.mr-3 #{location.swellHeight} mt. swell
+        = image_tag "down-cursor-black", class: "arrow-small", style: "transform: rotate(#{location.swellDirection}deg)"
+      .d-flex.flex-column.ml-2
+        %table.table.table-sm.table-borderless.table-dark.table-hover.mt-3
+          %tr
+            %td direction
+            %td #{location.direction}
+          %tr
+            %td experience 
+            %td #{location.experience}
+          %tr
+            %td bottom
+            %td #{location.bottom}
+          %tr
+            %td wave quality
+            %td #{location.wave_quality}
+    .d-flex.flex-column.ml-2
+      %canvas{id: "tideChart", height: 70}
+      %table.table.table-dark#tideTable
+  .row.mt-2
+    %canvas{id: "waveChart"}
+  .surf-images.row.mt-2
+    - location.posts.each do |post|
+      .col-2.px-1
+        = image_tag post.picture.url.to_s, class: 'img-fluid', alt: 'Responsive image'
+
+  - if @post.owner?(current_user)
     = link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary btn-lg'
-  =# link_to 'Back', :back, class: 'btn btn-primary btn-lg'
-  =# link_to 'All Pictures', posts_path, class: 'btn btn-primary btn-lg'
+  = link_to 'Back', :back, class: 'btn btn-primary btn-lg'
+  = link_to 'All Pictures', posts_path, class: 'btn btn-primary btn-lg'

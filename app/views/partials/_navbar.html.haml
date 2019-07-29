@@ -1,13 +1,14 @@
 %nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
-  %a.navbar-brand{:href => "/"} SurfCheck
-  %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", :type => "button"}
-    %span.navbar-toggler-icon
-  #navbarSupportedContent.collapse.navbar-collapse
-    %ul.navbar-nav.mr-auto
-      %li.nav-item
-        - if user_signed_in?			
-          = link_to "Logout", destroy_user_session_path, method: :delete, class: 'nav-link'
-      %li.nav-item
-        = link_to "Pictures", posts_path, class: 'nav-link'
-      %li.nav-item
-        = link_to "Profile", edit_user_registration_path, class: 'nav-link'
+  .container{style: "margin-top:0;"}
+    %a.navbar-brand{:href => "/"} SurfCheck
+    %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", :type => "button"}
+      %span.navbar-toggler-icon
+    #navbarSupportedContent.collapse.navbar-collapse
+      %ul.navbar-nav.mr-auto
+        %li.nav-item
+          - if user_signed_in?			
+            = link_to "Logout", destroy_user_session_path, method: :delete, class: 'nav-link'
+        %li.nav-item
+          = link_to "Pictures", posts_path, class: 'nav-link'
+        %li.nav-item
+          = link_to "Profile", edit_user_registration_path, class: 'nav-link'

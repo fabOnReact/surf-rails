@@ -21,6 +21,11 @@ describe StormGlass do
     it 'queries the next 12 hours of forecast' do
       expect(storm.getWeather["hours"].size).to be 25
     end
+
+    it 'returns ApiError for failures' do 
+      allow(storm).to receive(:weather).and_return(error)
+      expect(storm.getWeather.class).to be ApiError
+    end
   end
 
   describe '#getWaveForecast' do 
@@ -49,10 +54,9 @@ describe StormGlass do
     end
   end
 
-  describe "#getWeather" do
-    it 'returns ApiError for failures' do 
-      allow(storm).to receive(:weather).and_return(error)
-      expect(storm.getWeather.class).to be ApiError
+  describe '#getTide' do
+    it 'retrieves the results' do 
+      expect(storm.getTide["extremes"].size).to eql 4  
     end
   end
 end
