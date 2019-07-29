@@ -17,6 +17,20 @@
       .d-flex.flex-row.justify-content-between.align-items-center 
         %h3.mr-3 #{location.swellHeight} mt. swell
         = image_tag "down-cursor-black", class: "arrow-small", style: "transform: rotate(#{location.swellDirection}deg)"
+      .d-flex.flex-column.ml-2
+        %table.table.table-sm.table-borderless.table-dark.table-hover.mt-3
+          %tr
+            %td direction
+            %td #{location.direction}
+          %tr
+            %td experience 
+            %td #{location.experience}
+          %tr
+            %td bottom
+            %td #{location.bottom}
+          %tr
+            %td wave quality
+            %td #{location.wave_quality}
     .d-flex.flex-column.ml-2
       %canvas{id: "tideChart", height: 70}
       %table.table.table-dark#tideTable
