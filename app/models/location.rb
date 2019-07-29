@@ -45,7 +45,7 @@ class Location < ApplicationRecord
     @upcoming_forecast = forecast.select { |row| row["time"] >= timeNow }
   end
 
-  def upcomingWaves
+  def upcomingWavesAverage
     upcoming_forecast.collectWaveHeights {|x| x.collectValues.average }[0..24]
   end
     
