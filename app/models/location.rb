@@ -14,6 +14,10 @@ class Location < ApplicationRecord
     end
   end
 
+  def forecastDecorator
+    { tides: tides, dates: dates, tide: tide, waves: upcomingWavesAverage }
+  end
+
   def distance_from_user(user_gps)
     Geocoder::Calculations.distance_between(user_gps, gps, units: :km).round(1)
   end

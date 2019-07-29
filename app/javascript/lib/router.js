@@ -1,6 +1,6 @@
-import { renderTideChart } from '../lib/tideChart'
+import { tideOptions } from '../lib/tideChart'
 import Tide from '../lib/tide'
-import { renderChart, options } from '../lib/waveChart'
+import { renderChart, waveOptions } from '../lib/waveChart'
 
 export function router() {
   var location_path = event.currentTarget.location.pathname 
@@ -17,20 +17,14 @@ export function router() {
   }
 
   if (location_path.match(/posts\/[0-9][0-9]/)) { 
-    var tides = $('#forecast-data').data('tides')
-    var dates = $('#forecast-data').data('dates')
-    var tideData = $('#forecast-data').data('tide')['extremes']
+    var forecast = $('#forecast-data').data('forecast')
     var $tideTable = $('#tideTable')
-    if ($tideTable[0].childElementCount == 0) { appendTideData(tideData, $tideTable) }
-    var times = dates.map((time) => new Date(time).getHours())
-    renderTideChart(tides, times) 
-    var waves = $('#forecast-data').data('waves')
-    console.log('waves', waves)
-    console.log('times', times)
-    console.log('waveTable', waveTable)
-    console.log('options', options)
-    var waveTable = document.getElementById('waveChart');
-    renderChart('bar', waves, times, waveTable, options )
+    var tideData = forecast.tide['extremes']
+    var renderTable = $tideTable[0].childElementCount == 0 
+    if (renderTable) { appendTideData(tideData, $tideTable) }
+    var times = forecast.dates.map((time) => new Date(time).getHours())
+    renderChart('line', forecast.tides, times, 'tideChart', ["rgb(0, 128, 0)"], tideOptions)
+    renderChart('bar', forecast.waves, times, 'waveChart', [], waveOptions)
   }
 }
 
