@@ -25,7 +25,7 @@ class StormGlass
   end
 
   def endTime
-    DateTime.now.utc.to_time + 24.hours
+    DateTime.now.utc.to_time + 7.days
   end
 
   def timestamp
