@@ -1,8 +1,8 @@
 import Chart from 'chart.js';
 
-export function renderChart(data, times, ctx, options) {
+export function renderChart(type, data, times, ctx, options) {
   new Chart(ctx, {
-      type: 'bar',
+      type: type,
       data: {
         labels: times,
         datasets: [{

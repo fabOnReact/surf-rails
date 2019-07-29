@@ -30,7 +30,7 @@ export function router() {
     console.log('waveTable', waveTable)
     console.log('options', options)
     var waveTable = document.getElementById('waveChart');
-    renderChart(waves, times, waveTable, options )
+    renderChart('bar', waves, times, waveTable, options )
   }
 }
 
