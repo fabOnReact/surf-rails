@@ -18,17 +18,18 @@ export function router() {
 
   if (location_path.match(/posts\/[0-9][0-9]/)) { 
     var forecast = $('#forecast-data').data('forecast')
-    var $tideTable = $('#tideTable')
-    var tideData = forecast.tide['extremes']
-    var renderTable = $tideTable[0].childElementCount == 0 
-    if (renderTable) { appendTideData(tideData, $tideTable) }
-    var times = forecast.dates.map((time) => new Date(time).getHours())
-    renderChart('line', forecast.tides, times, 'tideChart', ["rgb(0, 128, 0)"], tideOptions)
-    renderChart('bar', forecast.waves, times, 'waveChart', [], waveOptions)
+    var tideData = forecast.tide
+    appendTideData(tideData, '#tideTable')
+    var hours = forecast.hours.map((time) => new Date(time).getHours())
+    var days = forecast.days.map((time) => new Date(time).getHours())
+    renderChart('line', forecast.tides, hours, 'tideChart', ["rgb(0, 128, 0)"], tideOptions)
+    renderChart('bar', forecast.waves, days, 'waveChart', [], waveOptions)
   }
 }
 
-function appendTideData(data, $target) {
+function appendTideData(data, target) {
+  var $target = $(target)
+  if ($target[0].childElementCount != 0) { return }
   Object.keys(data).forEach(function(key) {
     var tide = new Tide(data[key])
     $target.append(tide.row)
