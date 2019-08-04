@@ -1,4 +1,4 @@
-require 'api/storm_glass' 
+require 'api/storm' 
 
 class LocationWorker
   include Sidekiq::Worker
@@ -9,6 +9,6 @@ class LocationWorker
   end
 
   def api 
-    @api = StormGlass.new(@location.latitude, @location.longitude)
+    @api = Storm.new(@location.latitude, @location.longitude)
   end
 end
