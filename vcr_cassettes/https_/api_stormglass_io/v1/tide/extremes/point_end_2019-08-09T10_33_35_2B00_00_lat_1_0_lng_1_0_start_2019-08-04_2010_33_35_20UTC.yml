@@ -1,0 +1,34 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.stormglass.io/v1/tide/extremes/point?end=2019-08-09T10:33:35%2B00:00&lat=1.0&lng=1.0&start=2019-08-04%2010:33:35%20UTC
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - 6c621cd4-a2d0-11e9-afdd-0242ac130004-6c621e3c-a2d0-11e9-afdd-0242ac130004
+  response:
+    status:
+      code: 402
+      message: PAYMENT REQUIRED
+    headers:
+      Server:
+      - gunicorn/19.9.0
+      Date:
+      - Sun, 04 Aug 2019 10:33:36 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '83'
+      Access-Control-Allow-Origin:
+      - "*"
+    body:
+      encoding: UTF-8
+      string: '{"errors":{"key":"API quota exceeded"},"meta":{"dailyQuota":50,"requestCount":51}}
+
+        '
+    http_version: 
+  recorded_at: Sun, 04 Aug 2019 10:33:36 GMT
+recorded_with: VCR 5.0.0

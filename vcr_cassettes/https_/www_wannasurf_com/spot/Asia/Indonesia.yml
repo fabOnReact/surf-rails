@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.wannasurf.com/spot/Asia/Indonesia
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mechanize/2.7.6 Ruby/2.5.0p0 (http://github.com/sparklemotion/mechanize/)
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 301
+      message: Moved Permanently
+    headers:
+      Date:
+      - Sat, 03 Aug 2019 12:17:17 GMT
+      Server:
+      - Apache/2.2.15 (CentOS) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips
+      Location:
+      - https://www.wannasurf.com/spot/Asia/Indonesia/
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '211'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAA22PzW6DMBCE7zzFhnvZJL1VG0stUAUpPxycQ44u3shI2EbYKcrbB8g1t92Zb7UztCrOubzWJezl8QD15edQ5ZB+IFal/EUsZPFyttkasTylIiETbSfIsNLTEtvYsfhcb+Do/1lDzYNVjl3sHoQvMyFcYPrz+jHfb8QbdlIT6oU0DNo3dzvJYFQAu6CkwAx826Umxj58IY7jmI3KORXuwy1rvMXQ+4jfoVVYOe0dz1MqDA9MqERG2M9JlgzTt7lD8gRR3Yt6/gAAAA==
+    http_version: 
+  recorded_at: Sat, 03 Aug 2019 12:17:16 GMT
+recorded_with: VCR 5.0.0
