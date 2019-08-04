@@ -5,6 +5,7 @@ require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'vcr'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'devise'
 require_relative 'support/controller_macros' 
@@ -78,15 +79,48 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-Geocoder.configure(lookup: :test, ip_lookup: :test)
-Geocoder::Lookup::Test.add_stub(
-  [1.0, 1.0], [
-    {
-      'address'      => 'New York, NY, USA',
-      'state'        => 'New York',
-      'state_code'   => 'NY',
-      'country'      => 'United States',
-      'country_code' => 'US'
-    }
-  ]
-)
+# Geocoder.configure(lookup: :test, ip_lookup: :test)
+# Geocoder::Lookup::Test.add_stub(
+#   [1.0, 1.0], [
+#     {
+#       'address'      => 'New York, NY, USA',
+#       'state'        => 'New York',
+#       'state_code'   => 'NY',
+#       'country'      => 'United States',
+#       'country_code' => 'US'
+#     }
+#   ]
+# )
+# 
+# Geocoder::Lookup::Test.set_default_stub(
+#   [
+#     {
+#       'coordinates'  => [40.7143528, -74.0059731],
+#       'address'      => 'New York, NY, USA',
+#       'state'        => 'New York',
+#       'state_code'   => 'NY',
+#       'country'      => 'United States',
+#       'country_code' => 'US'
+#     }
+#   ]
+# )
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'vcr_cassettes'
+  c.hook_into :webmock
+  c.around_http_request(lambda { |req| req.uri =~ /wannasurf.com/ }) do |request|
+    VCR.use_cassette(request.uri, &request)
+  end
+
+  c.around_http_request(lambda { |req| req.uri =~ /point/ }) do |request|
+    VCR.use_cassette(request.uri, &request)
+  end
+
+  c.around_http_request(lambda { |req| req.uri =~ /weather/ }) do |request|
+    VCR.use_cassette(request.uri, &request)
+  end
+
+  c.around_http_request(lambda { |req| req.uri =~ /nominatim.openstreetmap.org/ }) do |request|
+    VCR.use_cassette(request.uri, &request)
+  end
+end

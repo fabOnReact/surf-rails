@@ -7,12 +7,13 @@ RSpec.describe PostsController, type: :controller do
   let(:valid_attributes) { FactoryBot.attributes_for(:post, latitude: 1, longitude: 1) }
   let(:invalid_attributes) { FactoryBot.attributes_for(:post, latitude: 1, longitude: 1) }
   let(:valid_base64_image) { Base64.encode64(File.read('spec/assets/test_image.jpg')) }
+  let(:location) { FactoryBot.create(:location, latitude: 1, longitude: 1) }
 
   login_user
 
   context 'with web authentication' do
+    before { location }
     let(:new_post) { FactoryBot.create(:post, user: @user, latitude: 1, longitude: 1) }
-    let(:location) { FactoryBot.create(:location, latitude: 1, longitude: 1) }
 
     context 'get requests' do
       describe 'GET #index' do
@@ -21,6 +22,7 @@ RSpec.describe PostsController, type: :controller do
           expect(response).to be_success
         end
       end
+
       describe 'GET #show' do
         it 'returns a success response' do
           get :show, params: { id: new_post.to_param }
@@ -107,6 +109,7 @@ RSpec.describe PostsController, type: :controller do
   end
 
   context 'with json token' do
+    before { location }
     let(:user) { FactoryBot.create(:user) }
     # let(:post_attributes) { FactoryBot.attributes_for(:post, user: user) }
 

@@ -1,15 +1,15 @@
 require 'rails_helper'
-require 'api/storm_glass'
+require 'api/storm'
 
-describe StormGlass do 
-  let(:storm) { StormGlass.new('-8.720425','115.169207') } 
+describe Storm do 
+  let(:storm) { Storm.new('-8.720425','115.169207') } 
   let(:date) { DateTime.new(2019, 07, 10, 02, 00, 00) }
   let(:error) {{"errors": "Maximum number of calls reached"}}
 
   describe '#timestamp' do 
     it 'returns the correct format' do
       allow(DateTime).to receive(:now).and_return(date)
-      expect(storm.timestamp).to eql "2019-07-10T13:00:00+00:00"
+      expect(storm.timestamp).to eql "2019-07-15T02:00:00+00:00"
     end
   end
 
@@ -34,7 +34,7 @@ describe StormGlass do
       it 'retrieves the wave forecast for every hour'
 
       it 'return wave swell/wave height, period, direction and wind speed/direction' do
-        expect(@keys).to match_array StormGlass::FIELDS 
+        expect(@keys).to match_array Storm::FIELDS 
       end
 
       it 'deletes any other info' do
