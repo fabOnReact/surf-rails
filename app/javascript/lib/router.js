@@ -18,7 +18,7 @@ export function router() {
 
   if (location_path.match(/posts\/[0-9][0-9]/)) { 
     var forecast = $('#forecast-data').data('forecast')
-    var tideData = forecast.tide
+    var tideData = $('#forecast-data').data('tide')
     appendTideData(tideData, '#tideTable')
     var hours = forecast.hours.map((time) => new Date(time).getHours())
     var days = forecast.days.map((time) => new Date(time).getHours())

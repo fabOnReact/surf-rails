@@ -1,22 +1,23 @@
 - location = @post.location
-= tag :meta, id: "forecast-data", name: "forecast_data", data: { forecast: location.forecastDecorator} 
+- forecast = location.forecast
+= tag :meta, id: "forecast-data", name: "forecast_data", data: { forecast: forecast.decorator, tide: location.upcomingTide } 
 
 .container
   %h3 CURRENT SURF REPORT FOR #{location.name.upcase}
   .d-flex.flex-column.flex-md-row.flex-ld-row.justify-content-between
     .map.d-none.d-sm-none.d-md-block.d-flex.align-items-center{style: "background-image: url(#{location.google_map})"}
-      = image_tag "down-arrow.png", class: 'arrow wind-arrow', style: "transform: rotate(#{location.windDirection}deg)"
-      = image_tag "down-cursor.png", class: 'arrow wave-arrow', style: "transform: rotate(#{location.waveDirection}deg)"
+      = image_tag "down-arrow.png", class: 'arrow wind-arrow', style: "transform: rotate(#{forecast.windDirection}deg)"
+      = image_tag "down-cursor.png", class: 'arrow wave-arrow', style: "transform: rotate(#{forecast.waveDirection}deg)"
     .forecast.d-flex.flex-column.ml-2
       .d-flex.flex-row.justify-content-between.align-items-center 
-        %h3.mr-3 #{location.waveAverage} mt. waves at #{location.swellPeriod} s.
-        = image_tag "down-cursor-black", class: "arrow-small", style: "transform: rotate(#{location.waveDirection}deg)"
+        %h3.mr-3 #{forecast.waveAverage} mt. waves at #{forecast.swellPeriod} s.
+        = image_tag "down-cursor-black", class: "arrow-small", style: "transform: rotate(#{forecast.waveDirection}deg)"
       .d-flex.flex-row.justify-content-between.align-items-center
-        %h3.mr-3 #{location.windSpeed} mt/s wind
-        = image_tag "down-arrow-black", class: "arrow-small", style: "transform: rotate(#{location.windDirection}deg)"
+        %h3.mr-3 #{forecast.windSpeed} mt/s wind
+        = image_tag "down-arrow-black", class: "arrow-small", style: "transform: rotate(#{forecast.windDirection}deg)"
       .d-flex.flex-row.justify-content-between.align-items-center 
-        %h3.mr-3 #{location.swellHeight} mt. swell
-        = image_tag "down-cursor-black", class: "arrow-small", style: "transform: rotate(#{location.swellDirection}deg)"
+        %h3.mr-3 #{forecast.swellHeight} mt. swell
+        = image_tag "down-cursor-black", class: "arrow-small", style: "transform: rotate(#{forecast.swellDirection}deg)"
       .d-flex.flex-column.ml-2
         %table.table.table-sm.table-borderless.table-dark.table-hover.mt-3
           %tr
