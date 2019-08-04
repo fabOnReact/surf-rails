@@ -1,11 +1,17 @@
-require 'api/storm_glass' 
-require 'core_ext/array'
+require 'api/storm' 
+require 'api/google'
+require 'core_ext/string'
+require 'core_ext/hash'
+require 'forecast'
 
 class Location < ApplicationRecord
-  Array.include(Array::Forecast)
-  before_save :set_forecast, if: Proc.new {|location| location.forecast.nil? }
+  String.include(String::Weather)
+  Hash.include(Hash::Weather)
+
+  before_save :set_forecast, if: Proc.new {|location| location.forecast.eql? [] }
   after_validation :reverse_geocode, if: ->(obj){ obj.latitude.present? and obj.longitude.present? }
   has_many :posts
+  has_many :forecasts
 
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     geo = results.first
@@ -14,8 +20,12 @@ class Location < ApplicationRecord
     end
   end
 
-  def forecastDecorator
-    { tides: tides, hours: hours, days: days, tide: upcomingTide, waves: upcomingWavesAverage }
+  def forecast
+    Forecast.new(read_attribute(:forecast))
+  end
+
+  def upcomingTide
+    tide["extremes"][0..4]
   end
 
   def distance_from_user(user_gps)
@@ -26,74 +36,27 @@ class Location < ApplicationRecord
 
   def set_forecast
     set_job
-    assign_attributes({ forecast: api.getWaveForecast, tide: api.getTide })
+    self.tide = storm.getTide
+    self.forecast = storm.getWaveForecast
+    # self.timezone = maps.getTimezone
   end
 
-  def set_job
-    Sidekiq::Cron::Job.load_from_array(jobs_params)
+  def timeBegin
+    # retrieve the timezone from the parent and calculate the timeBegin for that day
   end
 
-  def tides
-    upcoming_forecast.map {|x| x["seaLevel"].first["value"] }[0..24]
-  end
-
-  def upcomingTide
-    tide["extremes"][0..4]
-  end
-
-  def hours
-    upcoming_forecast.map {|x| x["time"] }[0..24]
-  end
-
-  def days
-    upcoming_forecast.map {|x| x["time"] }[0..152]
-  end
-
-  def current_forecast
-    forecast.select { |row| row["time"] == timeNow }.first if forecast.present?
-  end
-
-  def upcoming_forecast
-    @upcoming_forecast = forecast.select { |row| row["time"] >= timeNow }
-  end
-
-  def dailyWavesAverage
-    # calculate the daily average waves
-  end
-
-  def upcomingWavesAverage
-    upcoming_forecast.collectWaveHeights {|x| x.collectValues.average }[0..152]
-  end
+  def timeEnd; end
     
-  %w(swellHeight waveHeight windSpeed swellPeriod).each do |method|
-    define_method(method) { current_forecast[method].minMaxString }
+  def set_job
+    Sidekiq::Cron::Job.load_from_array(jobs_params) unless Rails.env.test?
   end
 
-  %w(swellHeight waveHeight windSpeed).each do |method|
-    define_method(method) { current_forecast[method].first["value"] } 
+  def maps
+    @maps = Google::Maps.new(gps.join(','))
   end
 
-  %w(waveHeight swellPeriod).each do |method|
-    define_method(method.pluralize) { current_forecast[method].collect {|x| x["value"]}}
-  end
-
-  %w(windDirection waveDirection swellDirection).each do |method|
-    define_method(method) { current_forecast[method].first["value"] }
-  end
-
-  def waveAverage; waveHeights.average; end
-  def periodsAverage; swellPeriods.average; end
-
-  def api 
-    @api = StormGlass.new(latitude, longitude)
-  end
-
-  # def timeMorning
-  #   DateTime.now.utc.in_time_zone(-1)
-  # end
-
-  def timeNow
-    DateTime.now.utc.in_time_zone(-1).beginning_of_hour.xmlschema
+  def storm
+    @storm = Storm.new(latitude, longitude)
   end
 
   def google_map
