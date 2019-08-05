@@ -24,6 +24,10 @@ class Location < ApplicationRecord
     Forecast.new(read_attribute(:forecast))
   end
 
+  def dailyForecast(day)
+    forecast.dailyAverage(day.begin, day.end)
+  end
+
   def upcomingTide
     tide["extremes"][0..4]
   end
@@ -38,15 +42,13 @@ class Location < ApplicationRecord
     set_job
     self.tide = storm.getTide
     self.forecast = storm.getWaveForecast
-    # self.timezone = maps.getTimezone
+    self.timezone = maps.getTimezone
   end
 
-  def timeBegin
-    # retrieve the timezone from the parent and calculate the timeBegin for that day
+  def offsetHours
+    timezone["rawOffset"] / 3600
   end
 
-  def timeEnd; end
-    
   def set_job
     Sidekiq::Cron::Job.load_from_array(jobs_params) unless Rails.env.test?
   end
