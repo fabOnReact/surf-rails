@@ -5,7 +5,11 @@ class Forecast < Array
   Hash.include(Hash::Weather)
 
   def decorator
-    { hours: hours, days: days, waves: upcomingWavesAverage, tides: tides }
+    { hours: hours, days: days, waves: upcomingWaves, tides: tides }
+  end
+
+  def upcomingWaves
+    upcoming.collectValues('waveHeight') {|x| x.values.average }[0..152]
   end
 
   def current
@@ -40,18 +44,39 @@ class Forecast < Array
     collect {|x| x["value"] }
   end
 
+  def hourlyAverage(key, day)
+    within(day).collectValues(key) do |x| 
+      x.values.average 
+    end
+  end
+
   def dailyAverage(key, day)
-    within(day).collectForecast(key) {|x| x.values.average }[0..152]
+    hourlyAverage(key, day).average
   end
 
   def within(day)
-    Forecast.new(select { |row| timeBegin >= row["time"] >= timeEnd })
+    Forecast.new(select do |row| 
+      datetime = row["time"].to_datetime
+      dayBegin = day.beginning_of_day + 6.hours
+      dayEnd = day.end_of_day - 6.hours
+      (dayBegin..dayEnd).cover? datetime
+    end)
+  end
+
+  def today; DateTime.now.utc.localtime("+08:00"); end
+
+  def weeklyForecast(key, offsetHours)
+    (today..today+6).map do |day| 
+      day = day.in_time_zone(offsetHours)
+      dailyAverage(key, day)
+    end
   end
 
   def waveAverage; waveHeights.average; end
+
   def periodsAverage; swellPeriods.average; end
 
-  def collectForecast(key)
+  def collectValues(key)
     collect do |x| 
       row = Forecast.new(x[key])
       if block_given?; yield(row); else; row; end
