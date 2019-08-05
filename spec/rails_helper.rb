@@ -123,4 +123,8 @@ VCR.configure do |c|
   c.around_http_request(lambda { |req| req.uri =~ /nominatim.openstreetmap.org/ }) do |request|
     VCR.use_cassette(request.uri, &request)
   end
+
+  c.around_http_request(lambda { |req| req.uri =~ /maps.googleapis.com/ }) do |request|
+    VCR.use_cassette(request.uri, &request)
+  end
 end

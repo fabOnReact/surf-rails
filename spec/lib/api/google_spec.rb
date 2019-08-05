@@ -8,7 +8,7 @@ describe Google::Maps do
   let(:google) { Google::Maps.new("-8.745124,115.150323") }
   describe "#getTimezone" do
     it "retrieves the location Timezone" do
-      timezone = api.getTimezone["timeZoneName"]
+      timezone = google.getTimezone["timeZoneName"]
       expect(timezone).to eql "Central Indonesia Time"
     end
   end
