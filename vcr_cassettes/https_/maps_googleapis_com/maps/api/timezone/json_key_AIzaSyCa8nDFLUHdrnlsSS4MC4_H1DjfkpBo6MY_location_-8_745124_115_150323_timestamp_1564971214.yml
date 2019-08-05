@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://maps.googleapis.com/maps/api/timezone/json?key=AIzaSyCa8nDFLUHdrnlsSS4MC4_H1DjfkpBo6MY&location=-8.745124,115.150323&timestamp=1564971214
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Mon, 05 Aug 2019 02:13:35 GMT
+      Expires:
+      - Mon, 05 Aug 2019 02:15:35 GMT
+      Cache-Control:
+      - public, max-age=120
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - mafe
+      Content-Length:
+      - '123'
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Server-Timing:
+      - gfet4t7; dur=44
+      Alt-Svc:
+      - quic=":443"; ma=2592000; v="46,43,39"
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "dstOffset" : 0,
+           "rawOffset" : 28800,
+           "status" : "OK",
+           "timeZoneId" : "Asia/Makassar",
+           "timeZoneName" : "Central Indonesia Time"
+        }
+    http_version: 
+  recorded_at: Mon, 05 Aug 2019 02:13:35 GMT
+recorded_with: VCR 5.0.0
