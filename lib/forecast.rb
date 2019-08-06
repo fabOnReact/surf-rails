@@ -3,9 +3,14 @@ require 'core_ext/array'
 class Forecast < Array
   Array.include(Array::Weather)
   Hash.include(Hash::Weather)
+  KEYS = %w(time swellHeight waveHeight windSpeed windDirection waveDirection swellDirection swellPeriod)
 
   def decorator
     { hours: hours, days: days, tides: tides }
+  end
+
+  def json
+    Forecast::KEYS.map {|key| [key, send(key.to_sym)] }.to_h
   end
 
   def upcomingWaves
@@ -85,9 +90,11 @@ class Forecast < Array
     define_method("#{method}Range") { current[method].minMaxString }
   end
 
-  %w(swellHeight waveHeight windSpeed windDirection waveDirection swellDirection swellPeriod).each do |method|
+  Forecast::KEYS.each do |method|
     define_method(method) { current.value(method) } 
   end
+
+  def time; current["time"]; end
 
   %w(waveHeight swellPeriod).each do |method|
     define_method(method.pluralize) { current[method].collect {|x| x["value"]}}
