@@ -1,27 +1,24 @@
 require 'rails_helper'
-require 'api/storm_glass'
+require 'api/storm'
 
 RSpec.describe Location, type: :model do
-  let(:location) { FactoryBot.create(:location, latitude: 1, longitude: 1) }
-  let(:hour1) do 
-    { "hour"=> 1, "waveHeight"=> [{ "value" => 1}, { "value" => 2 }] }
-  end
+  let(:location) { FactoryBot.build(:location, latitude: 1, longitude: 1) }
+  let(:storm) { instance_double("storm") }
+  let(:forecast) { instance_double("forecast") }
 
-  let(:hour2) do 
-    { "hour"=> 1, "waveHeight"=> [{ "value" => 3}, { "value" => 4 }] }
-  end
-
-  let(:forecast) { [ hour1, hour2 ] }
-
-  describe "#set_forecast" do 
-    it "triggers and records a job" do
+  context "mocking forecast class" do
+    before do 
+      allow(location).to receive(:storm).and_return storm
+      allow(storm).to receive(:getWaveForecast).and_return forecast
+      allow(storm).to receive(:getTide).and_return forecast
+      allow(Forecast).to receive(:new).and_return forecast
+      location.save
     end
-  end
 
-  describe "#upcomingWaves" do 
-    it "returns the average wave height for each hour" do
-      allow(location).to receive(:upcoming_forecast).and_return(forecast)
-      expect(location.upcomingWaves).to eql [1.5, 3.5]
+    describe "mocking callbacks" do
+      it "will prevent api calls and return instance_doubles" do
+        expect(location.forecast).to eql forecast
+      end
     end
   end
 end

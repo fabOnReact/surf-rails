@@ -2,7 +2,7 @@ import Chart from 'chart.js';
 
 export function renderChart(type, data, times, id, backgroundColor, options) {
   var ctx = document.getElementById(id);
-  new Chart(ctx, {
+  var myChart = new Chart(ctx, {
       type: type,
       data: {
         labels: times,

@@ -1,16 +1,17 @@
+require 'core_ext/hash'
+
 class ApiError
   def initialize(errors)
     @errors = errors
   end
 
   def method_missing(*args, &block)
-    STDERR.puts "->>>>> API ERROR - Api Call failed with the following error #{@errors}"
+    STDERR.puts "->>>>> API ERROR - Api Call failed with the following error #{@errors}" unless Rails.env.test?
   end
 end
 
-class StormGlass
+class Storm
   include HTTParty
-  FIELDS = %w(time swellHeight swellPeriod swellDirection waveHeight wavePeriod waveDirection windDirection windSpeed seaLevel)
   base_uri "https://api.stormglass.io/v1"
 
   def initialize(latitude, longitude) 
@@ -25,7 +26,7 @@ class StormGlass
   end
 
   def endTime
-    DateTime.now.utc.to_time + 7.days
+    DateTime.now.utc.to_time + 5.days
   end
 
   def timestamp
@@ -39,7 +40,7 @@ class StormGlass
   def errors; weather['errors']; end
 
   def getWeather
-    weather["hours"] || ApiError.new(errors)
+    weather["hours"] || ApiError.new(weather["errors"])
   end
 
   def getTide
@@ -47,8 +48,6 @@ class StormGlass
   end
 
   def getWaveForecast
-    getWeather.map do |row|
-      row.keep_if {|key, value| FIELDS.include? key }
-    end
+    getWeather.map {|row| row.keepKeys }
   end
 end

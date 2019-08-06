@@ -18,12 +18,12 @@ export function router() {
 
   if (location_path.match(/posts\/[0-9][0-9]/)) { 
     var forecast = $('#forecast-data').data('forecast')
-    var tideData = forecast.tide
+    var tideData = $('#forecast-data').data('tide')
     appendTideData(tideData, '#tideTable')
     var hours = forecast.hours.map((time) => new Date(time).getHours())
-    var days = forecast.days.map((time) => new Date(time).getHours())
+    var daily = $('#forecast-data').data('daily')
     renderChart('line', forecast.tides, hours, 'tideChart', ["rgb(0, 128, 0)"], tideOptions)
-    renderChart('bar', forecast.waves, days, 'waveChart', [], waveOptions)
+    renderChart('bar', daily.waveHeight, daily.days, 'waveChart', [], waveOptions)
   }
 }
 

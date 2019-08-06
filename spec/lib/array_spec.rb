@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'core_ext/array'
 
 describe Array do
-  Array.include(Array::Forecast)
+  Array.include(Array::Weather)
   let(:value_array1) do 
     [{"value"=>1.78, "source"=>"sg"}, {"value"=>2.0, "source"=>"icon"}]
   end
