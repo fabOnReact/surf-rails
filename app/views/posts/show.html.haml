@@ -38,10 +38,10 @@
   .row
     .col-12.col-md-6.mt-2
       %canvas{id: "waveChart"}
-    .surf-images.row.col-12.col-md-6.mt-2
+    .surf-images.row.col-12.col-md-6.mt-2.px-0
       - location.posts.each do |post|
-        .col-3.px-1
-          = image_tag post.picture.url.to_s, class: 'img-fluid', alt: 'Responsive image'
+        .col-3.p-0.h-50
+          = image_tag post.picture.url.to_s, class: 'img-fluid h-100', alt: 'Responsive image'
 
   .mt-4
     = link_to 'Back', :back, class: 'btn btn-primary btn-lg'
