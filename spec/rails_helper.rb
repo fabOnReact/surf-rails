@@ -108,23 +108,23 @@ end
 VCR.configure do |c|
   c.cassette_library_dir = 'vcr_cassettes'
   c.hook_into :webmock
-  c.around_http_request(lambda { |req| req.uri =~ /wannasurf.com/ }) do |request|
-    VCR.use_cassette(request.uri, &request)
-  end
-
-  c.around_http_request(lambda { |req| req.uri =~ /point/ }) do |request|
-    VCR.use_cassette(request.uri, &request)
-  end
-
-  c.around_http_request(lambda { |req| req.uri =~ /weather/ }) do |request|
-    VCR.use_cassette(request.uri, &request)
-  end
-
-  c.around_http_request(lambda { |req| req.uri =~ /nominatim.openstreetmap.org/ }) do |request|
-    VCR.use_cassette(request.uri, &request)
-  end
-
-  c.around_http_request(lambda { |req| req.uri =~ /maps.googleapis.com/ }) do |request|
-    VCR.use_cassette(request.uri, &request)
-  end
+#  c.around_http_request(lambda { |req| req.uri =~ /wannasurf.com/ }) do |request|
+#    # VCR.use_cassette(request.uri, &request)
+#    VCR.turned_off(&request)
+#  end
+#
+#  c.around_http_request(lambda { |req| req.uri =~ /nominatim.openstreetmap.org/ }) do |request|
+#    # VCR.use_cassette(request.uri, &request)
+#    VCR.turned_off(&request)
+#  end
+#
+#  c.around_http_request(lambda { |req| req.uri =~ /maps.googleapis.com/ }) do |request|
+#    # VCR.use_cassette(request.uri, &request)
+#    VCR.turned_off(&request)
+#  end
+#
+#  c.around_http_request(lambda {|r| r.uri =~ /api.stormglass.io/}) do |request|
+#    # VCR.use_cassette(request.uri, &request)
+#    VCR.turned_off(&request)
+#  end
 end

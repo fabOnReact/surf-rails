@@ -9,9 +9,7 @@ RSpec.describe LocationWorker, type: :worker do
 
     it 'should trigger runtime error if api fails' do
       allow_any_instance_of(Storm).to receive(:weather).and_return({'errors'=> 'some error'})
-      VCR.use_cassette('location worker') do
-        expect{LocationWorker.new.perform(location.id)}.to raise_error(VCR::Errors::UnhandledHTTPRequestError)
-      end
+      expect{LocationWorker.new.perform(location.id)}.to raise_error(VCR::Errors::UnhandledHTTPRequestError)
     end
   end
 end
