@@ -35,12 +35,13 @@
     .d-flex.flex-column.ml-2
       %canvas{id: "tideChart", height: 70}
       %table.table.table-dark#tideTable
-  .row.mt-2
-    %canvas{id: "waveChart"}
-  .surf-images.row.mt-2
-    - location.posts.each do |post|
-      .col-2.px-1
-        = image_tag post.picture.url.to_s, class: 'img-fluid', alt: 'Responsive image'
+  .row
+    .col-12.col-md-6.mt-2
+      %canvas{id: "waveChart"}
+    .surf-images.row.col-12.col-md-6.mt-2
+      - location.posts.each do |post|
+        .col-3.px-1
+          = image_tag post.picture.url.to_s, class: 'img-fluid', alt: 'Responsive image'
 
   - if @post.owner?(current_user)
     = link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary btn-lg'
