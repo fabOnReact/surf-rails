@@ -5,7 +5,7 @@ class Forecast < Array
   Hash.include(Hash::Weather)
 
   def decorator
-    { hours: hours, days: days, waves: upcomingWaves, tides: tides }
+    { hours: hours, days: days, tides: tides }
   end
 
   def upcomingWaves
@@ -63,11 +63,11 @@ class Forecast < Array
     end)
   end
 
-  def weeklyForecast(key, timezone)
-    forecast = (DateTime.now..DateTime.now+6).map do |day| 
-      day = day.in_time_zone(timezone)
-      dailyAverage(key, day)
-    end.delete_if {|x| x.nil? }
+  def daily(key, timezone)
+    days = (DateTime.now..DateTime.now+6).map {|day| day.in_time_zone(timezone["timeZoneId"]) }
+    forecast = days.map {|day| dailyAverage(key, day)}.delete_if {|x| x.nil? } 
+    days = days.map {|x| x.to_datetime.strftime("%A") }[0..forecast.size-1]
+    { key => forecast, "days" => days }
   end
 
   def waveAverage; waveHeights.average; end

@@ -24,10 +24,6 @@ class Location < ApplicationRecord
     Forecast.new(read_attribute(:forecast))
   end
 
-  def weeklyForecast(key)
-    forecast.weeklyForecast(key, timezone["timeZoneId"])
-  end
-
   def upcomingTide
     tide["extremes"][0..4]
   end
@@ -43,6 +39,7 @@ class Location < ApplicationRecord
     self.tide = storm.getTide
     self.forecast = storm.getWaveForecast
     self.timezone = maps.getTimezone
+    self.daily = forecast.daily("waveHeight", timezone)
   end
 
   def offsetHours
