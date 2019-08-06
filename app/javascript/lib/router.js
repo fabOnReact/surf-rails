@@ -22,8 +22,8 @@ export function router() {
     appendTideData(tideData, '#tideTable')
     var hours = forecast.hours.map((time) => new Date(time).getHours())
     var daily = $('#forecast-data').data('daily')
-    renderChart('line', forecast.tides, hours, 'tideChart', ["rgb(0, 128, 0)"], tideOptions)
-    renderChart('bar', daily.waveHeight, daily.days, 'waveChart', [], waveOptions)
+    renderChart('line', 'tide', forecast.tides, hours, 'tideChart', ["rgb(0, 128, 0)"], tideOptions)
+    renderChart('bar', 'mt. waves', daily.waveHeight, daily.days, 'waveChart', [], waveOptions)
   }
 }
 
