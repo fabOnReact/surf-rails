@@ -24,8 +24,8 @@ class Location < ApplicationRecord
     Forecast.new(read_attribute(:forecast))
   end
 
-  def dailyForecast(day)
-    forecast.dailyAverage(day.begin, day.end)
+  def weeklyForecast(key)
+    forecast.weeklyForecast(key, timezone["timeZoneId"])
   end
 
   def upcomingTide
