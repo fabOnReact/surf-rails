@@ -6,7 +6,7 @@ class LocationWorker
   def perform(*args)
     @location = Location.find(args.first)
     @location.update(forecast: api.getWaveForecast, tide: api.getTide)
-    daily = forecast.weeklyForecast("waveHeight", @location.timezone["timeZoneId"])
+    daily = @location.forecast.weeklyForecast("waveHeight", @location.timezone)
     @location.update(daily: daily)
   end
 
