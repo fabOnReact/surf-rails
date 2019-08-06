@@ -1,4 +1,4 @@
-require 'api/storm_glass' 
+require 'api/storm' 
 
 class LocationWorker
   include Sidekiq::Worker
@@ -6,9 +6,11 @@ class LocationWorker
   def perform(*args)
     @location = Location.find(args.first)
     @location.update(forecast: api.getWaveForecast, tide: api.getTide)
+    daily = forecast.weeklyForecast("waveHeight", @location.timezone["timeZoneId"])
+    @location.update(daily: daily)
   end
 
   def api 
-    @api = StormGlass.new(@location.latitude, @location.longitude)
+    @api = Storm.new(@location.latitude, @location.longitude)
   end
 end

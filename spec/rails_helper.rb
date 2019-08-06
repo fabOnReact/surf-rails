@@ -5,6 +5,7 @@ require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+# require 'vcr'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'devise'
 require_relative 'support/controller_macros' 
@@ -90,3 +91,17 @@ Geocoder::Lookup::Test.add_stub(
     }
   ]
 )
+
+Geocoder::Lookup::Test.set_default_stub(
+  [
+    {
+      'coordinates'  => [40.7143528, -74.0059731],
+      'address'      => 'New York, NY, USA',
+      'state'        => 'New York',
+      'state_code'   => 'NY',
+      'country'      => 'United States',
+      'country_code' => 'US'
+    }
+  ]
+)
+

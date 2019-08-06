@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'api/google_auth'
+require 'api/google'
 
 class Users::RegistrationsController < Devise::RegistrationsController
   skip_before_action :verify_authenticity_token, only: [:create]
@@ -38,7 +38,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def valid_token?
-    GoogleAuth.new(token).authorized? if token.present?
+    Google::Auth.new(token).authorized? if token.present?
   end
 
   def oauth_params

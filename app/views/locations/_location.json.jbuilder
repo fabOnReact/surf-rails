@@ -2,4 +2,4 @@ json.extract! location, :id, :direction, :experience, :frequency, :bottom, :wave
 latlong = { longitude: location.longitude, latitude: location.latitude }
 json.distance location.distance_from_user(params.gps) if params.gps?
 json.location latlong
-json.forecast location.current_forecast
+json.forecast location.forecast.current
