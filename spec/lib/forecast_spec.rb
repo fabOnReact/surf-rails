@@ -86,11 +86,11 @@ describe Forecast do
       end
     end
 
-    describe "#weeklyForecast" do
+    describe "#daily" do
       it "returns the array of weekly averages for the parameter" do
         today = dateTimes.first.to_datetime.utc.to_datetime
-        allow(forecast).to receive(:today).and_return today 
-        result = forecast.weeklyForecast("waveHeight", "Asia/Makassar")
+        allow(DateTime).to receive(:now).and_return(today)
+        result = forecast.daily("waveHeight", "Asia/Makassar")
         expect(result).to eql [2.8, 4.0]
       end
     end

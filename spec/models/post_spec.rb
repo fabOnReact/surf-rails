@@ -7,7 +7,6 @@ RSpec.describe Post, type: :model do
 
   before { location }
 
-  VCR.use_cassette('api_stormglass_io/v1/weather', :record => :new_episodes) do 
   describe '#reverse_geocoding' do
   	it 'should save the location of the user' do
       expect(post.address).to be_present
@@ -34,6 +33,5 @@ RSpec.describe Post, type: :model do
       expect(forecast.first["waveHeight"].size).to be > 0
       expect(forecast.class).to be Forecast
     end
-  end
   end
 end
