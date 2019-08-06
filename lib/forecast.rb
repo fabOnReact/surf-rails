@@ -63,13 +63,11 @@ class Forecast < Array
     end)
   end
 
-  def today; DateTime.now.utc.localtime("+08:00"); end
-
-  def weeklyForecast(key, offsetHours)
-    (today..today+6).map do |day| 
-      day = day.in_time_zone(offsetHours)
+  def weeklyForecast(key, timezone)
+    forecast = (DateTime.now..DateTime.now+6).map do |day| 
+      day = day.in_time_zone(timezone)
       dailyAverage(key, day)
-    end
+    end.delete_if {|x| x.nil? }
   end
 
   def waveAverage; waveHeights.average; end

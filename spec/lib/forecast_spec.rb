@@ -3,7 +3,7 @@ require 'forecast'
 
 describe Forecast do
   let(:dateTimes) do
-    ["2019-08-05T07:00:00+00:00", "2019-08-05T08:00:00+00:00", "2019-08-06T13:00:00+00:00"]
+    ["2019-08-05T07:00:00+00:00", "2019-08-05T08:00:00+00:00", "2019-08-06T06:00:00+00:00"]
   end
   let(:random) { rand(0..2) }
   let(:timeNow) { dateTimes[random] } 
@@ -64,6 +64,11 @@ describe Forecast do
         expect(forecast.hourlyAverage("waveHeight", first_day)).to eql [1.5, 4.0]
         expect(forecast.hourlyAverage("waveHeight", second_day)).to eql [4.0]
       end
+
+      it "returns empty array if no value is found" do
+        date = dateTimes.last.to_datetime.in_time_zone("Asia/Makassar").to_datetime + 1.day
+        expect(forecast.hourlyAverage("waveHeight", date)).to eql []
+      end
     end
 
     describe "#dailyAverage" do
@@ -74,16 +79,19 @@ describe Forecast do
 
     describe "#within" do 
       it "filters forecast based on the day" do
-        date = dateTimes.first.to_datetime
-        expect(forecast.within(date)).to eql [forecast.first, forecast.second]
+        date1 = dateTimes.first.to_datetime.in_time_zone("Asia/Makassar").to_datetime
+        date2 = dateTimes.last.to_datetime.in_time_zone("Asia/Makassar").to_datetime
+        expect(forecast.within(date1)).to eql [forecast.first, forecast.second]
+        expect(forecast.within(date2).last).to eql  forecast.last
       end
     end
 
     describe "#weeklyForecast" do
       it "returns the array of weekly averages for the parameter" do
-        today = "2019-08-05T07:00:00+00:00".to_datetime
+        today = dateTimes.first.to_datetime.utc.to_datetime
         allow(forecast).to receive(:today).and_return today 
-        expect(forecast.weeklyForecast("waveHeight", 8)).to eql ""
+        result = forecast.weeklyForecast("waveHeight", "Asia/Makassar")
+        expect(result).to eql [2.8, 4.0]
       end
     end
 
@@ -120,7 +128,7 @@ describe Forecast do
 
     describe "#hours" do
       it "filters the hours of the first 24 entries" do 
-        expect(forecast.hours).to eql(["2019-08-05T07:00:00+00:00", "2019-08-05T08:00:00+00:00", "2019-08-06T13:00:00+00:00"])
+        expect(forecast.hours).to eql(["2019-08-05T07:00:00+00:00", "2019-08-05T08:00:00+00:00", "2019-08-06T06:00:00+00:00"])
       end
     end
 
