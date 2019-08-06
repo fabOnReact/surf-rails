@@ -43,7 +43,6 @@
         .col-3.px-1
           = image_tag post.picture.url.to_s, class: 'img-fluid', alt: 'Responsive image'
 
-  - if @post.owner?(current_user)
-    = link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary btn-lg'
-  = link_to 'Back', :back, class: 'btn btn-primary btn-lg'
-  = link_to 'All Pictures', posts_path, class: 'btn btn-primary btn-lg'
+  .mt-4
+    = link_to 'Back', :back, class: 'btn btn-primary btn-lg'
+    = link_to 'All Pictures', posts_path, class: 'btn btn-primary btn-lg'
