@@ -21,7 +21,7 @@ class Location < ApplicationRecord
   end
 
   def forecast
-    Forecast.new(read_attribute(:forecast))
+    Forecast.new(read_attribute(:forecast) || [])
   end
 
   def upcomingTide
@@ -40,6 +40,7 @@ class Location < ApplicationRecord
     self.forecast = storm.getWaveForecast
     self.timezone = maps.getTimezone
     self.daily = forecast.daily("waveHeight", timezone)
+    self.hourly = forecast.hourly
   end
 
   def offsetHours
@@ -64,6 +65,6 @@ class Location < ApplicationRecord
   end
 
   def jobs_params
-    [{ name: "Location name: #{self.name}, country: #{self.country}, id: #{self.id} - update forecast data - every day at 00:00", cron: "0 0 * * *", class: 'LocationWorker', args: self.id }]
+    [{ name: "Location name: #{self.name}, country: #{self.country}, id: #{self.id} - update forecast data - every day at 00:00", cron: "0 0 * * *", class: 'LocationWorker', args: {id: self.id, hourly: false}}, { name: "Location name: #{self.name}, country: #{self.country}, id: #{self.id} - update hourly forecast data - every hour at 00:00", cron: "0 * * * *", class: 'LocationWorker', args: { id: self.id, hourly: true}}]
   end
 end
