@@ -9,16 +9,12 @@ class Forecast < Array
     { hours: hours, days: days, tides: tides }
   end
 
-  def json
-    Forecast::KEYS.map {|key| [key, send(key.to_sym)] }.to_h
-  end
-
   def upcomingWaves
     upcoming.collectValues('waveHeight') {|x| x.values.average }[0..152]
   end
 
   def current
-    select {|row| row["time"] == timeNow }.first
+    @current ||= select {|row| row["time"] == timeNow }.first
   end
 
   def timeNow
@@ -66,6 +62,10 @@ class Forecast < Array
       dayEnd = day.end_of_day - 6.hours
       (dayBegin..dayEnd).cover? datetime
     end)
+  end
+
+  def hourly
+    Forecast::KEYS.map {|key| [key, send(key.to_sym).round(1) ] }.to_h
   end
 
   def daily(key, timezone)
