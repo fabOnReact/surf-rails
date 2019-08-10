@@ -1,12 +1,13 @@
 import Chart from 'chart.js';
 
-export function renderChart(type, data, times, id, backgroundColor, options) {
+export function renderChart(type, label, data, times, id, backgroundColor, options) {
   var ctx = document.getElementById(id);
   var myChart = new Chart(ctx, {
       type: type,
       data: {
         labels: times,
         datasets: [{
+          label: label,
           data: data,
           backgroundColor: backgroundColor,
           borderColor: [],
@@ -53,10 +54,12 @@ var xAxes = [{
     minRotation: 0,
   },
   color: 'red',
+  barPercentage: 1,
+  categoryPercentage: 0.9, 
 }]
 
 export var waveOptions = {
-  legend: { display: false },
+  legend: { display: true },
   responsive: true,
   mantainAspectRatio: false,
   scales: {

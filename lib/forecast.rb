@@ -3,9 +3,10 @@ require 'core_ext/array'
 class Forecast < Array
   Array.include(Array::Weather)
   Hash.include(Hash::Weather)
+  KEYS = %w(time swellHeight waveHeight windSpeed windDirection waveDirection swellDirection swellPeriod)
 
-  def decorator
-    { hours: hours, days: days, tides: tides }
+  def tideChart
+    { hours: hours, seaLevels: seaLevels }
   end
 
   def upcomingWaves
@@ -13,7 +14,7 @@ class Forecast < Array
   end
 
   def current
-    select {|row| row["time"] == timeNow }.first
+    @current ||= select {|row| row["time"] == timeNow }.first
   end
 
   def timeNow
@@ -24,7 +25,7 @@ class Forecast < Array
     total = forecast.sum {|h| h.value("waveHeight") }
   end
 
-  def tides
+  def seaLevels
     upcoming.map {|x| x.value("seaLevel") }[0..24]
   end
 
@@ -63,6 +64,10 @@ class Forecast < Array
     end)
   end
 
+  def hourly
+    Forecast::KEYS.map {|key| [key, send(key.to_sym)] }.to_h
+  end
+
   def daily(key, timezone)
     days = (DateTime.now..DateTime.now+6).map {|day| day.in_time_zone(timezone["timeZoneId"]) }
     forecast = days.map {|day| dailyAverage(key, day)}.delete_if {|x| x.nil? } 
@@ -85,9 +90,11 @@ class Forecast < Array
     define_method("#{method}Range") { current[method].minMaxString }
   end
 
-  %w(swellHeight waveHeight windSpeed windDirection waveDirection swellDirection swellPeriod).each do |method|
+  Forecast::KEYS.each do |method|
     define_method(method) { current.value(method) } 
   end
+
+  def time; current["time"]; end
 
   %w(waveHeight swellPeriod).each do |method|
     define_method(method.pluralize) { current[method].collect {|x| x["value"]}}

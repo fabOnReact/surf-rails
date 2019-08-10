@@ -25,7 +25,11 @@ img {
 }
 
 .forecast { min-width: 350px; }
-.surf-images { margin-left: -3px; }
+.surf-images { 
+  border: 1px solid black;
+  margin-left: -3px; 
+  height: 400px;
+}
 
 canvas#tideChart { 
   border: 1px solid #d9d9d9;  

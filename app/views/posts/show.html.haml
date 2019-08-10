@@ -1,6 +1,6 @@
 - location = @post.location
 - forecast = location.forecast
-= tag :meta, id: "forecast-data", name: "forecast_data", data: { forecast: forecast.decorator, tide: location.upcomingTide, daily: location.daily } 
+= tag :meta, id: "forecast-data", name: "forecast_data", data: { tidechart: forecast.tideChart, tidedata: location.tideData, daily: location.daily } 
 
 .container
   %h3 CURRENT SURF REPORT FOR #{location.name.upcase}
@@ -35,14 +35,14 @@
     .d-flex.flex-column.ml-2
       %canvas{id: "tideChart", height: 70}
       %table.table.table-dark#tideTable
-  .row.mt-2
-    %canvas{id: "waveChart"}
-  .surf-images.row.mt-2
-    - location.posts.each do |post|
-      .col-2.px-1
-        = image_tag post.picture.url.to_s, class: 'img-fluid', alt: 'Responsive image'
+  .row
+    .col-12.col-md-6.mt-2
+      %canvas{id: "waveChart"}
+    .surf-images.row.col-12.col-md-6.mt-2.px-0
+      - location.posts.each do |post|
+        .col-3.p-0.h-50
+          = image_tag post.picture.url.to_s, class: 'img-fluid h-100', alt: 'Responsive image'
 
-  - if @post.owner?(current_user)
-    = link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary btn-lg'
-  = link_to 'Back', :back, class: 'btn btn-primary btn-lg'
-  = link_to 'All Pictures', posts_path, class: 'btn btn-primary btn-lg'
+  .mt-4
+    = link_to 'Back', :back, class: 'btn btn-primary btn-lg'
+    = link_to 'All Pictures', posts_path, class: 'btn btn-primary btn-lg'

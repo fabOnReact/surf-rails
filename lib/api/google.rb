@@ -30,8 +30,3 @@ module Google
     end
   end
 end
-
-#  def google_map
-#    gpsString = gps.join(',')
-#    "https://maps.googleapis.com/maps/api/staticmap?center=#{gpsString}&zoom=11&markers=#{gpsString}&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=300x300&maptype=satellite"
-#  end

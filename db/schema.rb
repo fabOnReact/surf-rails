@@ -10,28 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190806050240) do
+ActiveRecord::Schema.define(version: 20190807093952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "forecasts", force: :cascade do |t|
-    t.bigint "location_id"
-    t.datetime "time"
-    t.float "sea_level"
-    t.float "wind_speed"
-    t.float "wave_height"
-    t.float "swell_height"
-    t.float "swell_period"
-    t.float "wave_direction"
-    t.float "wind_direction"
-    t.float "swell_direction"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "wave_period"
-    t.index ["location_id"], name: "index_forecasts_on_location_id"
-    t.index ["time"], name: "index_forecasts_on_time", unique: true
-  end
 
   create_table "locations", force: :cascade do |t|
     t.string "direction"
@@ -50,10 +32,11 @@ ActiveRecord::Schema.define(version: 20190806050240) do
     t.string "alternative_name"
     t.string "pictures", array: true
     t.jsonb "areas", default: "{}", null: false
-    t.jsonb "forecast", default: []
+    t.jsonb "forecast"
     t.jsonb "tide"
     t.jsonb "timezone"
     t.jsonb "daily"
+    t.jsonb "hourly"
     t.index ["areas"], name: "index_locations_on_areas", using: :gin
     t.index ["country", "area", "name"], name: "index_locations_on_country_and_area_and_name", unique: true
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude"
@@ -100,6 +83,5 @@ ActiveRecord::Schema.define(version: 20190806050240) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "forecasts", "locations"
   add_foreign_key "posts", "users"
 end
