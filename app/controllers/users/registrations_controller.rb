@@ -30,7 +30,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-
   private
   def set_oauth_user
     self.resource = User.find_or_create_by(oauth_params)

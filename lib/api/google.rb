@@ -9,11 +9,10 @@ module Google
     
     def tokeninfo
       @tokeninfo ||= self.class.get("/tokeninfo", @options)
-:q
     end
 
     def authorized? 
-      tokeninfo.code == 200
+      tokeninfo.code.eql? 200
     end
   end
 
