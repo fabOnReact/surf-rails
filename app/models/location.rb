@@ -24,7 +24,7 @@ class Location < ApplicationRecord
     Forecast.new(read_attribute(:forecast) || [])
   end
 
-  def upcomingTide
+  def tideData
     tide["extremes"][0..4]
   end
 

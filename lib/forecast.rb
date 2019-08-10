@@ -5,7 +5,7 @@ class Forecast < Array
   Hash.include(Hash::Weather)
   KEYS = %w(time swellHeight waveHeight windSpeed windDirection waveDirection swellDirection swellPeriod)
 
-  def tide
+  def tideChart
     { hours: hours, seaLevels: seaLevels }
   end
 
