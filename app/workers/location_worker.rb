@@ -4,11 +4,11 @@ class LocationWorker
   include Sidekiq::Worker
 
   def perform(*args)
-    if args[:hourly]
-      location = Location.find(args[:id])
+    if args.first["hourly"]
+      location = Location.find(args.first["id"])
       location.update(hourly: @location.forecast.hourly)
     else
-      @location = Location.find(args[:id])
+      @location = Location.find(args.first["id"])
       @location.update(forecast: api.getWaveForecast, tide: api.getTide)
       daily = @location.forecast.daily("waveHeight", @location.timezone)
       @location.update(daily: daily)
