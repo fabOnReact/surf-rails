@@ -5,8 +5,8 @@ class Forecast < Array
   Hash.include(Hash::Weather)
   KEYS = %w(time swellHeight waveHeight windSpeed windDirection waveDirection swellDirection swellPeriod)
 
-  def decorator
-    { hours: hours, days: days, tides: tides }
+  def tide
+    { hours: hours, seaLevels: seaLevels }
   end
 
   def upcomingWaves
@@ -25,7 +25,7 @@ class Forecast < Array
     total = forecast.sum {|h| h.value("waveHeight") }
   end
 
-  def tides
+  def seaLevels
     upcoming.map {|x| x.value("seaLevel") }[0..24]
   end
 
@@ -65,7 +65,7 @@ class Forecast < Array
   end
 
   def hourly
-    Forecast::KEYS.map {|key| [key, send(key.to_sym).round(1) ] }.to_h
+    Forecast::KEYS.map {|key| [key, send(key.to_sym)] }.to_h
   end
 
   def daily(key, timezone)
