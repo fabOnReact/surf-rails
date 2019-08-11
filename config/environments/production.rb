@@ -101,4 +101,7 @@ config.webpacker.check_yarn_integrity = false
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   end  
+
+  # enable public file server
+  config.public_file_server.enabled = true
 end
