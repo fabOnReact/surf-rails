@@ -40,7 +40,7 @@ class Location < ApplicationRecord
     self.forecast = storm.getWaveForecast
     self.timezone = maps.getTimezone
     self.daily = forecast.daily("waveHeight", timezone)
-    self.hourly = forecast.hourly
+    self.hourly = forecast.hourly if forecast.current
   end
 
   def offsetHours
