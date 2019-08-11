@@ -1,12 +1,13 @@
-import { tideOptions } from '../lib/tideChart'
+import { tideOptions } from './tideChart'
+import { getLocation, setLocation } from './location'
 import Tide from '../lib/tide'
-import { renderChart, waveOptions } from '../lib/waveChart'
+import { renderChart, waveOptions } from './waveChart'
 
 export function router() {
   var location_path = event.currentTarget.location.pathname 
   switch(location_path) {
     case '/':
-        containerStyle();
+        // containerStyle();
         setLocation()
         break;
     case '/posts':
