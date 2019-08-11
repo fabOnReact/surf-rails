@@ -1,5 +1,4 @@
 /* eslint no-console:0 */
-import { getLocation, setLocation } from '../lib/location'
 import { router } from  '../lib/router'
 
 $(document).on('turbolinks:load', function() {
