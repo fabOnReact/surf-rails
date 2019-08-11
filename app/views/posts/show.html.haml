@@ -11,13 +11,13 @@
     .forecast.d-flex.flex-column.ml-2
       .d-flex.flex-row.justify-content-between.align-items-center 
         %h3.mr-3 #{forecast.waveAverage} mt. waves at #{forecast.swellPeriod} s.
-        = image_tag "down-cursor-black", class: "arrow-small", style: "transform: rotate(#{forecast.waveDirection}deg)"
+        = image_tag "down-cursor-black.png", class: "arrow-small", style: "transform: rotate(#{forecast.waveDirection}deg)"
       .d-flex.flex-row.justify-content-between.align-items-center
         %h3.mr-3 #{forecast.windSpeed} mt/s wind
-        = image_tag "down-arrow-black", class: "arrow-small", style: "transform: rotate(#{forecast.windDirection}deg)"
+        = image_tag "down-arrow-black.png", class: "arrow-small", style: "transform: rotate(#{forecast.windDirection}deg)"
       .d-flex.flex-row.justify-content-between.align-items-center 
         %h3.mr-3 #{forecast.swellHeight} mt. swell
-        = image_tag "down-cursor-black", class: "arrow-small", style: "transform: rotate(#{forecast.swellDirection}deg)"
+        = image_tag "down-cursor-black.png", class: "arrow-small", style: "transform: rotate(#{forecast.swellDirection}deg)"
       .d-flex.flex-column.ml-2
         %table.table.table-sm.table-borderless.table-dark.table-hover.mt-3
           %tr
