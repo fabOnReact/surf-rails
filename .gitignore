@@ -32,4 +32,4 @@ public/uploads
 /node_modules
 yarn-debug.log*
 .yarn-integrity
-app/assets/images
+# app/assets/images
