@@ -17,7 +17,7 @@ export function router() {
         break;
   }
 
-  if (location_path.match(/posts\/[0-9][0-9]/)) { 
+  if (location_path.match(/posts\/[0-9]/)) { 
     var tideChart = $('#forecast-data').data('tidechart')
     var tideData = $('#forecast-data').data('tidedata')
     appendTideData(tideData, '#tideTable')
