@@ -20,14 +20,14 @@
 todolist
 spec/fixtures
 spec/support/uploads
-# public/assets
+public/assets
 public/uploads
 cutout
 client_id.json
 client_id_old.json
 terminal.glue
 public/uploads
-# /public/packs
+/public/packs
 /public/packs-test
 /node_modules
 yarn-debug.log*
