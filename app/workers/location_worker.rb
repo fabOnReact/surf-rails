@@ -7,7 +7,7 @@ class LocationWorker
     @location = Location.find(args.first["id"])
     if args.first["hourly"]
       @location = Location.find(args.first["id"])
-      @location.update(hourly: @location.forecast.hourly)
+      @location.update(hourly: @location.forecast.hourly) if @location.forecast.current
     else
       @location.update(forecast: api.getWaveForecast, tide: api.getTide)
       daily = @location.forecast.daily("waveHeight", @location.timezone)
