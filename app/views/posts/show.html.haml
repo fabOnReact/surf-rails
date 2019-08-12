@@ -1,6 +1,6 @@
 - location = @post.location
 - forecast = location.forecast
-= tag :meta, id: "forecast-data", name: "forecast_data", data: { tidechart: forecast.tideChart, tidedata: location.tideData, daily: location.daily } 
+= tag :meta, id: "forecast-data", name: "forecast_data", data: { tidechart: forecast.tideChart, tidedata: location.tideData, daily: location.daily } unless forecast.current.nil?
 
 .container
   %h3 CURRENT SURF REPORT FOR #{location.name.upcase}
@@ -38,10 +38,10 @@
   .row
     .col-12.col-md-6.mt-2
       %canvas{id: "waveChart"}
-    .surf-images.row.col-12.col-md-6.mt-2.px-0
+    .surf-images.w-50.d-flex
       - location.posts.each do |post|
-        .col-3.p-0.h-50
-          = image_tag post.picture.url.to_s, class: 'img-fluid h-100', alt: 'Responsive image'
+        .h-50
+          = image_tag post.picture.card.url.to_s, class: 'img-fluid h-100', alt: 'Responsive image'
 
   .mt-4
     = link_to 'Back', :back, class: 'btn btn-primary btn-lg'
