@@ -5,7 +5,7 @@ kuta = ['kuta_0687.JPG']
 
 domain = 'https://surfcheck.s3.eu-central-1.amazonaws.com'
 
-user = User.new(email: "admin@user.com", password: "fabrizio")
+user = User.create(email: "admin@user.com", password: "fabrizio") unless user = User.find_by(email: "admin@user.com")
 
 balangan.each do |picture_name|
   image_url = "#{domain}/#{picture_name}"
