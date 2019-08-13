@@ -20,7 +20,8 @@ end
 
 bondi.each do |picture_name|
   image_url = "#{domain}/#{picture_name}"
-  location = Location.find_by(name: "Bondi Beach")
+  random_location = ["Tama Reef", "Bondi Beach", "Bronte Reef", "Mckenzies", "The Boot", "South Bondi"][rand(0..5)]
+  location = Location.find_by(name: random_location)
   post = Post.new(user: user, longitude: location.longitude, latitude: location.latitude)
   post.remote_picture_url = image_url
   post.save
