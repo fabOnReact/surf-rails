@@ -33,4 +33,4 @@ public/uploads
 yarn-debug.log*
 .yarn-integrity
 app/assets/images
-public/.DS_STORE
+public/.DS_Store
