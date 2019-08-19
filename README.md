@@ -1,7 +1,9 @@
 # Surfcheck Backend and WebApplication
-Backend and WebApplication for the Surfcheck app.
-This is the backend of the [SurfCheck Mobile Android and Iphone app](https://github.com/fabriziobertoglio1987/surfnative) built with ReactNative.
-The repository includes also a webapplication built with ruby on rails.
+
+- The [repository of ReactNative Mobile app](https://github.com/fabriziobertoglio1987/surfnative) using this backend repository api.
+![alt text](https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck.gif)
+- The [webapplication](https://surfcheck.xyz)
+- The api [endpoints, documentation and postman requests](https://documenter.getpostman.com/view/6379421/SVfH1CeA?version=latest). The api is public.
 
 ## Installation Instructions
 ruby version `ruby 2.5.0`
@@ -16,7 +18,7 @@ bundle install
 yarn install
 ```
 
-run `rspec` for running test suite
+run `rspec` for running test suite. Specs are currently not completed and will fail. They will be fixed in the future.
 
 The [repository of the ReactNative Mobile App](https://github.com/fabriziobertoglio1987/surfnative).
 
