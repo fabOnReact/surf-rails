@@ -3,7 +3,7 @@
 </p>
 
 # Surfcheck Backend and WebApplication
-- The [github repo](https://github.com/fabriziobertoglio1987/surfnative) of ReactNative Mobile app using this api.
+- The [github repo](https://github.com/fabriziobertoglio1987/surfnative) of the ReactNative Mobile app using this api.
 - The [webapplication](https://surfcheck.xyz)
 - The api [endpoints, documentation and postman requests](https://documenter.getpostman.com/view/6379421/SVfH1CeA?version=latest). The api is public and free.
 
@@ -29,13 +29,13 @@ run `rspec` for running test suite. Specs are currently not completed and some w
 - Responsive WebPage built with `Twitter-Bootstrap 4`
 - [`Geocoder`][1] to `reverse geocode` database entries based on the GPS latitude and longitude coordinates
 - `Geospatial Queries` by [user coordinates or bounding box][2]
-- Database with over 1 Million surfspots in the world with gps coordinates, pictures and information (Database information is kept private and is available in the App)
+- Offering over 1 Million of surfspots information in the world with gps coordinates, pictures, wave forecast and surfspot information available in the webapplication, Iphone and Android native apps and json-api.
 - Sidekiq and Cron-Sidekiq jobs to retrieve and calculate forecasts information
 - Hosting on Digital Ocean
 - Native Mobile Iphone and Android application
 
 
-The OpenSource project is a mirror of the backend and includes 95% of the functionalities. 
+The OpenSource project is a mirror of the backend and includes 99% of the functionalities. 
 Some features are kept private and they are not disclosed to the public.
 
 
