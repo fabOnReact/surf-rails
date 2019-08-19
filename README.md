@@ -3,9 +3,9 @@
 </p>
 
 # Surfcheck Backend and WebApplication
-- The [repository of ReactNative Mobile app](https://github.com/fabriziobertoglio1987/surfnative) using this backend repository api.
+- The [github repo](https://github.com/fabriziobertoglio1987/surfnative) of ReactNative Mobile app using this api.
 - The [webapplication](https://surfcheck.xyz)
-- The api [endpoints, documentation and postman requests](https://documenter.getpostman.com/view/6379421/SVfH1CeA?version=latest). The api is public.
+- The api [endpoints, documentation and postman requests](https://documenter.getpostman.com/view/6379421/SVfH1CeA?version=latest). The api is public and free.
 
 ## Installation Instructions
 ruby version `ruby 2.5.0`
@@ -20,9 +20,8 @@ bundle install
 yarn install
 ```
 
-run `rspec` for running test suite. Specs are currently not completed and will fail. They will be fixed in the future.
+run `rspec` for running test suite. Specs are currently not completed and some will fail. They will be fixed in the future.
 
-The [repository of the ReactNative Mobile App](https://github.com/fabriziobertoglio1987/surfnative).
 
 ## Features
 - API/Web Authentication was built with [Devise](https://github.com/plataformatec/devise) as explained in this [stackoverflow answer](https://stackoverflow.com/questions/55788412/rails-admin-not-authenticating-with-cancancan-or-devise/55940092#55940092), [simple token authentication](https://github.com/gonzalo-bulnes/simple_token_authentication). I enhanced the [devise registration and sessions controllers](https://github.com/fabriziobertoglio1987/surfcheck/tree/master/app/controllers/users) to handle API-Authentication
@@ -31,6 +30,7 @@ The [repository of the ReactNative Mobile App](https://github.com/fabriziobertog
 - [`Geocoder`][1] to `reverse geocode` database entries based on the GPS latitude and longitude coordinates
 - `Geospatial Queries` by [user coordinates or bounding box][2]
 - Database with over 1 Million surfspots in the world with gps coordinates, pictures and information (Database information is kept private and is available in the App)
+- Sidekiq and Cron-Sidekiq jobs to retrieve and calculate forecasts information
 - Hosting on Digital Ocean
 - Native Mobile Iphone and Android application
 
