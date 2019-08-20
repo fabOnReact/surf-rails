@@ -27,9 +27,9 @@ describe Hash do
     end
   end
 
-  describe '#toForecastAttributes' do
+  describe '#forecast_attributes' do
     it 'replaces the keys with duck_tiped strings' do
-      expect(forecast.toForecastAttributes).to eql ""
+      expect(forecast.forecast_attributes).to eql({:sea_level=>0.47, :time=>"2019-07-29T04:00:00+00:00", :wave_height=>1.84, :wave_period=>5.74})
     end
   end
 end

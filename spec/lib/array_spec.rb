@@ -36,23 +36,5 @@ describe Array do
     end
   end
  
-  describe "#collectValues" do
-    it "returns the values in an array" do
-      expect(value_array1.collectValues).to eql [1.78, 2.0]
-    end
-  end
 
-  describe "#collectWaveHeight" do
-    it "returns the averages in an array if block is given" do
-      average = forecast.collectWaveHeights do |x| 
-        x.collectValues.average
-      end 
-      expect(average).to eql [1.9, 1.4]
-    end
-
-    it "returns the waveHeights if no-block is given" do
-      waveHeights = forecast.collectWaveHeights
-      expect(waveHeights).to eql [value_array1, value_array2]
-    end
-  end
 end

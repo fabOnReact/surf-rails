@@ -4,8 +4,9 @@ require 'carrierwave/test/matchers'
 describe PictureUploader do
   include CarrierWave::Test::Matchers
 
-  let(:post) { FactoryBot.create(:post) }
-  let(:uploader) { PictureUploader.new(post, :picture) }
+  let(:location) { FactoryBot.create(:location, latitude: -8, longitude: 115, forecast: ["do not trigger callback"]) }
+  let(:post) { FactoryBot.create(:post, latitude: -8, longitude: 115) }
+  let(:uploader) { location; PictureUploader.new(post, :picture) }
 
   before do
     PictureUploader.enable_processing = true
@@ -30,7 +31,7 @@ describe PictureUploader do
   #end
 
   it "makes the image readable only to the owner and not executable" do
-    expect(uploader).to have_permissions(0600)
+    expect(uploader).to have_permissions(0644)
   end
 
   it "has the correct format" do

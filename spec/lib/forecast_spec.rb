@@ -91,7 +91,7 @@ describe Forecast do
         today = dateTimes.first.to_datetime.utc.to_datetime
         allow(DateTime).to receive(:now).and_return(today)
         result = forecast.daily("waveHeight", "Asia/Makassar")
-        expect(result).to eql [2.8, 4.0]
+        expect(result).to eql({"days"=>["Monday", "Tuesday"], "waveHeight"=>[2.8, 4.0]})
       end
     end
 
@@ -118,11 +118,6 @@ describe Forecast do
     describe "#waveHeights" do 
       it "retrieve the swellHeight average" do
         expect(forecast.waveHeights).to eql [1,2]
-      end
-    end
-    describe "#tides" do
-      it "collects the forecast tide hourly values" do
-        expect(forecast.tides).to eql [0.27, 1, 1]
       end
     end
 
