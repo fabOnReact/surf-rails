@@ -15,7 +15,7 @@ rails `5.1.3`
 Installation
 
 ```ruby
-git clone git@github.com:fabriziobertoglio1987/surfcheck.git
+git clone git@github.com:fabriziobertoglio1987/surfbackend.git
 bundle install
 yarn install
 ```
