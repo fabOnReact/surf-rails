@@ -35,3 +35,5 @@ yarn-debug.log*
 app/assets/images
 public/.DS_Store
 .DS_Store
+app/.DS_Store
+app/assets/.DS_Store
