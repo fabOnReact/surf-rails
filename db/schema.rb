@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190820155646) do
+ActiveRecord::Schema.define(version: 20190821040857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20190820155646) do
     t.integer "likes", default: 0
     t.integer "favorite", default: [], array: true
     t.integer "location_id"
+    t.jsonb "video"
     t.index ["favorite"], name: "index_posts_on_favorite", using: :gin
     t.index ["latitude", "longitude"], name: "index_posts_on_latitude_and_longitude"
     t.index ["location_id"], name: "index_posts_on_location_id"
