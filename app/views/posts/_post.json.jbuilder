@@ -1,4 +1,4 @@
-json.extract! post, :id, :description, :created_at, :updated_at, :user_id, :picture, :latitude, :longitude, :city
+json.extract! post, :id, :description, :created_at, :updated_at, :user_id, :picture, :latitude, :longitude, :city, :video
 location = post.location
 forecast_hash = {}
 forecast_hash = { tideChart: location.forecast.tideChart, hourly: location.hourly, daily: location.daily  } if location.forecast.current
