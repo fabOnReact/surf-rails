@@ -8,7 +8,7 @@ export function router() {
   switch(location_path) {
     case '/':
         // containerStyle();
-        setLocation()
+        // setLocation()
         break;
     case '/posts':
     case '/users/sign_in':
