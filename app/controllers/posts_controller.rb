@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   acts_as_token_authentication_handler_for User
   skip_before_action :verify_authenticity_token
   before_action :set_post, only: [:create]
-  before_action :set_posts, only: [:index]
+  before_action :decorate_posts, only: [:index]
   before_action :set_picture, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
@@ -84,7 +84,10 @@ class PostsController < ApplicationController
     @posts = Post.near(params.gps, 50, units: :km) if params.location?
     @posts = Post.all if no_results 
     @posts = @posts.newest.paginate(page: params[:page], per_page: params[:per_page])
+  end
 
+  def decorate_posts
+    set_posts
     @posts_json = ActiveModel::Serializer::CollectionSerializer.new(
       @posts, serializer: Posts::IndexSerializer
     ).as_json
