@@ -1,5 +1,6 @@
 require 'upload/cache'
 require 'core_ext/actionpack/lib/action_controller/metal/strong_parameters'
+require 'posts/index_serializer'
 
 class PostsController < ApplicationController
   ActionController::Parameters.include(Parameters::Location)
@@ -19,6 +20,14 @@ class PostsController < ApplicationController
     @posts = Post.near(params.gps, 200, units: :km) if params.location?
     @posts = Post.all if no_results 
     @posts = @posts.newest.paginate(page: params[:page], per_page: params[:per_page])
+    posts_json = ActiveModel::Serializer::CollectionSerializer.new(
+      @posts, serializer: Posts::IndexSerializer
+    ).as_json
+
+    respond_to do |format|
+      format.html { super }
+      format.json { render json: posts_json, status: :created, location: api_v1_posts_path }
+    end
   end
 
   def create
