@@ -11,4 +11,9 @@ Rails.application.routes.draw do
   get "/pages/:page" => "pages#show", as: :page
   root 'pages#show'
   mount Sidekiq::Web => '/sidekiq'
+
+  namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do 
+    scope module: :v1 do 
+    end
+  end
 end
