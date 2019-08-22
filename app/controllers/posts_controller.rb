@@ -1,6 +1,6 @@
 require 'upload/cache'
 require 'core_ext/actionpack/lib/action_controller/metal/strong_parameters'
-require 'posts/index_serializer'
+# require 'posts/index_serializer'
 
 class PostsController < ApplicationController
   ActionController::Parameters.include(Parameters::Location)
@@ -22,7 +22,7 @@ class PostsController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.json { render json: @posts_json, status: :created, location: api_v1_posts_path }
+      format.json { render json: @posts, status: :created, location: api_v1_posts_path }
     end
   end
 
@@ -88,9 +88,11 @@ class PostsController < ApplicationController
 
   def decorate_posts
     set_posts
-    @posts_json = ActiveModel::Serializer::CollectionSerializer.new(
-      @posts, serializer: Posts::IndexSerializer
-    ).as_json
+    @posts = @posts.map do |post| 
+      new_post = PostSerializer.new(post).serializable_hash[:data][:attributes]
+      new_post[:location][:forecast][:tideChart] = new_post[:location][:forecast].delete(:tide) if new_post[:location][:forecast]
+      new_post
+    end
   end
 
   def find_post

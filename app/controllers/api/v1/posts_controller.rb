@@ -4,8 +4,8 @@ class Api::V1::PostsController < PostsController
   private
   def decorate_posts
     set_posts
-    @posts_json = ActiveModel::Serializer::CollectionSerializer.new(
-      @posts, serializer: PostSerializer
-    ).as_json
+    @posts = @posts.map do |post| 
+      PostSerializer.new(post).serializable_hash[:data][:attributes]
+    end
   end
 end

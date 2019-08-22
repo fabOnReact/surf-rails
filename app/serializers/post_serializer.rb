@@ -1,12 +1,9 @@
-class PostSerializer < ActiveModel::Serializer
-  has_one :picture
-  attributes :id, :description, :created_at, :updated_at, :user_id, :latitude, :longitude, :city, :location, :creation_date, :video
+class PostSerializer
+  include FastJsonapi::ObjectSerializer
+  attributes :id, :description, :created_at, :updated_at, :user_id, :latitude, :longitude, :city, :creation_date, :video, :picture, :location
 
-  def location
-    { name: object.location.name, latitude: object.location.latitude, longitude: object.location.longitude, forecast: forecast } 
-  end
-
-  def forecast
-    { tide: object.location.forecast.tideChart, hourly: object.location.hourly, daily: object.location.daily  } if object.location.forecast.current
+  attribute :location do  |object|
+    forecast_value = { tide: object.location.forecast.tideChart, hourly: object.location.hourly, daily: object.location.daily  } if object.location.forecast.current
+    { name: object.location.name, latitude: object.location.latitude, longitude: object.location.longitude, forecast: forecast_value } 
   end
 end
