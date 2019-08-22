@@ -21,7 +21,7 @@ class PostsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html { super }
+      format.html
       format.json { render json: @posts_json, status: :created, location: api_v1_posts_path }
     end
   end
@@ -81,7 +81,7 @@ class PostsController < ApplicationController
   end
 
   def set_posts
-    @posts = Post.near(params.gps, 200, units: :km) if params.location?
+    @posts = Post.near(params.gps, 50, units: :km) if params.location?
     @posts = Post.all if no_results 
     @posts = @posts.newest.paginate(page: params[:page], per_page: params[:per_page])
 
