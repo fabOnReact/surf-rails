@@ -8,25 +8,21 @@ class PostsController < ApplicationController
   acts_as_token_authentication_handler_for User
   skip_before_action :verify_authenticity_token
   before_action :set_post, only: [:create]
+  before_action :set_posts, only: [:index]
   before_action :set_picture, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
   def edit; end
   def show; end
 
-  def new; @post = Post.new; end
+  def new
+    @post = Post.new
+  end
 
   def index
-    @posts = Post.near(params.gps, 200, units: :km) if params.location?
-    @posts = Post.all if no_results 
-    @posts = @posts.newest.paginate(page: params[:page], per_page: params[:per_page])
-    posts_json = ActiveModel::Serializer::CollectionSerializer.new(
-      @posts, serializer: Posts::IndexSerializer
-    ).as_json
-
     respond_to do |format|
       format.html { super }
-      format.json { render json: posts_json, status: :created, location: api_v1_posts_path }
+      format.json { render json: @posts_json, status: :created, location: api_v1_posts_path }
     end
   end
 
@@ -82,6 +78,16 @@ class PostsController < ApplicationController
       user_id: current_user.id,
       ip_code: request.static_ip_finder
     )
+  end
+
+  def set_posts
+    @posts = Post.near(params.gps, 200, units: :km) if params.location?
+    @posts = Post.all if no_results 
+    @posts = @posts.newest.paginate(page: params[:page], per_page: params[:per_page])
+
+    @posts_json = ActiveModel::Serializer::CollectionSerializer.new(
+      @posts, serializer: Posts::IndexSerializer
+    ).as_json
   end
 
   def find_post
