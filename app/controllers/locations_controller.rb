@@ -8,6 +8,20 @@ class LocationsController < ApplicationController
   def index
     set_locations_with_box if params.corners?
     set_locations if params.gps?
+    respond_to do |format|
+      format.html
+      format.json do 
+        decorate_locations
+        render json: @locations, status: 200, location: locations_path 
+      end
+    end
+  end
+  
+  def decorate_locations
+    @locations = @locations.map do |location| 
+      location.distance_from_user(params.gps) if params.gps?
+      LocationSerializer.new(location).serializable_hash[:data][:attributes]
+    end
   end
 
   def set_locations
