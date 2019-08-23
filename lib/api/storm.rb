@@ -6,7 +6,8 @@ class ApiError
   end
 
   def method_missing(*args, &block)
-    STDERR.puts "->>>>> API ERROR - Api Call failed with the following error #{@errors}" unless Rails.env.test?
+    puts "\n->>>>> API ERROR - Api Call failed with the following error #{@errors} \n" unless Rails.env.test?
+    puts "\n"
   end
 end
 
