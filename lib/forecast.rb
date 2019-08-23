@@ -64,10 +64,6 @@ class Forecast < Array
     end)
   end
 
-  def hourly
-    Forecast::KEYS.map {|key| [key, send(key.to_sym)] }.to_h
-  end
-
   def daily(key, timezone)
     days = (DateTime.now..DateTime.now+6).map {|day| day.in_time_zone(timezone["timeZoneId"]) }
     forecast = days.map {|day| dailyAverage(key, day)}.delete_if {|x| x.nil? } 
@@ -94,7 +90,19 @@ class Forecast < Array
     define_method(method) { current.value(method) } 
   end
 
-  def time; current["time"]; end
+  Forecast::KEYS.each do |method|
+    define_method("#{method}_at(time)".to_sym) do 
+      select {|row| row["time"] == time }.first.value(method) 
+    end
+  end
+
+  def hourly
+    Forecast::KEYS.map {|key| [key, send(key.to_sym)] }.to_h
+  end
+
+  def time; 
+    current["time"]; 
+  end
 
   %w(waveHeight swellPeriod).each do |method|
     define_method(method.pluralize) { current[method].collect {|x| x["value"]}}

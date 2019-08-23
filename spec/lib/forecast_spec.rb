@@ -106,6 +106,11 @@ describe Forecast do
       end
     end
   end
+  describe "#at_(time)" do
+    it "returns the forecast at a certain time" do
+      expect(forecast.at(timeNow)).to be nil
+    end
+  end
 
   context "at time 1" do
     before { allow(forecast).to receive(:timeNow).and_return dateTimes.first }
