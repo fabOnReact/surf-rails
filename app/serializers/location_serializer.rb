@@ -3,7 +3,7 @@ class LocationSerializer
   attributes :id, :direction, :experience, :frequency, :bottom, :wave_quality, :name, :latitude, :longitude, :country, :area, :address, :longitude, :latitude
 
   attribute :forecast do |object|
-    { tide: object.forecast.tideChart, hourly: object.hourly, daily: object.daily }
+    { tide: object.forecast.tideChart, hourly: object.hourly, daily: object.daily } if object.forecast.current
   end
 
   attribute :distance do |object|
