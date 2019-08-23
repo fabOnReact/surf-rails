@@ -81,9 +81,9 @@ class PostsController < ApplicationController
   end
 
   def set_posts
-    @posts = Post.near(params.gps, 50, units: :km) if params.location?
-    @posts = Post.limit(30) if no_results 
-    @posts = @posts.newest.paginate(page: params[:page], per_page: params[:per_page])
+    # @posts = Post.near(params.gps, 50, units: :km) if params.location?
+    # @posts = Post.limit(30) if no_results 
+    @posts = Post.newest.paginate(page: params[:page], per_page: params[:per_page])
   end
 
   def decorate_posts
