@@ -5,7 +5,7 @@ balangan = ['balangan_0728.JPG','balangan_0732.JPG','balangan_0733.JPG','balanga
 kuta = ['kuta_0687.JPG']
 
 videos = ["/videos/bronte-min.mp4", "/videos/costline-min.mp4", "/videos/surfer-min.mp4", "/videos/seaside-min.mp4"]
-posters = ["/videos/bronte-poster.mp4", "/videos/costline-poster.mp4", "/videos/surfer-poster.mp4", "/videos/seaside-poster.mp4"]
+posters = ["/videos/bronte-poster.png", "/videos/costline-poster.png", "/videos/surfer-poster.png", "/videos/seaside-poster.png"]
 spots = ["Bronte Reef", "Brace Cove", "Balangan", "Brace Cove"]
 
 domain = 'https://surfcheck.s3.eu-central-1.amazonaws.com'
@@ -16,9 +16,10 @@ spots = ["Bronte Reef", "Brace Cove", "Balangan", "Brace Cove"]
 
 videos.each.with_index do |video_name, index|
   video_url = "#{domain}#{video_name}"
+  poster_url = "#{domain}#{posters[index]}"
   location = Location.find_by(name: spots[index])
   post = Post.new(user: user, longitude: location.longitude, latitude: location.latitude)
-  post.video = { url: video_url }
+  post.video = { url: video_url, poster: poster_url }
   post.save
   puts "post saved, picture url: #{post.picture.url}" if post.valid?
   puts post.errors.full_messages unless post.valid?
