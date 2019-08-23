@@ -7,7 +7,7 @@ class PostsController < ApplicationController
   acts_as_token_authentication_handler_for User
   skip_before_action :verify_authenticity_token
   before_action :set_post, only: [:create]
-  before_action :decorate_posts, only: [:index]
+  before_action :set_posts, only: [:index]
   before_action :set_picture, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
@@ -21,7 +21,10 @@ class PostsController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.json { render json: @posts, status: :created, location: api_v1_posts_path }
+      format.json do 
+        decorate_posts
+        render json: @posts, status: 200, location: posts_path 
+      end
     end
   end
 
@@ -81,12 +84,10 @@ class PostsController < ApplicationController
 
   def set_posts
     # @posts = Post.near(params.gps, 50, units: :km) if params.location?
-    # @posts = Post.limit(30) if no_results 
     @posts = Post.newest.limit(30).paginate(page: params[:page], per_page: params[:per_page])
   end
 
   def decorate_posts
-    set_posts
     @posts = @posts.map do |post| 
       new_post = PostSerializer.new(post).serializable_hash[:data][:attributes]
       new_post[:location][:forecast][:tideChart] = new_post[:location][:forecast].delete(:tide) if new_post[:location][:forecast]
