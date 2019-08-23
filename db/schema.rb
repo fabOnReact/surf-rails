@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190821040857) do
+ActiveRecord::Schema.define(version: 20190823100608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,10 +44,12 @@ ActiveRecord::Schema.define(version: 20190821040857) do
     t.string "best_tide_movement"
     t.string "webcam_url"
     t.string "week_crowd"
+    t.boolean "with_forecast"
     t.index ["areas"], name: "index_locations_on_areas", using: :gin
     t.index ["country", "area", "name"], name: "index_locations_on_country_and_area_and_name", unique: true
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude"
     t.index ["pictures"], name: "index_locations_on_pictures", using: :gin
+    t.index ["with_forecast"], name: "index_locations_on_with_forecast"
   end
 
   create_table "posts", force: :cascade do |t|
