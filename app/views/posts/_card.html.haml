@@ -2,7 +2,7 @@
   - if post.picture.url.present?
     = image_tag post.picture.web.url.to_s, class: 'card-img-top', alt: 'Card image cap'
   - if post.video
-    = image_tag post.video["poster"], class: 'card-img-top', poster: post.video["poster"], autoplay: true, loop: true
+    = image_tag post.video["poster"], class: 'card-img-top', alt: 'Card image cap'
   .card-body
     %p.card-title #{post.location.name} (#{post.city}) ID #{post.id}
     - if current_forecast = post.location.forecast.current
