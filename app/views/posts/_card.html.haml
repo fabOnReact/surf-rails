@@ -1,10 +1,13 @@
 .card.mb-3
-  = image_tag post.picture.web.url.to_s, class: 'card-img-top', alt: 'Card image cap'
+  - if post.picture.url.present?
+    = image_tag post.picture.web.url.to_s, class: 'card-img-top', alt: 'Card image cap'
+  - if post.video
+    = image_tag post.video["poster"], class: 'card-img-top', poster: post.video["poster"], autoplay: true, loop: true
   .card-body
-    %p.card-title #{post.location.name} (#{post.city}) 
+    %p.card-title #{post.location.name} (#{post.city}) ID #{post.id}
     - if current_forecast = post.location.forecast.current
       %p.card-text #{current_forecast["waveHeight"].first["value"]} mt. Waves
       %p.card-text #{current_forecast["windSpeed"].first["value"]} mt/s wind 
     %p.card-text posted #{distance_of_time_in_words(server_date, post.utc_date)} ago #{post.description}
-    - if action_name == "index"
-      = link_to "Display", post_path(post), class: 'btn btn-primary'
+    - if action_name == "index" && post.location.forecast.current.present?
+      - link_to post_path(post), "Display", class: 'btn btn-primary'
