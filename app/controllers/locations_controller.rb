@@ -6,15 +6,32 @@ class LocationsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    if params.corners?
-      @locations = Location.within_bounding_box(params.corners) 
-    elsif params.gps?
-      @locations = Location.near(params.gps, 50, units: :km)
-      @locations[0..8].select {|location| location.forecast.empty? }.each do |location|
-        STDERR.puts "->>>>> Saving Location - location: #{location}, errors: #{location.errors.full_messages}"
-        ActiveRecord::Base.logger.silence { location.save }
-      end
-      @locations = @locations.where.not(forecast: nil).limit(8)
-    end
+    set_locations_with_box if params.corners?
+    set_locations if params.gps?
+  end
+
+  def set_locations
+    @locations = Location.near(params.gps, 30, units: :km).where(with_forecast: true).limit(8)
+    set_job
+  end
+
+  def set_locations_with_box
+    @locations = Location.within_bounding_box(params.corners)
+      .limit(params[:limit])
+  end
+
+  def set_job
+    Sidekiq::Cron::Job.load_from_array(job_params)
+    LocationWorker.perform_async({ gps: params.gps })
+  end
+
+  def job_params
+    [{ 
+      name: "Updating locations 30km from #{params.gps}", 
+      id: "Updating locations 30km from #{params.gps}", 
+      cron: "0 0 * * *",
+      class: 'LocationWorker',
+      args: { gps: params.gps }
+    }]
   end
 end
