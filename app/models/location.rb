@@ -8,7 +8,7 @@ class Location < ApplicationRecord
   String.include(String::Weather)
   Hash.include(Hash::Weather)
 
-  before_save :set_forecast, if: Proc.new {|location| location.forecast.eql? [] }
+  # before_save :set_forecast, if: Proc.new {|location| location.forecast.eql? [] }
   after_validation :reverse_geocode, if: ->(obj){ obj.latitude.present? and obj.longitude.present? }
   has_many :posts
   has_many :forecasts
