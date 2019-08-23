@@ -1,6 +1,5 @@
 require 'upload/cache'
 require 'core_ext/actionpack/lib/action_controller/metal/strong_parameters'
-# require 'posts/index_serializer'
 
 class PostsController < ApplicationController
   ActionController::Parameters.include(Parameters::Location)
@@ -83,7 +82,7 @@ class PostsController < ApplicationController
   def set_posts
     # @posts = Post.near(params.gps, 50, units: :km) if params.location?
     # @posts = Post.limit(30) if no_results 
-    @posts = Post.newest.paginate(page: params[:page], per_page: params[:per_page])
+    @posts = Post.newest.limit(30).paginate(page: params[:page], per_page: params[:per_page])
   end
 
   def decorate_posts
