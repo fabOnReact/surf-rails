@@ -17,16 +17,12 @@ class LocationsController < ApplicationController
     end
   end
   
-  def decorate_locations
-    @locations = @locations.map do |location| 
-      location.distance_from_user(params.gps) if params.gps?
-      LocationSerializer.new(location).serializable_hash[:data][:attributes]
-    end
-  end
-
+  private
   def set_locations
-    @locations = Location.near(params.gps, 30, units: :km).where(with_forecast: true).limit(8)
-    set_job
+    @locations = Location.near(params.gps, 30, units: :km)
+    to_update = @locations.where(with_forecast: false).limit(8)
+    @locations = @locations.where(with_forecast: true).limit(8)
+    to_update.each {|location| Location.set_job(location.id) } if to_update.present?
   end
 
   def set_locations_with_box
@@ -34,18 +30,10 @@ class LocationsController < ApplicationController
       .limit(params[:limit])
   end
 
-  def set_job
-    Sidekiq::Cron::Job.load_from_array(job_params)
-    LocationWorker.perform_async({ gps: params.gps })
-  end
-
-  def job_params
-    [{ 
-      name: "Updating locations 30km from #{params.gps}", 
-      id: "Updating locations 30km from #{params.gps}", 
-      cron: "0 0 * * *",
-      class: 'LocationWorker',
-      args: { gps: params.gps }
-    }]
+  def decorate_locations
+    options = { params: { gps: params.gps }} if params.gps?
+    @locations = @locations.map do |location| 
+      LocationSerializer.new(location, options).serializable_hash[:data][:attributes]
+    end
   end
 end

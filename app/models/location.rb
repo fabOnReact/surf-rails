@@ -60,4 +60,15 @@ class Location < ApplicationRecord
     gpsString = gps.join(',')
     "https://maps.googleapis.com/maps/api/staticmap?center=#{gpsString}&zoom=11&markers=#{gpsString}&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=300x300&maptype=satellite"
   end
+
+  def self.set_job(id)
+    Sidekiq::Cron::Job.load_from_array([{ 
+      name: "Updating location with the following id: #{id}", 
+      id: "Updating location {id}", 
+      cron: "0 0 * * *",
+      class: 'LocationWorker',
+      args: { id: id }
+    }])  
+    LocationWorker.perform_async({ id: id })
+  end
 end
