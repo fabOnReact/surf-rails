@@ -5,7 +5,8 @@ class Post < ApplicationRecord
 
   belongs_to :user 
   belongs_to :location
-  before_validation :set_additional_data
+  before_save :set_additional_data
+  after_create :update_forecast
   after_validation :reverse_geocode
   attr_accessor :ip_code
 
@@ -20,8 +21,12 @@ class Post < ApplicationRecord
   end
 
   def set_additional_data
-    self.location = Location.near([self.latitude, self.longitude], 50).first
-    location.save if location.present?
+    self.location = Location.near([self.latitude, self.longitude], 8).limit(1).first
+    self.location_data = { name: self.location.name }
+  end
+
+  def update_forecast
+    Location.set_job([self.location.id]) unless self.location.with_forecast
   end
 
   def liked(user_id)

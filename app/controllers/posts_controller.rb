@@ -7,7 +7,7 @@ class PostsController < ApplicationController
   acts_as_token_authentication_handler_for User
   skip_before_action :verify_authenticity_token
   before_action :set_post, only: [:create]
-  before_action :set_posts, only: [:index]
+  before_action :find_posts, only: [:index]
   before_action :set_picture, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
@@ -82,7 +82,7 @@ class PostsController < ApplicationController
     )
   end
 
-  def set_posts
+  def find_posts
     # @posts = Post.near(params.gps, 50, units: :km) if params.location?
     @posts = Post.newest.limit(30).paginate(page: params[:page], per_page: params[:per_page])
   end
