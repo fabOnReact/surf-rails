@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190823100608) do
+ActiveRecord::Schema.define(version: 20190824065814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,8 @@ ActiveRecord::Schema.define(version: 20190823100608) do
     t.string "best_tide_movement"
     t.string "webcam_url"
     t.string "week_crowd"
-    t.boolean "with_forecast"
+    t.boolean "with_forecast", default: false
+    t.jsonb "tide_chart"
     t.index ["areas"], name: "index_locations_on_areas", using: :gin
     t.index ["country", "area", "name"], name: "index_locations_on_country_and_area_and_name", unique: true
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude"
@@ -66,6 +67,7 @@ ActiveRecord::Schema.define(version: 20190823100608) do
     t.integer "favorite", default: [], array: true
     t.integer "location_id"
     t.jsonb "video"
+    t.jsonb "location_data"
     t.index ["favorite"], name: "index_posts_on_favorite", using: :gin
     t.index ["latitude", "longitude"], name: "index_posts_on_latitude_and_longitude"
     t.index ["location_id"], name: "index_posts_on_location_id"
