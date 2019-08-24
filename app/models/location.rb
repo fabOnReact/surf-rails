@@ -45,9 +45,6 @@ class Location < ApplicationRecord
     timezone["rawOffset"] / 3600
   end
 
-  def set_job
-  end
-
   def storm
     @storm = Storm.new(latitude, longitude)
   end
@@ -61,14 +58,25 @@ class Location < ApplicationRecord
     "https://maps.googleapis.com/maps/api/staticmap?center=#{gpsString}&zoom=11&markers=#{gpsString}&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=300x300&maptype=satellite"
   end
 
-  def self.set_job(id)
-    Sidekiq::Cron::Job.load_from_array([{ 
-      name: "Updating location with the following id: #{id}", 
-      id: "Updating location {id}", 
-      cron: "0 0 * * *",
-      class: 'LocationWorker',
-      args: { id: id }
-    }])  
-    LocationWorker.perform_async({ id: id })
+  def set_job
+    Sidekiq::Cron::Job.load_from_array(
+      [
+        { 
+          name: "Location name: #{self.name}, id: #{self.id} - update forecast data - every day at 00:00", 
+          id: "Location name: #{self.name}, id: #{self.id} - update forecast data - every day at 00:00", 
+          cron: "0 0 * * *",
+          class: 'DailyForecastWorker',
+          args: { id: id }
+        },
+        {
+          name: "Location name: #{self.name}, id: #{self.id} - update hourly forecast data - every hour at 00:00",
+          id: "Location name: #{self.name}, id: #{self.id} - update hourly forecast data - every hour at 00:00",
+          cron: "0 * * * *",
+          class: 'HourlyForecastWorker',
+          args: { id: id }
+        },
+      ]
+    )  
+    DailyForecastWorker.perform_async({ id: self.id })
   end
 end

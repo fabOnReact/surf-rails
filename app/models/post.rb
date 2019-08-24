@@ -26,7 +26,7 @@ class Post < ApplicationRecord
   end
 
   def update_forecast
-    Location.set_job(self.location.id) unless self.location.with_forecast
+    self.location.set_job unless self.location.with_forecast
   end
 
   def liked(user_id)
