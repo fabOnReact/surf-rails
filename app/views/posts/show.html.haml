@@ -1,6 +1,6 @@
 - location = @post.location
 - forecast = location.forecast
-= tag :meta, id: "forecast-data", name: "forecast_data", data: { tidechart: forecast.tideChart, tidedata: location.tideData, daily: location.daily } unless forecast.current.nil?
+= tag :meta, id: "forecast-data", name: "forecast_data", data: { tidechart: location.tide_chart, tidedata: location.tideData, daily: location.daily } unless forecast.current.nil?
 
 .container
   %h3 CURRENT SURF REPORT FOR #{location.name.upcase}

@@ -10,4 +10,4 @@
       // %p.card-text #{current_forecast["windSpeed"].first["value"]} mt/s wind 
     %p.card-text posted #{distance_of_time_in_words(server_date, post.utc_date)} ago #{post.description}
     - if action_name == "index" && post.location.with_forecast
-      = link_to post_path(post), "Display", class: 'btn btn-primary'
+      = link_to "Display", post_path(post), class: 'btn btn-primary'
