@@ -6,13 +6,15 @@ class LocationWorker
   include Sidekiq::Worker
 
   def perform(*args)
-    locations = Location.near(args.first["gps"], 30, units: :km).where(with_forecast: false).limit(8)
-    locations.each do |location|
+    location = Location.find_by(id: args.first["id"], with_forecast: false)
+    if location.present?
+    # locations.each do |location|
       forecast = Forecast.new(location.storm.getWaveForecast)
       location.update(timezone: location.maps.getTimezone) if location.timezone.nil?
       location.update({ 
         forecast: forecast,
         tide: location.storm.getTide,
+        tide_chart: forecast.tideChart,
         daily: forecast.daily('waveHeight', location.timezone),
         hourly: forecast.hourly,
       })
