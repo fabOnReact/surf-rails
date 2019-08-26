@@ -1,4 +1,6 @@
 require 'core_ext/hash'
+require 'forecast/wave'
+require 'forecast/tide'
 
 class ApiError
   def initialize(errors)
@@ -36,20 +38,26 @@ class Storm
   end
 
   def weather
-    self.class.get("/weather/point", @options)
+    @weather ||= self.class.get("/weather/point", @options)
   end
 
-  def errors; weather['errors']; end
+  def success?
+    weather["errors"].nil?
+  end
 
   def getWeather
-    weather["hours"] || ApiError.new(weather["errors"])
+    weather || ApiError.new(@weather["errors"])
+  end
+  
+  def meta
+    weather["meta"]
   end
 
-  def getTide
+  def getTides
     self.class.get("/tide/extremes/point", @options)
   end
 
-  def getWaveForecast
-    getWeather.map {|row| row.keepKeys }
+  def getWaves
+    getWeather["hours"].map {|row| row.keepKeys }
   end
 end
