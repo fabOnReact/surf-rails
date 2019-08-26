@@ -5,50 +5,44 @@ require 'api/google'
 class DailyForecastWorker
   include Sidekiq::Worker
 
-  def perform(*args)
-    @location = Location.find_by(id: args.first["id"], with_forecast: false)
-    execute_job if valid_parameters?
-  end
-
-  def execute_job
-    forecast ? get_forecast : set_forecast
+  def perform(args)
+    set_location(args)
+    update_forecast unless @location.current_forecast?
     set_timezone unless timezone?
-    update_forecast
-    @location.update(with_forecast: true) if @location.reload.forecast.present?
+    update_data if @location.storm.success?
   end
 
   private
+  def set_location(args)
+    @location = Location.find_by(id: args["id"], with_forecast: false)
+  end
+
   def set_timezone
-    @location.update(timezone: @location.maps.getTimezone) 
+    @timezone ||= @location.maps.getTimezone
+    @location.update(timezone: @timezone) 
   end
 
   def update_forecast
     @location.update({ 
-      forecast: @forecast,
-      tide: @location.storm.getTide,
-      tide_chart: @forecast.tideChart,
-      daily: @forecast.daily('waveHeight', @location.timezone),
-      hourly: @forecast.hourly,
-      meta: @forecast.meta,
+      forecast: @location.storm.getWaves,
+      tides: @location.storm.getTides,
     })
+  end
+
+  def timezone
+    @location.timezone || @timezone
+  end
+
+  def update_data
+    @location.update({ 
+      forecast_tide: @location.forecast.tide,
+      forecast_daily: @location.forecast.daily('waveHeight', timezone),
+      forecast_hourly: @location.forecast.hourly,
+      with_forecast: true,
+    })
+  end
 
   def timezone?
-    @location.timezone.nil?
-  end
-
-  def valid_parameters?
-    @location && @location.storm.success?
-  end
-
-  def forecast 
-    @location.forecast.current.nil?
-  end
-
-  def set_forecast
-    @forecast = Forecast.new(@location.storm.getWaveForecast)
-  end
-
-  def get_forecast
-    @forecast = @location.forecast
+    @location.timezone.present?
   end
 end
