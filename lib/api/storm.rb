@@ -1,6 +1,5 @@
 require 'core_ext/hash'
 require 'forecast/wave'
-require 'forecast/tide'
 
 class ApiError
   def initialize(errors)
