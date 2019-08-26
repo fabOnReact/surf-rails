@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190824085211) do
+ActiveRecord::Schema.define(version: 20190826083854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,10 +33,10 @@ ActiveRecord::Schema.define(version: 20190824085211) do
     t.string "pictures", array: true
     t.jsonb "areas", default: "{}", null: false
     t.jsonb "forecast"
-    t.jsonb "tide"
+    t.jsonb "tides"
     t.jsonb "timezone"
-    t.jsonb "daily"
-    t.jsonb "hourly"
+    t.jsonb "forecast_daily"
+    t.jsonb "forecast_hourly"
     t.string "good_swell_direction"
     t.string "good_wind_direction"
     t.string "swell_size"
@@ -45,8 +45,7 @@ ActiveRecord::Schema.define(version: 20190824085211) do
     t.string "webcam_url"
     t.string "week_crowd"
     t.boolean "with_forecast", default: false
-    t.jsonb "tide_chart"
-    t.jsonb "meta"
+    t.jsonb "forecast_tide"
     t.index ["areas"], name: "index_locations_on_areas", using: :gin
     t.index ["country", "area", "name"], name: "index_locations_on_country_and_area_and_name", unique: true
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude"
