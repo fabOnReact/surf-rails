@@ -3,6 +3,6 @@ class HourlyForecastWorker
 
   def perform(*args)
     location = Location.find_by(id: args.first["id"])
-    location.update(hourly: location.forecast.hourly)
+    location.update(hourly: location.forecast.hourly) if location && location.storm.quotaExceeded?
   end
 end
