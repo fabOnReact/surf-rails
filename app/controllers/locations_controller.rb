@@ -31,7 +31,7 @@ class LocationsController < ApplicationController
   end
 
   def decorate_locations
-    options = { params: { gps: params.gps }} if params.gps?
+    options = params.gps? ? { params: { gps: params.gps }} : {}
     @locations = @locations.map do |location| 
       LocationSerializer.new(location, options).serializable_hash[:data][:attributes]
     end

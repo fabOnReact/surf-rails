@@ -25,10 +25,6 @@ class Forecast::Wave < Forecast
     Wave::KEYS.map {|key| [key, send(key.to_sym)] }.to_h
   end
 
-  def time; 
-    current["time"]; 
-  end
-
   def within(day)
     Wave.new(select do |row| 
       datetime = row["time"].to_datetime
@@ -77,5 +73,9 @@ class Forecast::Wave < Forecast
 
   def hours
     upcoming.map {|x| x["time"] }[0..24]
+  end
+
+  def time; 
+    current["time"]; 
   end
 end

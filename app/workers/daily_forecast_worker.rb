@@ -7,6 +7,10 @@ class DailyForecastWorker
 
   def perform(args)
     set_location(args)
+    execute_job if @location.present?
+  end
+
+  def execute_job
     update_forecast unless @location.current_forecast?
     set_timezone unless timezone?
     update_data if @location.storm.success?
