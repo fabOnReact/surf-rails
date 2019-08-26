@@ -3,12 +3,12 @@ require 'core_ext/string'
 require 'core_ext/hash'
 require 'api/google'
 require 'forecast'
+require 'forecast/wave'
 
 class Location < ApplicationRecord
   String.include(String::Weather)
   Hash.include(Hash::Weather)
 
-  # before_save :set_forecast, if: Proc.new {|location| location.forecast.eql? [] }
   after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }
   has_many :posts
   has_many :forecasts
@@ -20,6 +20,10 @@ class Location < ApplicationRecord
     end
   end
 
+  def current_forecast?
+    self.present? && self.forecast.current.present?
+  end
+  
   def valid_coordinates(obj)
     obj.latitude.present? and 
     obj.longitude.present? and
@@ -28,7 +32,7 @@ class Location < ApplicationRecord
   end
 
   def forecast
-    Forecast.new(read_attribute(:forecast) || [])
+    Forecast::Wave.new(read_attribute(:forecast) || [])
   end
 
   def tideData
@@ -46,11 +50,11 @@ class Location < ApplicationRecord
   end
 
   def storm
-    @storm = Storm.new(latitude, longitude)
+    @storm ||= Storm.new(latitude, longitude)
   end
 
   def maps
-    @maps = Google::Maps.new(gps.join(','))
+    @maps ||= Google::Maps.new(gps.join(','))
   end
 
   def google_map
