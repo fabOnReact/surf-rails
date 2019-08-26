@@ -20,6 +20,10 @@ class Location < ApplicationRecord
     end
   end
 
+  def tide_data
+    tides["extremes"][0..4]
+  end
+
   def current_forecast?
     self.present? && self.forecast.current.present?
   end
@@ -33,10 +37,6 @@ class Location < ApplicationRecord
 
   def forecast
     Forecast::Wave.new(read_attribute(:forecast) || [])
-  end
-
-  def tideData
-    tide["extremes"][0..4]
   end
 
   def distance_from_user(user_gps)
