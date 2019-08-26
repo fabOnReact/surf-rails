@@ -59,7 +59,7 @@ class Location < ApplicationRecord
 
   def google_map
     gpsString = gps.join(',')
-    "https://maps.googleapis.com/maps/api/staticmap?center=#{gpsString}&zoom=11&markers=#{gpsString}&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=300x300&maptype=satellite"
+    "https://maps.googleapis.com/maps/api/staticmap?center=#{gpsString}&zoom=11&markers=#{gpsString}&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=1200x1200&maptype=satellite"
   end
 
   def set_job

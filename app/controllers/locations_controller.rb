@@ -19,7 +19,7 @@ class LocationsController < ApplicationController
   
   private
   def set_locations
-    @locations = Location.near(params.gps, 30, units: :km)
+    @locations = Location.near(params.gps, 70, units: :km)
     to_update = @locations.where(with_forecast: false).limit(8)
     @locations = @locations.where(with_forecast: true).limit(8)
     to_update.each {|location| location.set_job } if to_update.present?
