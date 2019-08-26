@@ -27,10 +27,6 @@ class Forecast < Array
     collect {|x| x["value"] }
   end
 
-  def time; 
-    current["time"]; 
-  end
-
   def collectValues(key)
     collect do |x| 
       row = Forecast.new(x[key])
