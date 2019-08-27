@@ -57,6 +57,7 @@ videos.each.with_index do |video_name, index|
   poster_url = "#{domain}#{folder}#{posters[index]}"
   location = Location.find_by(name: spots[index])
   post = Post.new(user: user, longitude: location.longitude, latitude: location.latitude, location: location)
+  # post.video = { poster: poster_url, poster_name: posters[index], video_name: video_name, high: { poster: poster_high_url, poster_name: posters_high[index], video_name: videos_high[index] }}
   post.video = { url_name: video_name, poster_name: posters[index], url: video_url, poster: poster_url, high: { url_name: videos_high[index], url: video_high_url, poster_name: posters_high[index], poster: poster_high_url }}
   post.save
   puts "post saved, picture url: #{post.picture.url}" if post.valid?
