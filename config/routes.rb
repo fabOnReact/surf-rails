@@ -16,7 +16,6 @@ Rails.application.routes.draw do
       devise_scope :user do
         post "/users/sign_in", to: "users/sessions#create"
         post "/users", to: "users/registrations#create"
-        get "/pages/:page" => "pages#show", as: :page
       end
     end
   end
