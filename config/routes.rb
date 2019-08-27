@@ -13,8 +13,10 @@ Rails.application.routes.draw do
   namespace :api do 
     namespace :v1 do 
       resources :posts, :locations
-      post "/users/sign_in", to: "users/sessions#create"
-      post "/users", to: "users/registrations#create"
+      devise_scope :user do
+        post "/users/sign_in", to: "users/sessions#create"
+        post "/users", to: "users/registrations#create"
+      end
     end
   end
 
