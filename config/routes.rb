@@ -9,12 +9,15 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
   get "/pages/:page" => "pages#show", as: :page
-  root 'pages#show'
-  mount Sidekiq::Web => '/sidekiq'
 
   namespace :api do 
     namespace :v1 do 
-      resources :posts
+      resources :posts, :locations
+      post "/users/sign_in", to: "users/sessions#create"
+      post "/users", to: "users/registrations#create"
     end
   end
+
+  mount Sidekiq::Web => '/sidekiq'
+  root 'pages#show'
 end
