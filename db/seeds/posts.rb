@@ -18,36 +18,36 @@ spots = ["Bronte Reef", "Brace Cove", "Balangan", "Brace Cove"]
 
 folder = "/seeds/images/"
 
-balangan.each do |picture_name|
-  image_url = "#{domain}#{folder}#{picture_name}"
-  location = Location.find_by(name: "Balangan")
-  post = Post.new(user: user, longitude: location.longitude, latitude: location.latitude, location: location)
-  post.remote_picture_url = image_url
-  post.save
-  puts "post saved, picture url: #{post.picture.url}" if post.valid?
-  puts post.errors.full_messages unless post.valid?
-end
-
-bondi[0..0].each do |picture_name|
-  image_url = "#{domain}#{folder}#{picture_name}"
-  random_location = ["Tama Reef", "Bondi Beach", "Bronte Reef", "Mckenzies", "The Boot", "South Bondi"]
-  location = Location.find_by(name: random_location[rand(0..5)])
-  post = Post.new(user: user, longitude: location.longitude, latitude: location.latitude, location: location)
-  post.remote_picture_url = image_url
-  post.save
-  puts "post saved, picture url: #{post.picture.url}" if post.valid?
-  puts post.errors.full_messages unless post.valid?
-end
-
-kuta.each do |picture_name|
-  image_url = "#{domain}#{folder}#{picture_name}"
-  location = Location.find_by(name: "Kuta Beach")
-  post = Post.new(user: user, longitude: location.longitude, latitude: location.latitude, location: location)
-  post.remote_picture_url = image_url
-  post.save
-  puts "post saved, picture url: #{post.picture.url}" if post.valid?
-  puts post.errors.full_messages unless post.valid?
-end
+# balangan.each do |picture_name|
+#   image_url = "#{domain}#{folder}#{picture_name}"
+#   location = Location.find_by(name: "Balangan")
+#   post = Post.new(user: user, longitude: location.longitude, latitude: location.latitude, location: location)
+#   post.remote_picture_url = image_url
+#   post.save
+#   puts "post saved, picture url: #{post.picture.url}" if post.valid?
+#   puts post.errors.full_messages unless post.valid?
+# end
+# 
+# bondi[0..0].each do |picture_name|
+#   image_url = "#{domain}#{folder}#{picture_name}"
+#   random_location = ["Tama Reef", "Bondi Beach", "Bronte Reef", "Mckenzies", "The Boot", "South Bondi"]
+#   location = Location.find_by(name: random_location[rand(0..5)])
+#   post = Post.new(user: user, longitude: location.longitude, latitude: location.latitude, location: location)
+#   post.remote_picture_url = image_url
+#   post.save
+#   puts "post saved, picture url: #{post.picture.url}" if post.valid?
+#   puts post.errors.full_messages unless post.valid?
+# end
+# 
+# kuta.each do |picture_name|
+#   image_url = "#{domain}#{folder}#{picture_name}"
+#   location = Location.find_by(name: "Kuta Beach")
+#   post = Post.new(user: user, longitude: location.longitude, latitude: location.latitude, location: location)
+#   post.remote_picture_url = image_url
+#   post.save
+#   puts "post saved, picture url: #{post.picture.url}" if post.valid?
+#   puts post.errors.full_messages unless post.valid?
+# end
 
 videos.each.with_index do |video_name, index|
   folder = "/seeds/videos/"
@@ -57,7 +57,7 @@ videos.each.with_index do |video_name, index|
   poster_url = "#{domain}#{folder}#{posters[index]}"
   location = Location.find_by(name: spots[index])
   post = Post.new(user: user, longitude: location.longitude, latitude: location.latitude, location: location)
-  post.video = { url: video_url, poster: poster_url, high: { url: video_high_url, poster: poster_high_url }}
+  post.video = { url_name: video_name, poster_name: posters[index], url: video_url, poster: poster_url, high: { url_name: videos_high[index], url: video_high_url, poster_name: posters_high[index], poster: poster_high_url }}
   post.save
   puts "post saved, picture url: #{post.picture.url}" if post.valid?
   puts post.errors.full_messages unless post.valid?
