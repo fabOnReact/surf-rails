@@ -3,7 +3,7 @@ class HourlyForecastWorker < DailyForecastWorker
 
   def perform(args)
     set_location(args)
-    update_forecast if @location.storm.success?
+    update_forecast if @location.current_forecast?
   end
 
   private
