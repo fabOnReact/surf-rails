@@ -5,7 +5,7 @@ class Post < ApplicationRecord
 
   belongs_to :user 
   belongs_to :location
-  before_save :set_additional_data
+  before_validation :set_additional_data
   after_create :update_forecast
   after_validation :reverse_geocode
   attr_accessor :ip_code
