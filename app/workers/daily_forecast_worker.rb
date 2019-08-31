@@ -18,7 +18,7 @@ class DailyForecastWorker
 
   private
   def set_location(args)
-    @location = Location.find_by(id: args["id"], with_forecast: false)
+    @location = Location.find_by(id: args["id"])
   end
 
   def set_timezone
