@@ -11,12 +11,16 @@ class DailyForecastWorker
   end
 
   def execute_job
-    update_forecast unless @location.current_forecast?
+    update_forecast unless current_forecast?
     set_timezone unless timezone?
-    update_data if @location.storm.success?
+    update_data if current_forecast?
   end
 
   private
+  def current_forecast?
+    @location.reload.forecast.current.present?
+  end
+
   def set_location(args)
     @location = Location.find_by(id: args["id"])
   end
@@ -27,6 +31,7 @@ class DailyForecastWorker
   end
 
   def update_forecast
+    return unless @location.storm.success?
     @location.update({ 
       forecast: @location.storm.getWaves,
       tides: @location.storm.getTides,
