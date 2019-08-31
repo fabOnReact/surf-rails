@@ -3,10 +3,18 @@ class HourlyForecastWorker < DailyForecastWorker
 
   def perform(args)
     set_location(args)
-    update_forecast if @location.current_forecast?
+    current_forecast ? update_forecast : run_job
   end
 
   private
+  def current_forecast
+    @location.current_forecast?
+  end
+
+  def run_job
+    DailyForecastWorker.perform_async({ "id" => @location.id })
+  end
+
   def set_location(args)
     @location = Location.find_by(id: args["id"])
   end

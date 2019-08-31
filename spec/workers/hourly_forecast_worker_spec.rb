@@ -17,14 +17,20 @@ RSpec.describe HourlyForecastWorker, type: :worker do
       expect(subject).to receive(:update_forecast)
     end
 
-    it 'does trigger any api call to stormglass' do
-      allow(location).to receive(:current_forecast?) { false }
-      expect(location).to_not receive(:storm)
-    end
+    context "with no current forecast data in database" do
+      before do 
+        expect(location).to receive(:current_forecast?) { false }
+        allow(location).to receive(:id) { 1 }
+        expect(DailyForecastWorker).to receive(:perform_async).with({ "id" => 1 })
+      end
 
-    it 'does not call #update_forecast if no current forecast are available' do
-      expect(location).to receive(:current_forecast?) { false }
-      expect(subject).to_not receive(:update_forecast)
+      it 'does not trigger any api call' do
+        expect(location).to_not receive(:storm)
+      end
+
+      it 'does not call #update_forecast' do
+        expect(subject).to_not receive(:update_forecast)
+      end
     end
   end
 
