@@ -1,3 +1,18 @@
-// Place all the styles related to the pages controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.android {
+  height: 150px;
+}
+
+.ios {
+  height: 100px;
+}
+
+@media (min-width: 600px) {
+  .android {
+    margin-left: -40px;
+  }
+}
+
+@media (max-width: 600px) { 
+  .ios { max-height: 88px }
+  .android { max-height: 150px; width: 100%; height: initial }
+} 
