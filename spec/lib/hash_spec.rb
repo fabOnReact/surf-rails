@@ -32,4 +32,16 @@ describe Hash do
       expect(forecast.forecast_attributes).to eql({:sea_level=>0.47, :time=>"2019-07-29T04:00:00+00:00", :wave_height=>1.84, :wave_period=>5.74})
     end
   end
+  describe '#value' do
+    it 'returns nil if there are no values' do
+      hash = Hash.new
+      expect(hash).to receive(:get_values).with("waveHeight") { [] }
+      waveHeight = hash.value("waveHeight")
+      expect(waveHeight).to be nil
+    end
+
+    it 'returns the value' do 
+      expect(forecast.value("waveHeight")).to eql 1.84
+    end
+  end
 end
