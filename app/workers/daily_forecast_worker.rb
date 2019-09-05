@@ -11,16 +11,12 @@ class DailyForecastWorker
   end
 
   def execute_job
-    update_forecast unless current_forecast?
+    update_forecast unless @location.forecast.present?
     set_timezone unless timezone?
-    update_data if current_forecast?
+    update_data if @location.reload.forecast.available?
   end
 
   private
-  def current_forecast?
-    @location.reload.forecast.current.present?
-  end
-
   def set_location(args)
     @location = Location.find_by(id: args["id"])
   end
