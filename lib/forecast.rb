@@ -3,6 +3,7 @@ require 'core_ext/array'
 class Forecast < Array
   Array.include(Array::Weather)
   Hash.include(Hash::Weather)
+  
   def current
     @current ||= select {|row| row["time"] == timeNow }.first
   end

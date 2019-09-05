@@ -11,6 +11,10 @@ class Forecast::Wave < Forecast
     define_method(method.pluralize) { current[method].collect {|x| x["value"]}}
   end
 
+  def available?
+    current.present? && !!(waveHeight && swellPeriod && windDirection)
+  end
+
   Wave::KEYS.each do |method|
     define_method(method) { current.value(method) } 
   end
@@ -35,6 +39,7 @@ class Forecast::Wave < Forecast
   end
 
   def daily(key, timezone)
+    return nil if missing_forecast?
     days = (DateTime.now..DateTime.now+6).map {|day| day.in_time_zone(timezone["timeZoneId"]) }
     forecast = days.map {|day| dailyAverage(key, day)}.delete_if {|x| x.nil? } 
     days = days.map {|x| x.to_datetime.strftime("%A") }[0..forecast.size-1]

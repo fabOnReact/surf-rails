@@ -11,7 +11,12 @@ module Hash::Weather
     end.to_h
   end
 
+  def get_values(m)
+    fetch(m.to_s)
+  end
+
   def value(m)
-    fetch(m.to_s).first["value"]
+    return nil if get_values(m).empty?
+    get_values(m).first["value"]
   end
 end
