@@ -60,6 +60,10 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+group :production do 
+  gem 'bugsnag'
+end
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'mechanize'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
@@ -81,4 +85,3 @@ gem 'fog-aws'
 gem 'sidekiq'
 gem 'sidekiq-cron', '~> 1.1'
 gem 'fast_jsonapi'
-gem 'bugsnag'
