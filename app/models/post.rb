@@ -8,6 +8,7 @@ class Post < ApplicationRecord
   before_validation :set_additional_data
   after_create :update_forecast
   after_validation :reverse_geocode
+  validates_presence_of :location, :message => "Looks like you are very far from any surf destination, only pictures that are takesn at a surfspot present in our database are accepted. Sorry!"
   attr_accessor :ip_code
 
   mount_uploader :picture, PictureUploader
@@ -22,7 +23,7 @@ class Post < ApplicationRecord
 
   def set_additional_data
     self.location = Location.near([self.latitude, self.longitude], 8).limit(1).first
-    self.location_data = { name: self.location.name }
+    self.location_data = { name: self.location.name } if self.location
   end
 
   def update_forecast
