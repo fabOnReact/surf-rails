@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     end
   end
 
-  mount Sidekiq::Web => '/sidekiq'
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
   root 'pages#show'
 end
