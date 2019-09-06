@@ -1,7 +1,3 @@
-require 'api/storm' 
-require 'forecast'
-require 'api/google'
-
 class DailyForecastWorker
   include Sidekiq::Worker
 
