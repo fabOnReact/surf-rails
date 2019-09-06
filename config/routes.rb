@@ -18,6 +18,14 @@ Rails.application.routes.draw do
         post "/users", to: "users/registrations#create"
       end
     end
+
+    namespace :v2 do 
+      resources :posts, :locations
+      devise_scope :user do
+        post "/users/sign_in", to: "users/sessions#create"
+        post "/users", to: "users/registrations#create"
+      end
+    end
   end
 
   authenticate :user, lambda { |u| u.admin? } do
