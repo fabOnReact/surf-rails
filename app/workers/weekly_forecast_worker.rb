@@ -1,7 +1,7 @@
-class WeeklyForecastWorkerWorker
+class WeeklyForecastWorker
   include Sidekiq::Worker
 
-  def perform(*args)
+  def perform(args)
     set_location(args)
     execute_job if @location.present?
   end

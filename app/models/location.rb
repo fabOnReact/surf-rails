@@ -65,7 +65,7 @@ class Location < ApplicationRecord
   def weekly_cron_tab
     next_day = DateTime.now.wday + 3
     next_day -= 6 if next_day > 6  
-    "0 0 * * #{DateTime.now},#{next_day}"
+    "0 0 * * #{DateTime.now.wday},#{next_day}"
   end
 
   def set_job
