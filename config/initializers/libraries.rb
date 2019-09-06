@@ -9,4 +9,7 @@ require 'scraper'
 require 'continent'
 require 'scraper/spot'
 require 'scraper/country'
+require 'api/storm' 
+require 'forecast'
+require 'api/google'
 
