@@ -62,13 +62,26 @@ class Location < ApplicationRecord
     "https://maps.googleapis.com/maps/api/staticmap?center=#{gpsString}&zoom=11&markers=#{gpsString}&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=1200x1200&maptype=satellite"
   end
 
+  def weekly_cron_tab
+    next_day = DateTime.now.wday + 3
+    next_day -= 6 if next_day > 6  
+    "0 0 * * #{DateTime.now},#{next_day}"
+  end
+
   def set_job
     Sidekiq::Cron::Job.load_from_array(
       [
         { 
-          name: "Location name: #{self.name}, id: #{self.id} - update forecast data - every day at 00:00", 
-          id: "Location name: #{self.name}, id: #{self.id} - update forecast data - every day at 00:00", 
-          cron: "0 0 * * *",
+          name: "Location name: #{self.name}, id: #{self.id} - update forecast data - every 3 days at 00:00", 
+          id: "Location name: #{self.name}, id: #{self.id} - update forecast data - every 3 days at 00:00", 
+          cron: weekly_cron_tab,
+          class: 'WeeklyForecastWorker',
+          args: { id: id }
+        },
+        { 
+          name: "Location name: #{self.name}, id: #{self.id} - update forecast data - every day at 01:00", 
+          id: "Location name: #{self.name}, id: #{self.id} - update forecast data - every day at 01:00", 
+          cron: "0 1 * * *",
           class: 'DailyForecastWorker',
           args: { id: id }
         },
