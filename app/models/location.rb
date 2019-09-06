@@ -9,7 +9,7 @@ class Location < ApplicationRecord
   String.include(String::Weather)
   Hash.include(Hash::Weather)
 
-  after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }
+  # after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }
   has_many :posts
   has_many :forecasts
 
@@ -38,6 +38,13 @@ class Location < ApplicationRecord
   def forecast
     Forecast::Wave.new(read_attribute(:forecast) || [])
   end
+
+  %w(wind swell).each do |method|
+    define_method("optimal_#{method}?".to_sym) do 
+      send("best_#{method}_direction".to_sym).include? forecast.windDirectionInWord
+    end
+  end
+
 
   def distance_from_user(user_gps)
     Geocoder::Calculations.distance_between(user_gps, gps, units: :km).round(1)

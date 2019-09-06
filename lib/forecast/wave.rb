@@ -1,6 +1,7 @@
 require 'forecast'
 
 class Forecast::Wave < Forecast
+  COORDINATES = {"North" => [340, 20], "NorthWest" => [300,340], "West" => [240, 280], "SouthWest" => [200, 240], "South" => [160, 200], "SouthEast" => [120, 160], "East" => [80, 120], "NorthEast" => [20, 60]}
   KEYS = %w(time swellHeight waveHeight windSpeed windDirection waveDirection swellDirection swellPeriod)
 
   %w(swellHeight waveHeight windSpeed swellPeriod).each do |method|
@@ -22,6 +23,31 @@ class Forecast::Wave < Forecast
   Wave::KEYS.each do |method|
     define_method("#{method}_at(time)".to_sym) do 
       select {|row| row["time"] == time }.first.value(method) 
+    end
+  end
+
+  %w(windDirection waveDirection swellDirection).each do |method|
+    define_method("#{method}InWord".to_sym) { in_word(send(method.to_sym)) } 
+  end
+
+  def in_word(input)
+    case input
+    when 340..360
+      "North"
+    when 0..20
+      "North"
+    when 300..340
+      "NorthWest"
+    when 240..280
+      "West"
+    when 200..240
+      "South"
+    when 120..160
+      "SouthEast"
+    when 80..120
+      "East"
+    when 20..60
+      "NorthEast"
     end
   end
 
