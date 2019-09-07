@@ -32,27 +32,29 @@ class Forecast::Wave < Forecast
 
   def in_word(input)
     case input
-    when 340..360
+    when 0..30
       "North"
-    when 0..20
-      "North"
-    when 300..340
-      "NorthWest"
-    when 240..280
-      "West"
-    when 200..240
-      "South"
-    when 120..160
-      "SouthEast"
-    when 80..120
-      "East"
-    when 20..60
+    when 30..60
       "NorthEast"
+    when 60..120
+      "East"
+    when 120..150
+      "SouthEast"
+    when 150..210
+      "South"
+    when 210..240
+      "SouthWest"
+    when 240..300
+      "West"
+    when 300..330
+      "NorthWest"
+    when 330..360
+      "North"
     end
   end
 
   def hourly
-    Wave::KEYS.map {|key| [key, send(key.to_sym)] }.to_h
+    Wave::KEYS.push("windDirectionInWord","swellDirectionInWord", "waveDirectionInWord").map {|key| [key, send(key.to_sym)] }.to_h
   end
 
   def within(day)

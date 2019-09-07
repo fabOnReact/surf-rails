@@ -49,7 +49,8 @@ class Location < ApplicationRecord
 
   %w(wind swell).each do |method|
     define_method("optimal_#{method}?".to_sym) do 
-      send("best_#{method}_direction".to_sym).include? forecast.windDirectionInWord
+      best_condition = send("best_#{method}_direction".to_sym) 
+      best_condition.include? forecast.windDirectionInWord if best_condition
     end
   end
 
