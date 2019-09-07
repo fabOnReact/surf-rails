@@ -39,6 +39,14 @@ class Location < ApplicationRecord
     Forecast::Wave.new(read_attribute(:forecast) || [])
   end
 
+  def get_hourly_forecast
+    forecast.hourly.merge(optimal_conditions)
+  end 
+
+  def optimal_conditions
+    { "optimal_swell" => optimal_swell?, "optimal_wind" => optimal_wind? }
+  end
+
   %w(wind swell).each do |method|
     define_method("optimal_#{method}?".to_sym) do 
       send("best_#{method}_direction".to_sym).include? forecast.windDirectionInWord
