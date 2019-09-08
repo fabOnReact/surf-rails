@@ -45,6 +45,7 @@ group :development, :test do
   gem "pry-byebug"
   gem 'shoulda-matchers', '~> 3.1'
   gem 'rails-controller-testing'
+  gem 'rubocop', '~> 0.74.0', require: false
   gem 'rubocop-rspec'
   gem 'rubocop-performance'
   gem 'spring'

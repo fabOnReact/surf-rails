@@ -38,7 +38,7 @@ Style/AndOr:
 # Do not use braces for hash literals when they are the last argument of a
 # method call.
 Style/BracesAroundHashParameters:
-  Enabled: true
+  Enabled: false
   EnforcedStyle: context_dependent
 
 # Align `when` with `case`.
@@ -77,7 +77,7 @@ Layout/EmptyLinesAroundMethodBody:
 Layout/EmptyLinesAroundModuleBody:
   Enabled: true
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   Enabled: true
 
 # Use Ruby >= 1.9 syntax for hashes. Prefer { a: :b } over { :a => :b }.
@@ -88,7 +88,7 @@ Style/HashSyntax:
 # extra level of indentation.
 Layout/IndentationConsistency:
   Enabled: true
-  EnforcedStyle: rails
+  EnforcedStyle: indented_internal_methods
 
 # Two spaces, no tabs (for indentation).
 Layout/IndentationWidth:
@@ -129,7 +129,7 @@ Style/MethodDefParentheses:
   Enabled: true
 
 Style/FrozenStringLiteralComment:
-  Enabled: true
+  Enabled: false
   EnforcedStyle: always
   Exclude:
     - 'actionview/test/**/*.builder'
