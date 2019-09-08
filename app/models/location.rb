@@ -2,7 +2,7 @@ require 'api/storm'
 require 'core_ext/string'
 require 'core_ext/hash'
 require 'api/google'
-require 'forecast'
+require 'forecast/data'
 
 class Location < ApplicationRecord
   String.include(String::Weather)
@@ -10,7 +10,8 @@ class Location < ApplicationRecord
   FORECAST_KEYS = %w(swellHeight waveHeight windSpeed windDirection waveDirection swellDirection swellPeriod)
 
   has_many :posts
-  # after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) } has_many :forecasts
+  # after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }
+  has_many :forecasts
 
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     geo = results.first
@@ -65,7 +66,7 @@ class Location < ApplicationRecord
   end
 
   def forecast
-    Forecast.new(read_attribute(:forecast) || [])
+    Forecast::Data.new(read_attribute(:forecast) || [])
   end
 
   def get_hourly_forecast
