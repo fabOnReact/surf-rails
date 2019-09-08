@@ -37,7 +37,7 @@ class DailyForecastWorker
   def update_data
     @location.update({ 
       forecast_tide: @location.forecast.tide,
-      forecast_daily: @location.forecast.daily('waveHeight', timezone),
+      forecast_daily: @location.get_daily_forecast,
       forecast_hourly: @location.forecast.hourly,
       with_forecast: true,
     })
