@@ -24,7 +24,7 @@ class DailyForecastWorker
 
   def update_forecast
     return unless @location.storm.success?
-    @location.update({ 
+    @location.update({
       forecast: @location.storm.getWaves,
       tides: @location.storm.getTides,
     })
@@ -35,7 +35,7 @@ class DailyForecastWorker
   end
 
   def update_data
-    @location.update({ 
+    @location.update({
       forecast_tide: @location.forecast.tide,
       forecast_daily: @location.get_daily_forecast,
       forecast_hourly: @location.forecast.hourly,
