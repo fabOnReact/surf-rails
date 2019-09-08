@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190906114248) do
+ActiveRecord::Schema.define(version: 20190908081622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "forecasts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "weather"
+    t.integer "location_id"
+    t.jsonb "daily"
+    t.jsonb "hourly"
+    t.jsonb "tides"
+    t.jsonb "tide"
+    t.index ["location_id"], name: "index_forecasts_on_location_id"
+  end
 
   create_table "locations", force: :cascade do |t|
     t.string "direction"
@@ -32,7 +44,7 @@ ActiveRecord::Schema.define(version: 20190906114248) do
     t.string "alternative_name"
     t.string "pictures", array: true
     t.jsonb "areas", default: "{}", null: false
-    t.jsonb "forecast"
+    t.jsonb "forecast_data"
     t.jsonb "tides"
     t.jsonb "timezone"
     t.jsonb "forecast_daily"
