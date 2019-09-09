@@ -10,6 +10,52 @@ class Location < ApplicationRecord
     end
   end
 
+  def get_hourly 
+    forecast.weather.hourly.merge(optimal_conditions)
+  end
+
+  def optimal_conditions
+    { "optimal_swell" => optimal_swell?, "optimal_wind" => optimal_wind? }
+  end
+
+  # def optimal_swell? def optimal_wind?
+  %w(wind swell).each do |method|
+    define_method("optimal_#{method}?".to_sym) do
+      best_condition = send("best_#{method}_direction".to_sym)
+      direction = forecast.weather.send("#{method}DirectionInWord".to_sym)
+      best_condition.include? direction if best_condition
+    end
+  end
+
+  # def optimal_swell?(swell) def optimal_wind?(wind)
+  %w(wind swell).each do |field|
+    # def optimal_swell(swell)
+    define_method("optimal_#{field}?(#{field})".to_sym) do |param|
+      best_condition = send("best_#{field}_direction".to_sym)
+      best_condition.include? param if best_condition
+    end
+  end
+
+  def optimal_forecast?
+    @daily_forecast.map { |forecast| location.optimal_swell?(forecast) }
+  end
+
+  def get_daily
+    daily = forecast.get_daily(week_days)
+    %w(wind swell).each do |attr|
+      daily[attr] = daily["#{attr}Direction"].map do |value|
+        send("optimal_#{attr}?(#{attr})", value.in_word)
+      end
+    end
+    daily
+  end
+
+  def week_days
+    @week_days ||= (DateTime.now..DateTime.now + 6).map do |day|
+      day.in_time_zone(timezone["timeZoneId"])
+    end
+  end
+
   def valid_coordinates(obj)
     obj.latitude.present? &&
     obj.longitude.present? &&
@@ -30,7 +76,13 @@ class Location < ApplicationRecord
 
   def google_map
     gpsString = gps.join(',')
-    "https://maps.googleapis.com/maps/api/staticmap?center=#{gpsString}&zoom=11&markers=#{gpsString}&key=#{ENV['GOOGLE_MAPS_API_KEY']}&size=1200x1200&maptype=satellite"
+    host = "https://maps.googleapis.com/maps/api/staticmap"
+    center = "center=#{gpsString}"
+    zoom = "zoom=11&markers=#{gpsString}"
+    key = "key=#{ENV['GOOGLE_MAPS_API_KEY']}"
+    size = "size=1200x1200"
+    maptype = "maptype=satellite"
+    "#{host}?#{center}&#{zoom}&#{key}&#{size}&#{maptype}"
   end
 
   def weekly_cron_tab
@@ -40,25 +92,26 @@ class Location < ApplicationRecord
   end
 
   def set_job
+    location_text = "Location name: #{self.name}, id: #{self.id}"
     Sidekiq::Cron::Job.load_from_array(
       [
         {
-          name: "Location name: #{self.name}, id: #{self.id} - update forecast data - every 3 days at 00:00",
-          id: "Location name: #{self.name}, id: #{self.id} - update forecast data - every 3 days at 00:00",
+          name: "#{location_text} update forecast data - every 3 days at 00:00",
+          id: "#{location_text} update forecast data - every 3 days at 00:00",
           cron: weekly_cron_tab,
           class: 'WeeklyForecastWorker',
           args: { id: id }
         },
         {
-          name: "Location name: #{self.name}, id: #{self.id} - update forecast data - every day at 01:00",
-          id: "Location name: #{self.name}, id: #{self.id} - update forecast data - every day at 01:00",
+          name: "#{location_text} update forecast data - every day at 01:00",
+          id: "#{location_text} update forecast data - every day at 01:00",
           cron: "0 1 * * *",
           class: 'DailyForecastWorker',
           args: { id: id }
         },
         {
-          name: "Location name: #{self.name}, id: #{self.id} - update hourly forecast data - every hour at 00:00",
-          id: "Location name: #{self.name}, id: #{self.id} - update hourly forecast data - every hour at 00:00",
+          name: "#{location_text} update forecast data - every hour at 00:00",
+          id: "#{location_text} update forecast data - every hour at 00:00",
           cron: "0 * * * *",
           class: 'HourlyForecastWorker',
           args: { id: id }
@@ -66,5 +119,13 @@ class Location < ApplicationRecord
       ]
     )
     DailyForecastWorker.perform_async({ id: self.id })
+  end
+
+  def storm
+    @storm ||= Storm.new(latitude, longitude)
+  end
+
+  def maps
+    @maps ||= Google::Maps.new(gps.join(','))
   end
 end

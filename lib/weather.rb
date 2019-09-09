@@ -1,22 +1,41 @@
 require 'core_ext/array'
 
-class Forecast::Weather < Array
-  Array.include(Array::Weather)
-  Hash.include(Hash::Weather)
+class Weather < Array
+  Array.include(Array::Calculations)
+  Hash.include(Hash::Permutations)
+  Float.include(Float::Coordinates)
 
-  COORDINATES = { "North" => [340, 20], "NorthWest" => [300, 340], "West" => [240, 280], "SouthWest" => [200, 240], "South" => [160, 200], "SouthEast" => [120, 160], "East" => [80, 120], "NorthEast" => [20, 60] }
-  KEYS = %w(time swellHeight waveHeight windSpeed windDirection waveDirection swellDirection swellPeriod)
+  COORDINATES = { "North" => [340, 20], "NorthWest" => [300, 340], 
+                  "West" => [240, 280], "SouthWest" => [200, 240],
+                  "South" => [160, 200], "SouthEast" => [120, 160], 
+                  "East" => [80, 120], "NorthEast" => [20, 60] }
+  KEYS = %w(time swellHeight waveHeight windSpeed windDirection waveDirection 
+  swellDirection swellPeriod)
 
   %w(swellHeight waveHeight windSpeed swellPeriod).each do |method|
     define_method("#{method}Range") { current[method].minMaxString }
   end
 
   %w(waveHeight swellPeriod).each do |method|
-    define_method(method.pluralize) { current[method].collect { |x| x["value"] } }
+    define_method(method.pluralize) do 
+      current[method].collect { |x| x["value"] } 
+    end
   end
 
   %w(windDirection waveDirection swellDirection).each do |method|
-    define_method("#{method}InWord".to_sym) { in_word(send(method.to_sym)) }
+    define_method("#{method}InWord".to_sym) { send(method.to_sym).in_word }
+  end
+
+  def tide
+    { hours: hours, seaLevels: seaLevels }
+  end
+
+  def seaLevels
+    upcoming.map { |x| x.value("seaLevel") }[0..24]
+  end
+
+  def hours
+    upcoming.map { |x| x["time"] }[0..24]
   end
 
   def available?
@@ -50,7 +69,7 @@ class Forecast::Weather < Array
   end
 
   def select
-    Forecast::Data.new(super)
+    Weather.new(super)
   end
 
   def values
@@ -59,42 +78,24 @@ class Forecast::Weather < Array
 
   def collectValues(key)
     collect do |x|
-      row = Forecast::Data.new(x[key])
+      row = Weather.new(x[key])
       if block_given?; yield(row); else; row; end
     end
   end
 
-  def in_word(input)
-    case input
-    when 0..30
-      "North"
-    when 30..60
-      "NorthEast"
-    when 60..120
-      "East"
-    when 120..150
-      "SouthEast"
-    when 150..210
-      "South"
-    when 210..240
-      "SouthWest"
-    when 240..300
-      "West"
-    when 300..330
-      "NorthWest"
-    when 330..360
-      "North"
-    end
-  end
-
   def hourly
-    KEYS.push("windDirectionInWord", "swellDirectionInWord", "waveDirectionInWord").map do |key|
+    directions = [
+      "windDirectionInWord", 
+      "swellDirectionInWord", 
+      "waveDirectionInWord"
+    ]
+    KEYS.push(directions).map do |key|
       [key, send(key.to_sym)]
     end.to_h
   end
 
   def within(day)
-    Forecast::Data.new(select do |row|
+    Weather.new(select do |row|
       datetime = row["time"].to_datetime
       dayBegin = day.beginning_of_day + 6.hours
       dayEnd = day.end_of_day - 6.hours
@@ -128,16 +129,4 @@ class Forecast::Weather < Array
   def waveAverage; waveHeights.average; end
 
   def periodsAverage; swellPeriods.average; end
-
-  def tide
-    { hours: hours, seaLevels: seaLevels }
-  end
-
-  def seaLevels
-    upcoming.map { |x| x.value("seaLevel") }[0..24]
-  end
-
-  def hours
-    upcoming.map { |x| x["time"] }[0..24]
-  end
 end
