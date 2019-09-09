@@ -1,13 +1,13 @@
 require 'rails_helper'
 require 'forecast'
 
-describe Forecast do
-  subject { Forecast.new([current_data, future_data]) }
+describe Forecast::Weather do
+  subject { Forecast::Weather.new([current_data, future_data]) }
   let(:current_data) { double("row") }
   let(:current_time) { double("time") }
   let(:future_data) { double("row") }
   let(:future_time) { double("time") }
-  let(:future_forecast) { Forecast.new([future_data]) }
+  let(:future_forecast) { Forecast::Weather.new([future_data]) }
 
   context 'timeNow is current_time double' do
     before do
