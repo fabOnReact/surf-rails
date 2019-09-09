@@ -1,4 +1,4 @@
-module Hash::Weather
+module Hash::Permutations
   FIELDS = { time: :time, swellHeight: :swell_height, swellPeriod: :swell_period, swellDirection: :swell_direction, waveHeight: :wave_height, wavePeriod: :wave_period, waveDirection: :wave_direction, windDirection: :wind_direction, windSpeed: :wind_speed, seaLevel: :sea_level }
   def keepKeys
     keep_if { |key, value| FIELDS.keys.include? key.to_sym }

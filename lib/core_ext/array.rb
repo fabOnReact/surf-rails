@@ -1,11 +1,18 @@
-module Array::Weather
+module Array::Calculations
   def minMaxString
-    collect {|x| x["value"].round }.minmax.uniq.join("-")
+    collect { |x| x["value"].round }.minmax.uniq.join("-")
   end
 
   def average
     return if self.empty?
-    sum = self.inject { |sum, el| sum + el }.to_f
-    (sum / self.size).round(1)
+    total = self.inject { |sum, el| sum + el }.to_f
+    (total / self.size).round(1)
+  end
+
+  def in_words
+    map do |date|
+      raise(ArgumentError) unless date.instance_of? ActiveSupport::TimeWithZone
+      date.to_datetime.strftime("%A")
+    end
   end
 end
