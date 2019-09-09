@@ -12,7 +12,7 @@ class ApiError
 end
 
 class Storm
-  Hash.include(Hash::Weather)
+  Hash.include(Hash::Permutations)
   include HTTParty
   base_uri "https://api.stormglass.io/v1"
 
