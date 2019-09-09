@@ -18,6 +18,9 @@ Performance:
   Exclude:
     - '**/test/**/*'
 
+Metrics/LineLength:
+  Enabled: true
+
 Rails:
   Enabled: true
 
@@ -92,7 +95,7 @@ Layout/IndentationConsistency:
 
 # Two spaces, no tabs (for indentation).
 Layout/IndentationWidth:
-  Enabled: true
+  Enabled: false
 
 Layout/LeadingCommentSpace:
   Enabled: true
@@ -174,7 +177,7 @@ Layout/TrailingBlankLines:
 
 # No trailing whitespace.
 Layout/TrailingWhitespace:
-  Enabled: true
+  Enabled: false
 
 # Use quotes for string literals when they are enough.
 Style/UnneededPercentQ:
