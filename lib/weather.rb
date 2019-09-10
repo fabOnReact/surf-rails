@@ -89,7 +89,7 @@ class Weather < Array
       "swellDirectionInWord", 
       "waveDirectionInWord"
     ]
-    KEYS.push(directions).map do |key|
+    KEYS.push(*directions).map do |key|
       [key, send(key.to_sym)]
     end.to_h
   end
