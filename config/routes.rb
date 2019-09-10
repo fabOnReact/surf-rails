@@ -27,9 +27,14 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  authenticate :user, lambda { |u| u.admin? } do
-    mount Sidekiq::Web => '/sidekiq'
+  
+  if Rails.env.production?
+    authenticate :user, lambda { |u| u.admin? } do
+      mount Sidekiq::Web => '/sidekiq'
+    end
   end
+
+  mount Sidekiq::Web => '/sidekiq' if Rails.env.development?
+
   root 'pages#show'
 end
