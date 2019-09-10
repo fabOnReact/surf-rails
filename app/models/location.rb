@@ -43,7 +43,7 @@ class Location < ApplicationRecord
   def get_daily
     daily = forecast.get_daily(week_days)
     %w(wind swell).each do |attr|
-      daily[attr] = daily["#{attr}Direction"].map do |value|
+      daily["optimal_#{attr}"] = daily["#{attr}Direction"].map do |value|
         send("optimal_#{attr}?(#{attr})", value.in_word)
       end
     end
