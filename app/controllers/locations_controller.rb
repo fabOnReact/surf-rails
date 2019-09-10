@@ -20,10 +20,12 @@ class LocationsController < ApplicationController
   private
   def set_locations
     @locations = Location.near(params.gps, 70, units: :km)
-    @locations = Location.near(params.gps, 1000, units: :km) if @locations.empty?
+    @locations = Location.near(
+      params.gps, 1000, units: :km
+    ) if @locations.empty?
     to_update = @locations.where(with_forecast: false).limit(8)
     @locations = @locations.where(with_forecast: true).limit(8)
-    to_update.each {|location| location.set_job } if to_update.present?
+    to_update.each { |location| location.set_job } if to_update.present?
   end
 
   def set_locations_with_box
@@ -32,9 +34,10 @@ class LocationsController < ApplicationController
   end
 
   def decorate_locations
-    options = params.gps? ? { params: { gps: params.gps }} : {}
+    options = params.gps? ? { params: { gps: params.gps } } : {}
     @locations = @locations.map do |location| 
-      LocationSerializer.new(location, options).serializable_hash[:data][:attributes]
+      LocationSerializer.new(location, options)
+        .serializable_hash[:data][:attributes]
     end
   end
 end
