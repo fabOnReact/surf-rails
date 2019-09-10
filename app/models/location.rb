@@ -86,32 +86,37 @@ class Location < ApplicationRecord
   end
 
   def weekly_cron_tab
-    next_day = DateTime.now.wday + 3
-    next_day -= 6 if next_day > 6
-    "0 0 * * #{DateTime.now.wday},#{next_day}"
+    next_day = @now.wday + 3
+    next_day - 6 if next_day > 6
+    "#{@now.minute} #{@now.hour - 1} * * #{@now.wday},#{next_day}"
+  end
+
+  def daily_cron_tab  
+    "#{@now.minute} #{@now.hour} * * *"
   end
 
   def set_job
+    @now = DateTime.now
     location_text = "Location name: #{self.name}, id: #{self.id}"
     Sidekiq::Cron::Job.load_from_array(
       [
         {
-          name: "#{location_text} update forecast data - every 3 days at 00:00",
-          id: "#{location_text} update forecast data - every 3 days at 00:00",
+          name: "#{location_text} update forecast data - every 3 days",
+          id: "#{location_text} update forecast data - every 3 days",
           cron: weekly_cron_tab,
           class: 'WeeklyForecastWorker',
           args: { id: id }
         },
         {
-          name: "#{location_text} update forecast data - every day at 01:00",
-          id: "#{location_text} update forecast data - every day at 01:00",
-          cron: "0 1 * * *",
+          name: "#{location_text} update forecast data - every day",
+          id: "#{location_text} update forecast data - every day",
+          cron: daily_cron_tab,
           class: 'DailyForecastWorker',
           args: { id: id }
         },
         {
-          name: "#{location_text} update forecast data - every hour at 00:00",
-          id: "#{location_text} update forecast data - every hour at 00:00",
+          name: "#{location_text} update forecast data - every hour",
+          id: "#{location_text} update forecast data - every hour",
           cron: "0 * * * *",
           class: 'HourlyForecastWorker',
           args: { id: id }
