@@ -8,11 +8,11 @@ class WeeklyForecastWorker
 
   def execute_job
     return unless @location.storm.success?
-    @location.update({ 
-      forecast: @location.storm.getWaves,
+    @location.forecast.update({ 
+      weather: @location.storm.getWaves,
       tides: @location.storm.getTides,
-      with_forecast: true,
     })
+    @location.update(with_forecast: true)
   end
 
   private

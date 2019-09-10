@@ -3,7 +3,7 @@ class HourlyForecastWorker < DailyForecastWorker
 
   def perform(args)
     set_location(args)
-    @location.forecast.available? ? update_forecast : run_job
+    @location.forecast.weather.available? ? update_forecast : run_job
   end
 
   private
@@ -17,7 +17,7 @@ class HourlyForecastWorker < DailyForecastWorker
 
   def update_forecast
     @location.update(
-      forecast_hourly: @location.get_hourly_forecast
+      forecast_hourly: @location.get_hourly
     )
   end
 end
