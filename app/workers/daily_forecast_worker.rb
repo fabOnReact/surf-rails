@@ -7,9 +7,9 @@ class DailyForecastWorker
   end
 
   def execute_job
-    update_forecast unless @location.forecast.present?
+    update_or_create_forecast unless @location.forecast.present?
     set_timezone unless timezone?
-    update_data if @location.reload.forecast.available?
+    update_data if @location.reload.forecast.weather.available?
   end
 
   private
@@ -22,12 +22,21 @@ class DailyForecastWorker
     @location.update(timezone: @timezone) 
   end
 
-  def update_forecast
+  def update_or_create_forecast
     return unless @location.storm.success?
-    @location.update({
-      forecast: @location.storm.getWaves,
-      tides: @location.storm.getTides,
-    })
+    @params = {
+        weather: @location.storm.getWaves,
+        tides: @location.storm.getTides,
+    }
+    @location.forecast ? update_forecast : create_forecast 
+  end
+
+  def update_forecast
+    @location.forecast.update(@params)
+  end
+
+  def create_forecast
+    @location.create_forecast(@params)
   end
 
   def timezone
@@ -35,12 +44,12 @@ class DailyForecastWorker
   end
 
   def update_data
-    @location.update({
-      forecast_tide: @location.forecast.tide,
-      forecast_daily: @location.get_daily_forecast,
-      forecast_hourly: @location.forecast.hourly,
-      with_forecast: true,
+    @location.forecast.update({
+      tide: @location.forecast.weather.tide,
+      daily: @location.get_daily,
+      hourly: @location.get_hourly,
     })
+    @location.update({ with_forecast: true })
   end
 
   def timezone?
