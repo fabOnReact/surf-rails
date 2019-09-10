@@ -67,6 +67,12 @@ ActiveRecord::Schema.define(version: 20190908081622) do
     t.index ["with_forecast"], name: "index_locations_on_with_forecast"
   end
 
+  create_table "pictures", force: :cascade do |t|
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "description"
     t.datetime "created_at", null: false
