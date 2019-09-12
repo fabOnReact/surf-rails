@@ -26,6 +26,7 @@ class Post < ApplicationRecord
     self.location_data = { name: self.location.name } if self.location
   end
 
+
   def update_forecast
     self.location.set_job unless self.location.with_forecast
   end
