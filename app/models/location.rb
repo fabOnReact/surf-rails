@@ -10,6 +10,10 @@ class Location < ApplicationRecord
     end
   end
 
+  def with_current_forecast?
+    forecast.present? && forecast.weather.current.present?
+  end
+
   def get_hourly 
     forecast.weather.hourly.merge(optimal_conditions)
   end
