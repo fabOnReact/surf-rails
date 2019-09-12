@@ -11,7 +11,6 @@ module Array::Calculations
 
   def in_words
     map do |date|
-      raise(ArgumentError) unless date.instance_of? ActiveSupport::TimeWithZone
       date.to_datetime.strftime("%A")
     end
   end
