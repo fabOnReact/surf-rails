@@ -13,7 +13,7 @@ class PostsController < ApplicationController
 
   def edit; end
   def show; end
-
+  
   def new
     @post = Post.new
   end
@@ -89,9 +89,7 @@ class PostsController < ApplicationController
 
   def decorate_posts
     @posts = @posts.map do |post| 
-      new_post = PostSerializer.new(post).serializable_hash[:data][:attributes]
-      new_post[:location][:forecast][:tideChart] = new_post[:location][:forecast].delete(:tide) if new_post[:location][:forecast]
-      new_post
+      PostSerializer.new(post).serializable_hash[:data][:attributes]
     end
   end
 

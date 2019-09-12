@@ -3,8 +3,6 @@ require 'core_ext/actionpack/lib/action_controller/metal/strong_parameters'
 class LocationsController < ApplicationController
   ActionController::Parameters.include(Parameters::Location)
 
-  skip_before_action :verify_authenticity_token
-
   def index
     set_locations_with_box if params.corners?
     set_locations if params.gps?
