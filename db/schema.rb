@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190908081622) do
+ActiveRecord::Schema.define(version: 20190912142111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20190908081622) do
     t.jsonb "hourly"
     t.jsonb "tides"
     t.jsonb "tide"
-    t.index ["location_id"], name: "index_forecasts_on_location_id"
+    t.index ["location_id"], name: "index_forecasts_on_location_id", unique: true
   end
 
   create_table "locations", force: :cascade do |t|
