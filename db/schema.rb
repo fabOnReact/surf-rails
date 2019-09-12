@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190912142111) do
+ActiveRecord::Schema.define(version: 20190912152438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,19 +36,12 @@ ActiveRecord::Schema.define(version: 20190912142111) do
     t.string "name"
     t.float "latitude"
     t.float "longitude"
-    t.string "country"
-    t.string "area"
     t.string "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "alternative_name"
     t.string "pictures", array: true
-    t.jsonb "areas", default: "{}", null: false
-    t.jsonb "forecast_data"
-    t.jsonb "tides"
     t.jsonb "timezone"
-    t.jsonb "forecast_daily"
-    t.jsonb "forecast_hourly"
     t.string "good_swell_direction"
     t.string "good_wind_direction"
     t.string "swell_size"
@@ -57,11 +50,8 @@ ActiveRecord::Schema.define(version: 20190912142111) do
     t.string "webcam_url"
     t.string "week_crowd"
     t.boolean "with_forecast", default: false
-    t.jsonb "forecast_tide"
     t.string "best_wind_direction", array: true
     t.string "best_swell_direction", array: true
-    t.index ["areas"], name: "index_locations_on_areas", using: :gin
-    t.index ["country", "area", "name"], name: "index_locations_on_country_and_area_and_name", unique: true
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude"
     t.index ["pictures"], name: "index_locations_on_pictures", using: :gin
     t.index ["with_forecast"], name: "index_locations_on_with_forecast"
