@@ -104,4 +104,3 @@ Geocoder::Lookup::Test.set_default_stub(
     }
   ]
 )
-
