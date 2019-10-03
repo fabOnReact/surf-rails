@@ -15,6 +15,7 @@ Dir[File.join(
 require 'core_ext/string'
 require 'core_ext/hash'
 require 'core_ext/float'
+require 'core_ext/integer'
 require 'mechanize'
 require 'scraper'
 require 'continent'
