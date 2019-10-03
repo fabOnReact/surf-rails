@@ -60,6 +60,6 @@ config.webpacker.check_yarn_integrity = true
   config.i18n.fallbacks = true
  
   # Whitelist server ip
-  config.web_console.whitelisted_ips = '192.168.0.100'
+  config.web_console.whitelisted_ips = '192.168.0.201'
   # config.web_console.whitelisted_ips = '169.254.236.201'
 end
