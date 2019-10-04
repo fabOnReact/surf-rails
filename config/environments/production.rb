@@ -104,4 +104,14 @@ config.webpacker.check_yarn_integrity = false
 
   # enable public file server
   # config.public_file_server.enabled = true
+  
+  # Configure CloudFront
+  # config.action_controller.asset_host = ENV.fetch('AWS_CLOUD_FRONT_URL')
+  # config.action_mailer.asset_host = ENV.fetch('AWS_CLOUD_FRONT_URL')
+
+  # config.serve_static_files = true
+  # config.assets.compile = true
+  # config.assets.digest = true
+  # config.assets.enabled = true
+  # config.assets.initialize_on_precompile = true
 end
