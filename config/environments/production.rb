@@ -1,6 +1,6 @@
 Rails.application.configure do
   # Verifies that versions and hashed value of the package contents in the project's package.json
-config.webpacker.check_yarn_integrity = false
+  config.webpacker.check_yarn_integrity = false
 
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -106,12 +106,12 @@ config.webpacker.check_yarn_integrity = false
   # config.public_file_server.enabled = true
   
   # Configure CloudFront
-  # config.action_controller.asset_host = ENV.fetch('AWS_CLOUD_FRONT_URL')
-  # config.action_mailer.asset_host = ENV.fetch('AWS_CLOUD_FRONT_URL')
+  config.action_controller.asset_host = ENV.fetch('SURF_AWS_CLOUD_FRONT_URL')
+  config.action_mailer.asset_host = ENV.fetch('SURF_AWS_CLOUD_FRONT_URL')
 
-  # config.serve_static_files = true
-  # config.assets.compile = true
-  # config.assets.digest = true
-  # config.assets.enabled = true
-  # config.assets.initialize_on_precompile = true
+  config.public_file_server.enabled = true
+  config.assets.compile = true
+  config.assets.digest = true
+  config.assets.enabled = true
+  config.assets.initialize_on_precompile = true
 end
