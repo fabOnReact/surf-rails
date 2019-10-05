@@ -106,8 +106,8 @@ Rails.application.configure do
   # config.public_file_server.enabled = true
   
   # Configure CloudFront
-  config.action_controller.asset_host = ENV.fetch('SURF_AWS_CLOUD_FRONT_URL')
-  config.action_mailer.asset_host = ENV.fetch('SURF_AWS_CLOUD_FRONT_URL')
+  config.action_controller.asset_host = ENV['SURF_AWS_CLOUD_FRONT_URL']
+  config.action_mailer.asset_host = ENV['SURF_AWS_CLOUD_FRONT_URL']
 
   config.public_file_server.enabled = true
   config.assets.compile = true
