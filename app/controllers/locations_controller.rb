@@ -17,13 +17,18 @@ class LocationsController < ApplicationController
   
   private
   def set_locations
-    @locations = Location.near(params.gps, 70, units: :km)
+    distance = params[:distance] || 70
+    @locations = Location.near(params.gps, distance, units: :km)
     @locations = Location.near(
       params.gps, 1000, units: :km
-    ) if @locations.empty?
+    ) if find_locations?
     to_update = @locations.where(with_forecast: false).limit(8)
     @locations = @locations.where(with_forecast: true).limit(8)
     to_update.each { |location| location.set_job } if to_update.present?
+  end
+
+  def find_locations?
+    params[:distance].nil? && @locations.empty?
   end
 
   def set_locations_with_box
