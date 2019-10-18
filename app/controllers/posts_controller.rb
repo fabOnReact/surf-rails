@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_post, only: [:create]
   before_action :find_posts, only: [:index]
-  before_action :set_picture, only: [:create]
+  # before_action :set_picture, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
   def edit; end
@@ -68,11 +68,11 @@ class PostsController < ApplicationController
   end
 
   private
-  def set_picture
-    cache = Upload::Cache.new(params[:post][:picture])
-    @post.picture = PictureUploader.new
-    @post.picture.store!(Upload::Image.new(cache))
-  end
+  # def set_picture
+  #   cache = Upload::Cache.new(params[:post][:picture])
+  #   @post.picture = PictureUploader.new
+  #   @post.picture.store!(Upload::Image.new(cache))
+  # end
 
   def set_post
     @post = Post.new(post_params)
@@ -100,6 +100,6 @@ class PostsController < ApplicationController
   def no_results; @posts.nil? || @posts.empty?; end
 
   def post_params   
-    params.require(:post).permit(:description, :longitude, :latitude, :location, :likes, picture: {})
+    params.require(:post).permit(:description, :longitude, :latitude, :location, :likes, video: {}, picture: {})
   end
 end
