@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191019073853) do
+ActiveRecord::Schema.define(version: 20191019080104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cameras", force: :cascade do |t|
+    t.integer "location_id"
+    t.float "latitude"
+    t.float "longitude"
+    t.integer "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["latitude"], name: "index_cameras_on_latitude"
+    t.index ["location_id"], name: "index_cameras_on_location_id"
+    t.index ["longitude"], name: "index_cameras_on_longitude"
+  end
 
   create_table "forecasts", force: :cascade do |t|
     t.datetime "created_at", null: false
