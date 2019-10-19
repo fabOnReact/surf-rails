@@ -1,6 +1,7 @@
 class Location < ApplicationRecord
   Integer.include(Integer::Transformations)
   has_many :posts, through: :camera
+  has_many :cameras
   has_one :forecast
   # after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }
 

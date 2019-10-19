@@ -4,12 +4,11 @@ class Post < ApplicationRecord
   scope :newest, -> { order(created_at: :desc) }
 
   belongs_to :user 
-  belongs_to :location
-  before_validation :set_additional_data
-  after_create :update_forecast
+  belongs_to :camera
+  before_validation :set_camera
   after_validation :reverse_geocode
-  validates_presence_of :location, :message => "Looks like you are very far from any surf destination, only videos that are taken at a surfspot present in our database are accepted. Sorry!"
   attr_accessor :ip_code
+  validates_associated :camera, :message => "Looks like you are very far from any surf destination, only videos that are taken at a surfspot present in our database are accepted. Sorry!"
 
   mount_uploader :picture, PictureUploader
 
@@ -21,13 +20,26 @@ class Post < ApplicationRecord
     end
   end
 
-  def set_additional_data
-    self.location = Location.near([self.latitude, self.longitude], 30).limit(1).first
-    self.location_data = { name: self.location.name } if self.location
+  def geo_query 
+    { 
+      location: 
+        { 
+          near: 
+            { 
+              lat: latitude, 
+              lon: longitude
+            }, 
+          within: "1km"
+        }
+    }
   end
 
-  def update_forecast
-    self.location.set_job unless self.location.with_forecast
+  def set_camera
+    self.camera = Camera.search(where: geo_query, limit: 1).first
+    self.camera = Camera.new(
+      latitude: latitude, 
+      longitude: longitude
+    ) unless camera
   end
 
   def liked(user_id)
