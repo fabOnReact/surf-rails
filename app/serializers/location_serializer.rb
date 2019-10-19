@@ -5,14 +5,11 @@ class LocationSerializer
     :best_swell_direction, :forecast_info
 
   attribute :forecast_info do |object|
-    forecast = object.forecast
-    if forecast.present?
-      { 
-        tide: forecast.tide, 
-        hourly: forecast.hourly, 
-        daily: forecast.daily 
-      } 
-    end
+    { 
+      tide: object.forecast_tide, 
+      hourly: object.forecast_hourly, 
+      daily: object.forecast_daily 
+    } 
   end
 
   attribute :distance do |object, params|
