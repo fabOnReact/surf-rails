@@ -1,6 +1,6 @@
 class Location < ApplicationRecord
   Integer.include(Integer::Transformations)
-  has_many :posts
+  has_many :posts, through: :camera
   has_one :forecast
   # after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }
 
@@ -67,7 +67,6 @@ class Location < ApplicationRecord
     obj.latitude.is_a?(Float) &&
     obj.longitude.is_a?(Float)
   end
-
 
   def distance_from_user(user_gps)
     Geocoder::Calculations.distance_between(user_gps, gps, units: :km).round(1)
