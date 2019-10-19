@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191018222150) do
+ActiveRecord::Schema.define(version: 20191019073853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,10 +20,7 @@ ActiveRecord::Schema.define(version: 20191018222150) do
     t.datetime "updated_at", null: false
     t.jsonb "weather"
     t.integer "location_id"
-    t.jsonb "daily"
-    t.jsonb "hourly"
     t.jsonb "tides"
-    t.jsonb "tide"
     t.index ["location_id"], name: "index_forecasts_on_location_id", unique: true
   end
 

@@ -44,10 +44,10 @@ class DailyForecastWorker
   end
 
   def update_data
-    @location.forecast.update({
-      tide: @location.forecast.weather.tide,
-      daily: @location.get_daily,
-      hourly: @location.get_hourly,
+    @location.update({
+      forecast_tide: @location.forecast.weather.tide,
+      forecast_daily: @location.get_daily,
+      forecast_hourly: @location.get_hourly,
     })
     @location.update({ with_forecast: true })
   end
