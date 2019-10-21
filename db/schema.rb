@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191019085129) do
+ActiveRecord::Schema.define(version: 20191021034336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 20191019085129) do
     t.integer "rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "last_post_at"
+    t.index ["last_post_at"], name: "index_cameras_on_last_post_at"
     t.index ["latitude"], name: "index_cameras_on_latitude"
     t.index ["location_id"], name: "index_cameras_on_location_id"
     t.index ["longitude"], name: "index_cameras_on_longitude"
@@ -64,8 +66,12 @@ ActiveRecord::Schema.define(version: 20191019085129) do
     t.jsonb "forecast_tide"
     t.jsonb "forecast_daily"
     t.jsonb "forecast_hourly"
+    t.boolean "with_cameras", default: false
+    t.datetime "last_camera_at"
+    t.index ["last_camera_at"], name: "index_locations_on_last_camera_at"
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude"
     t.index ["pictures"], name: "index_locations_on_pictures", using: :gin
+    t.index ["with_cameras"], name: "index_locations_on_with_cameras"
     t.index ["with_forecast"], name: "index_locations_on_with_forecast"
   end
 
