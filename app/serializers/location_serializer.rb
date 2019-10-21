@@ -1,8 +1,13 @@
 class LocationSerializer
   include FastJsonapi::ObjectSerializer
-  attributes :id, :direction, :experience, :frequency, :bottom, :wave_quality, 
-    :name, :latitude, :longitude, :address, :with_forecast, :best_wind_direction, 
-    :best_swell_direction, :forecast_info
+  has_many :cameras, if: Proc.new {|record, params| params && params[:with_cameras] == true }
+  # has_many :posts, if: Proc.new {|record, params| params && params[:with_cameras] == true }
+  attributes :id, :direction, :experience, 
+    :frequency, :bottom, :wave_quality, 
+    :name, :latitude, :longitude, :address, 
+    :with_forecast, :best_wind_direction, 
+    :best_swell_direction, :forecast_info, 
+    :last_camera_at
 
   attribute :forecast_info do |object|
     { 
