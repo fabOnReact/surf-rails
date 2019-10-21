@@ -1,8 +1,10 @@
 class Location < ApplicationRecord
   Integer.include(Integer::Transformations)
-  has_many :posts, through: :camera
+  scope :newest, -> { order(last_camera_at: :desc) }
   has_many :cameras
+  has_many :posts, through: :cameras
   has_one :forecast
+  before_save :set_last_camera_at
   # after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }
 
   reverse_geocoded_by :latitude, :longitude do |obj, results|
@@ -10,6 +12,10 @@ class Location < ApplicationRecord
     if geo && geo.data["error"].nil?
       obj.address = geo.address
     end
+  end
+
+  def set_last_camera_at
+    self.last_camera_at = DateTime.now
   end
 
   def with_current_forecast?

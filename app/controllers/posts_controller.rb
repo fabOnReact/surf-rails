@@ -78,7 +78,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.assign_attributes(
       user_id: current_user.id,
-      ip_code: request.static_ip_finder
+      # ip_code: request.static_ip_finder
     )
   end
 

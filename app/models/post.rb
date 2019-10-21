@@ -1,14 +1,13 @@
 class Post < ApplicationRecord
+  default_scope { order('created_at DESC') }
   include ActionView::Helpers::DateHelper
-
   scope :newest, -> { order(created_at: :desc) }
-
   belongs_to :user 
-  belongs_to :camera
+  belongs_to :camera, touch: :last_post_at
   before_validation :set_camera
   after_validation :reverse_geocode
+  before_destroy :delete_orphaned_camera
   attr_accessor :ip_code
-  validates_associated :camera, :message => "Looks like you are very far from any surf destination, only videos that are taken at a surfspot present in our database are accepted. Sorry!"
 
   mount_uploader :picture, PictureUploader
 
@@ -56,5 +55,14 @@ class Post < ApplicationRecord
 
   def owner?(owner)
     user == owner
+  end
+
+  private
+  def delete_orphaned_camera
+    camera.destroy if last_post
+  end
+
+  def last_post
+    camera.posts.size == 1
   end
 end
