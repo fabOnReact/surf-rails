@@ -31,11 +31,11 @@ class Camera < ApplicationRecord
   end
 
   private
-  def update_with_cameras
-    location.update(with_cameras: false) if last_camera
-  end
-
   def last_camera
     location.cameras.size == 1
+  end
+
+  def update_with_cameras
+    location.update(with_cameras: false) if last_camera
   end
 end
