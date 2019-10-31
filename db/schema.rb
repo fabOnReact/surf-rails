@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191021034336) do
+ActiveRecord::Schema.define(version: 20191031010116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,8 +96,11 @@ ActiveRecord::Schema.define(version: 20191021034336) do
     t.jsonb "video"
     t.jsonb "location_data"
     t.integer "camera_id"
+    t.boolean "flagged", default: false
+    t.jsonb "forecast"
     t.index ["camera_id"], name: "index_posts_on_camera_id"
     t.index ["favorite"], name: "index_posts_on_favorite", using: :gin
+    t.index ["flagged"], name: "index_posts_on_flagged"
     t.index ["latitude", "longitude"], name: "index_posts_on_latitude_and_longitude"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
