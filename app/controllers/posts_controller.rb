@@ -8,7 +8,6 @@ class PostsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_post, only: [:create]
   before_action :find_posts, only: [:index]
-  # before_action :set_picture, only: [:create]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
   def edit; end
@@ -68,22 +67,14 @@ class PostsController < ApplicationController
   end
 
   private
-  # def set_picture
-  #   cache = Upload::Cache.new(params[:post][:picture])
-  #   @post.picture = PictureUploader.new
-  #   @post.picture.store!(Upload::Image.new(cache))
-  # end
-
   def set_post
     @post = Post.new(post_params)
     @post.assign_attributes(
       user_id: current_user.id,
-      # ip_code: request.static_ip_finder
     )
   end
 
   def find_posts
-    # @posts = Post.near(params.gps, 50, units: :km) if params.location?
     @posts = Post.newest.limit(30).paginate(page: params[:page], per_page: params[:per_page])
   end
 
