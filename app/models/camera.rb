@@ -2,7 +2,7 @@ class Camera < ApplicationRecord
   searchkick locations: [:location]
   default_scope { order('last_post_at DESC') }
   belongs_to :location, touch: :last_camera_at
-  has_many :posts, -> { order "updated_at DESC" }, dependent: :destroy
+  has_many :posts, -> { order "updated_at DESC" }
   before_validation :set_location
   before_save :set_last_post_at
   after_create :update_forecast
