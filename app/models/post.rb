@@ -81,6 +81,6 @@ class Post < ApplicationRecord
   end
 
   def last_post
-    camera.posts.empty
+    camera.posts.empty?
   end
 end
