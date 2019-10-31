@@ -57,7 +57,12 @@ class Weather < Array
   end
 
   def timeNow
-    DateTime.now.utc.in_time_zone(-1).beginning_of_hour.xmlschema
+    # DateTime.now.utc.in_time_zone().beginning_of_hour.xmlschema
+    DateTime.now
+      .utc
+      .in_time_zone()
+      .beginning_of_hour
+      .strftime("%Y-%m-%dT%H:%M:%S+00:00")
   end
 
   def days
