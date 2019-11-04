@@ -26,12 +26,16 @@ class Weather < Array
     define_method("#{method}InWord".to_sym) { send(method.to_sym).in_word }
   end
 
-  def tide
+  def tide_chart
     { hours: hours, seaLevels: seaLevels }
   end
 
   def seaLevels
     upcoming.map { |x| x.value("seaLevel") }[0..24]
+  end
+
+  def tideData
+    upcoming.map { |x| [x.value("time"), x.value("seaLevel")] }.to_h
   end
 
   def hours
