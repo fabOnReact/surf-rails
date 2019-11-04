@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191031010116) do
+ActiveRecord::Schema.define(version: 20191104081440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20191031010116) do
     t.boolean "with_forecast", default: false
     t.string "best_wind_direction", array: true
     t.string "best_swell_direction", array: true
-    t.jsonb "forecast_tide"
+    t.jsonb "forecast_tide_chart"
     t.jsonb "forecast_daily"
     t.jsonb "forecast_hourly"
     t.boolean "with_cameras", default: false
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20191031010116) do
     t.integer "camera_id"
     t.boolean "flagged", default: false
     t.jsonb "forecast"
+    t.string "creation_date"
     t.index ["camera_id"], name: "index_posts_on_camera_id"
     t.index ["favorite"], name: "index_posts_on_favorite", using: :gin
     t.index ["flagged"], name: "index_posts_on_flagged"
