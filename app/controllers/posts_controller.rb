@@ -39,15 +39,7 @@ class PostsController < ApplicationController
     end
   end
 
-  def liked
-    params[:post][:liked]
-  end
-
   def update
-    @post.favorite.push(current_user.id) if liked == true
-    @post.favorite.delete(current_user.id) if liked == false
-    @post.favorite.uniq!
-
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
@@ -91,6 +83,6 @@ class PostsController < ApplicationController
   def no_results; @posts.nil? || @posts.empty?; end
 
   def post_params   
-    params.require(:post).permit(:description, :longitude, :latitude, :location, :likes, video: {}, picture: {})
+    params.require(:post).permit(:description, :longitude, :latitude, :location, :likes, :flagged, flag_reason: {}, video: {}, picture: {})
   end
 end
