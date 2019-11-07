@@ -1,11 +1,11 @@
 class Location < ApplicationRecord
   Integer.include(Integer::Transformations)
-  scope :newest, -> { order(last_camera_at: :desc) }
   has_many :cameras
-  has_many :posts, through: :cameras
   has_one :forecast
   before_save :set_last_camera_at
   # after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }
+  scope :newest, -> { order(last_camera_at: :desc) }
+  scope :with_posts, -> { includes(cameras: :posts).where(cameras: { posts: { flagged: false }}) }
 
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     geo = results.first
