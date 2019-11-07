@@ -26,7 +26,7 @@ class LocationsController < ApplicationController
   end
 
   def set_locations_with_cameras
-    @locations = Location.where(with_cameras: true)
+    @locations = Location.with_posts
       .newest
       .limit(30)
       .paginate(page: params[:page], per_page: params[:per_page])
