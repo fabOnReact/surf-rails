@@ -41,6 +41,7 @@ class PostsController < ApplicationController
 
   def update
     respond_to do |format|
+      @post.flagged = true if is_admin?
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { render json: @post, status: :created, location: @post }
@@ -80,9 +81,11 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
   end
 
-  def no_results; @posts.nil? || @posts.empty?; end
+  def is_admin?
+    params[:password] == ENV['ADMIN_KEY'] && params[:password].present?
+  end
 
   def post_params   
-    params.require(:post).permit(:description, :longitude, :latitude, :location, :likes, :flagged, flag_reason: {}, video: {}, picture: {})
+    params.require(:post).permit(:description, :longitude, :latitude, :location, :likes, :flagged, :reported, :flag_reason, video: {}, picture: {})
   end
 end
