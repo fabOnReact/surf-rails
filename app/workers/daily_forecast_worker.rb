@@ -45,7 +45,7 @@ class DailyForecastWorker
 
   def update_data
     @location.update({
-      forecast_tide: @location.forecast.weather.tide_chart,
+      forecast_tide_chart: @location.forecast.weather.tide_chart,
       forecast_daily: @location.get_daily,
       forecast_hourly: @location.get_hourly,
     })
