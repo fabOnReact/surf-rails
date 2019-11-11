@@ -1,6 +1,6 @@
 class Location < ApplicationRecord
   Integer.include(Integer::Transformations)
-  has_many :cameras
+  has_many :cameras, -> { order('last_post_at DESC') }
   has_one :forecast
   before_save :set_last_camera_at
   # after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }

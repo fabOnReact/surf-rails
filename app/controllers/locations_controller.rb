@@ -29,7 +29,6 @@ class LocationsController < ApplicationController
     @locations = Location.with_posts
       .newest
       .paginate(page: params[:page], per_page: params[:per_page])
-      # .limit(30)
   end
 
   def set_nearby_locations
