@@ -1,16 +1,18 @@
 class Camera < ApplicationRecord
-  searchkick locations: [:location]
   default_scope { newest }
   belongs_to :location, touch: :last_camera_at
   has_many :posts
   before_validation :set_location
-  after_create :update_forecast
+  after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }
   validates_associated :location, :message => "Looks like you are very far from any surf destination, only videos that are taken at a surfspot present in our database are accepted. Sorry!"
   scope :with_posts, -> { includes(:posts).where("posts.flagged" => false) }
   scope :newest, -> { order('last_post_at DESC') }
 
-  def search_data
-    attributes.merge(location: {lat: latitude, lon: longitude})
+  reverse_geocoded_by :latitude, :longitude do |obj, results|
+    geo = results.first
+    if geo && geo.data["error"].nil?
+      obj.address = geo.address
+    end
   end
 
   def coords
@@ -18,11 +20,6 @@ class Camera < ApplicationRecord
   end
 
   def set_location
-    self.location = Location.near(coords, 30).limit(1).first
-  end
-
-  def update_forecast
-    location.set_job unless location.with_forecast
-    location.update(with_cameras: true) unless location.with_cameras
+    self.location = Location.near(coords, 5, units: :km).limit(1).first
   end
 end

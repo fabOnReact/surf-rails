@@ -32,15 +32,11 @@ class LocationsController < ApplicationController
       .newest_cameras
       .newest_posts
       .limit(20)
-      # .paginate(page: params[:page], per_page: params[:per_page])
   end
 
   def set_nearby_locations
-    distance = params[:distance] || 70
+    distance = params[:distance] || 2
     @locations = Location.near(params.gps, distance, units: :km)
-    to_update = @locations.where(with_forecast: false).limit(8)
-    @locations = @locations.where(with_forecast: true).limit(8)
-    to_update.each { |location| location.set_job } if to_update.present?
   end
 
   def options

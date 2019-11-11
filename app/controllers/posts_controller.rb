@@ -30,6 +30,7 @@ class PostsController < ApplicationController
   def create
     respond_to do |format|
       if @post.save
+        PostWorker.perform_in(10.seconds, { id: @post.id })
         format.html { redirect_to posts_path, notice: 'Post was successfully created.' }
         format.json { render json: @post, status: :created, location: @post }
       else
