@@ -6,7 +6,6 @@ class Post < ApplicationRecord
   belongs_to :camera, touch: :last_post_at
   before_validation :set_or_initialize_camera, :set_forecast
   after_validation :reverse_geocode
-  # after_destroy :delete_orphaned_camera
   attr_accessor :ip_code
 
   mount_uploader :picture, PictureUploader
@@ -75,12 +74,4 @@ class Post < ApplicationRecord
     set_camera
     initialize_camera unless camera
   end
-
-  # def delete_orphaned_camera
-  #   camera.destroy if last_post
-  # end
-
-  # def last_post
-  #   camera.posts.empty?
-  # end
 end
