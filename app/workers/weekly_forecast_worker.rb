@@ -12,7 +12,6 @@ class WeeklyForecastWorker
       weather: @location.storm.getWaves,
       tides: @location.storm.getTides,
     })
-    @location.update(with_forecast: true)
   end
 
   private

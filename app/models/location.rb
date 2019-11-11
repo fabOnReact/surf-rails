@@ -4,7 +4,7 @@ class Location < ApplicationRecord
   has_many :posts, through: :cameras
   has_one :forecast
   before_save :set_last_camera_at
-  # after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }
+  after_validation :reverse_geocode, if: ->(obj){ valid_coordinates(obj) }
   scope :with_posts, -> { includes(cameras: :posts).where(cameras: { posts: { flagged: false }}) }
   scope :newest, -> { order(last_camera_at: :desc) }
   scope :newest_cameras, -> { order('cameras.last_post_at DESC') }
@@ -16,6 +16,7 @@ class Location < ApplicationRecord
       obj.address = geo.address
     end
   end
+
 
   def set_last_camera_at
     self.last_camera_at = DateTime.now
@@ -69,13 +70,6 @@ class Location < ApplicationRecord
     @week_days ||= (DateTime.now..DateTime.now + 6).map do |day|
       day.in_time_zone(timezone["timeZoneId"])
     end
-  end
-
-  def valid_coordinates(obj)
-    obj.latitude.present? &&
-    obj.longitude.present? &&
-    obj.latitude.is_a?(Float) &&
-    obj.longitude.is_a?(Float)
   end
 
   def distance_from_user(user_gps)
@@ -138,6 +132,7 @@ class Location < ApplicationRecord
       ]
     )
     DailyForecastWorker.perform_async({ id: self.id })
+    self.with_forecast = true
   end
 
   def storm

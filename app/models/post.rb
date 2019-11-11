@@ -2,21 +2,12 @@ class Post < ApplicationRecord
   include ActionView::Helpers::DateHelper
   belongs_to :user 
   belongs_to :camera, touch: :last_post_at
-  before_validation :set_or_initialize_camera, :set_forecast
-  after_validation :reverse_geocode
+  before_validation :set_or_initialize_camera
+  before_save :set_forecast
   attr_accessor :ip_code
   scope :newest, -> { order(created_at: :desc) }
 
   mount_uploader :picture, PictureUploader
-
-  reverse_geocoded_by :latitude, :longitude do |obj, results| 
-    geo = results.first
-    if geo.present? && geo.data["error"].nil?
-      obj.address = geo.address
-      obj.city = geo.city if geo.city
-    end
-  end
-
   def liked(user_id)
     favorite.include? user_id
   end
@@ -34,26 +25,13 @@ class Post < ApplicationRecord
   end
 
   private
-  def geo_query 
-    { 
-      location: 
-        { 
-          near: 
-            { 
-              lat: latitude, 
-              lon: longitude
-            }, 
-          within: "1km"
-        }
-    }
-  end
-
   def set_forecast
-    self.forecast = camera.location.forecast_hourly
+    location = self.camera.location
+    location.set_job unless location.with_forecast
   end
 
   def set_camera
-    self.camera = Camera.search(where: geo_query, limit: 1).first
+    self.camera = Camera.near([latitude, longitude], 1, units: :km).first
   end
 
   def coords
@@ -61,7 +39,7 @@ class Post < ApplicationRecord
   end
 
   def initialize_camera
-    location = Location.near(coords, 30).limit(1).first
+    location = Location.near(coords, 5, units: :km).limit(1).first
     self.camera = Camera.new(
       latitude: latitude, 
       longitude: longitude,

@@ -49,7 +49,6 @@ class DailyForecastWorker
       forecast_daily: @location.get_daily,
       forecast_hourly: @location.get_hourly,
     })
-    @location.update({ with_forecast: true })
   end
 
   def timezone?
