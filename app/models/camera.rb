@@ -2,17 +2,17 @@ class Camera < ApplicationRecord
   searchkick locations: [:location]
   default_scope { newest }
   belongs_to :location, touch: :last_camera_at
-  has_many :posts, -> { where(flagged: false) } # -> { order "updated_at DESC" }
+  has_many :posts, -> { where(flagged: false) }
   before_validation :set_location
-  before_save :set_last_post_at
+  # before_save :set_last_post_at
   after_create :update_forecast
   validates_associated :location, :message => "Looks like you are very far from any surf destination, only videos that are taken at a surfspot present in our database are accepted. Sorry!"
   scope :with_posts, -> { includes(:posts).where("posts.flagged" => false) }
   scope :newest, -> { order('last_post_at DESC') }
 
-  def set_last_post_at
-    self.last_post_at = DateTime.now
-  end
+ # def set_last_post_at
+ #   self.last_post_at = DateTime.now
+ # end
 
   def search_data
     attributes.merge(location: {lat: latitude, lon: longitude})
