@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191107014220) do
+ActiveRecord::Schema.define(version: 20191110015953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,8 +99,8 @@ ActiveRecord::Schema.define(version: 20191107014220) do
     t.boolean "flagged", default: false
     t.jsonb "forecast"
     t.string "creation_date"
-    t.string "flag_reason"
     t.boolean "reported", default: false
+    t.jsonb "flag_data"
     t.index ["camera_id"], name: "index_posts_on_camera_id"
     t.index ["favorite"], name: "index_posts_on_favorite", using: :gin
     t.index ["flagged"], name: "index_posts_on_flagged"
