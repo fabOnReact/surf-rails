@@ -1,12 +1,11 @@
 class Post < ApplicationRecord
   include ActionView::Helpers::DateHelper
-  default_scope -> { where(flagged:false) }
-  scope :newest, -> { order(created_at: :desc) }
   belongs_to :user 
   belongs_to :camera, touch: :last_post_at
   before_validation :set_or_initialize_camera, :set_forecast
   after_validation :reverse_geocode
   attr_accessor :ip_code
+  scope :newest, -> { order(created_at: :desc) }
 
   mount_uploader :picture, PictureUploader
 
