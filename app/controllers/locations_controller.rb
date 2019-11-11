@@ -28,6 +28,8 @@ class LocationsController < ApplicationController
   def set_locations_with_cameras
     @locations = Location.with_posts
       .newest
+      .newest_cameras
+      .newest_posts
       .paginate(page: params[:page], per_page: params[:per_page])
   end
 
