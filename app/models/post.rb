@@ -31,7 +31,7 @@ class Post < ApplicationRecord
   end
 
   def set_camera
-    self.camera = Camera.near([latitude, longitude], 1, units: :km).first
+    self.camera = Camera.near([latitude, longitude], 0.1, units: :km).first
   end
 
   def coords
