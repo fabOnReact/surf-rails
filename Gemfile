@@ -80,7 +80,8 @@ gem 'simple_token_authentication', '~> 1.15', '>= 1.15.1'
 gem "actionview", ">= 5.1.6.2"
 gem "httparty"
 gem 'rack-cors'
-gem 'will_paginate'
+# gem 'will_paginate'
+# gem 'kaminari'
 gem 'seed_dump'
 gem 'fog-aws'
 gem 'asset_sync'
