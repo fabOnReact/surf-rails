@@ -31,7 +31,6 @@ class LocationsController < ApplicationController
       .newest
       .newest_cameras
       .newest_posts
-      .limit(20)
   end
 
   def set_nearby_locations

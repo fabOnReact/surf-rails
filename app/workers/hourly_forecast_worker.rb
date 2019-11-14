@@ -17,7 +17,8 @@ class HourlyForecastWorker < DailyForecastWorker
 
   def update_forecast
     @location.update(
-      forecast_hourly: @location.get_hourly
+      forecast_hourly: @location.get_hourly,
+      with_forecast: true,
     )
   end
 end

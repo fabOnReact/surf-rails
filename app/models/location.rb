@@ -131,8 +131,9 @@ class Location < ApplicationRecord
         },
       ]
     )
+    WeeklyForecastWorker.perform_async({ id: self.id })
     DailyForecastWorker.perform_async({ id: self.id })
-    self.with_forecast = true
+    HourlyForecastWorker.perform_async({ id: self.id })
   end
 
   def storm
