@@ -70,7 +70,7 @@ gem 'mechanize'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.2'
 gem 'carrierwave'
-gem 'simple_form', '~> 3.5'
+gem 'simple_form', '~> 5.0'
 gem "mini_magick", ">= 4.9.4"
 gem 'haml'
 gem 'haml-rails'
