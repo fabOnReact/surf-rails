@@ -29,7 +29,7 @@ run `rspec` for running test suite. Specs are currently not completed and some w
 - Responsive WebPage built with `Twitter-Bootstrap 4`
 - [`Geocoder`][1] to `reverse geocode` database entries based on the GPS latitude and longitude coordinates
 - `Geospatial Queries` by [user coordinates or bounding box][2]
-- Offering over 1 Million of surfspots information in the world with gps coordinates, pictures, wave forecast and surfspot information available in the webapplication, Iphone and Android native apps and json-api.
+- Offering over 10.000 surfspots information in the world with gps coordinates, pictures, wave forecast and surfspot information available in the webapplication, Iphone and Android native apps and json-api.
 - Sidekiq and Cron-Sidekiq jobs to retrieve and calculate forecasts information
 - Hosting on Digital Ocean
 - Native Mobile Iphone and Android application
