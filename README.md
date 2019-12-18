@@ -3,7 +3,7 @@
 </p>
 
 # Surfcheck Backend and WebApplication
-- The [github repo](https://github.com/fabriziobertoglio1987/surfnative) of the ReactNative Mobile app using this api.
+- The [github repo](https://github.com/fabriziobertoglio1987/surf-react-native) of the ReactNative Mobile app using this api.
 - The [webapplication](https://surfcheck.xyz)
 - The api [endpoints, documentation and postman requests](https://documenter.getpostman.com/view/6379421/SVfH1CeA?version=latest). The api is public and free.
 
