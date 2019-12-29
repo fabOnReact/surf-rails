@@ -69,7 +69,7 @@ class PostsController < ApplicationController
   end
 
   def find_posts
-    @posts = Post.newest.limit(30).paginate(page: params[:page], per_page: params[:per_page])
+    @posts = Post.newest.limit(30)
   end
 
   def decorate_posts

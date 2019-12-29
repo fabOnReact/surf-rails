@@ -1,18 +1,18 @@
+require "open-uri"
 module Google 
   class Auth
-    include HTTParty
-    base_uri "https://oauth2.googleapis.com"
+    BASE_URI = "https://oauth2.googleapis.com"
 
     def initialize(token)
-      @options = { query: { access_token: token } }
+      @token = token
     end
-    
-    def tokeninfo
-      @tokeninfo ||= self.class.get("/tokeninfo", @options)
+
+    def get_token
+      JSON.parse(URI.parse("#{BASE_URI}/tokeninfo?id_token=#{@token}").read)
     end
 
     def authorized? 
-      tokeninfo.code.eql? 200
+      get_token["email"].present?
     end
   end
 
