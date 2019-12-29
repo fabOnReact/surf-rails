@@ -146,6 +146,26 @@ forecast = {
 video = { url: url, poster: poster }
 post = Post.create(forecast: forecast, user: User.find_by(email: 'fabrizio.bertoglio@gmail.com'), latitude: gps[0], longitude: gps[1], created_at: time, video: video)
 
+# Kuta Istana in water 
+url = "https://res.cloudinary.com/dhhzzcjq0/video/upload/v1576331424/kuta_cam_1_1_14122019_nrefza.mp4"
+poster = "https://res.cloudinary.com/dhhzzcjq0/video/upload/v1576331424/kuta_cam_1_1_14122019_nrefza.png"
+time = Time.zone.local(2019, 12, 13, 23, 00, 00)
+gps = [-8.715938, 115.166881]
+forecast = {
+ "windSpeed"=>3.5,
+ "waveHeight"=>0.5,
+ "swellHeight"=>0.5,
+ "swellPeriod"=>13,
+ "optimal_wind"=>true,
+ "optimal_swell"=>true,
+ "waveDirection"=>204,
+ "windDirection"=>221,
+ "swellDirection"=>204,
+}
+
+video = { url: url, poster: poster }
+post = Post.create(forecast: forecast, user: User.find_by(email: 'fabrizio.bertoglio@gmail.com'), latitude: gps[0], longitude: gps[1], created_at: time, video: video)
+
 # Sindhu Beach
 url = "https://res.cloudinary.com/dhhzzcjq0/video/upload/v1574751984/sanur_camera_1_3_best_261119_sermvh.mp4"
 poster = "https://res.cloudinary.com/dhhzzcjq0/video/upload/v1574751984/sanur_camera_1_3_best_261119_sermvh.png"
