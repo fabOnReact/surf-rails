@@ -75,7 +75,7 @@ gem "mini_magick", ">= 4.9.4"
 gem 'haml'
 gem 'haml-rails'
 gem 'geocoder'
-gem 'webpacker', '~> 3.5'
+# gem 'webpacker', '~> 3.5'
 gem 'simple_token_authentication', '~> 1.15', '>= 1.15.1'
 gem "actionview", ">= 5.1.6.2"
 gem "httparty"

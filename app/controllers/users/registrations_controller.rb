@@ -45,7 +45,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def token
-    @token ||= params.require(:user).permit(:accessToken).to_h[:accessToken]
+    @token ||= params.require(:user).permit(:serverAuthCode).to_h[:accessToken]
   end
 
   def sign_up_params
