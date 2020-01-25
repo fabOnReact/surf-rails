@@ -30,7 +30,18 @@ The [`/locations`][7] endpoint accepts three type of queries:
 2) Locations filtered within a [`bounding box`][11] ([`#set_locations_with_box`][13])
 3) Locations that have videos of the surf conditions ([`#set_locations_with_cameras`][14])
 
-More information and test cases are available in the `/locations` [api endpoint documentation][7].
+An example curl request:
+
+```curl
+curl --location --request GET 'https://surfcheck.xyz/api/v1/posts.json?longitude=115.165524&latitude=-8.730649&page=1&per_page=4' \
+--header 'X-User-Email: testing@torino1' \
+--header 'X-User-Token: bGEfYLE72KtkGyQ21bcP' \
+--header 'Accept: {{Accept}}' \
+--header 'Content-Type: {{Content}}' \
+--data-raw ''
+```
+
+More updated information and test cases are available in the `/locations` [api endpoint documentation][7].
 
 The react native app retrieves from the `/locations` api endpoint the locations, forecast, videos information in the [`Locations`][15] `component` using the [`Api`][16] `class`. The information are retrieved at the application startup and cached. 
 The same endpoint is used to display the different surfspots during map navigation with the [Map][17] `component` and the [Map][18] `class`.
