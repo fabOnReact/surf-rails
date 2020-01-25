@@ -1,9 +1,9 @@
 # Table of Contents  
 1. [Introduction](#introduction)  
 2. [Forecast](#forecast)  
-   a. [Retrieving Weather Forecast via Api](3#step-1-retrieving-information-via-api)  
-   b. [Recording Cron Jobs](3#step-2-recording-cron-jobs)  
-   c. [Calculating Surf Forecast](3#step-3-calculating-surf-forecast)
+   a. [Retrieving Weather Forecast via Api](#step-1-retrieving-information-via-api)  
+   b. [Recording Cron Jobs](#step-2-recording-cron-jobs)  
+   c. [Calculating Surf Forecast](#step-3-calculating-surf-forecast)
 3. [Things To Improve](#things-to-improve)  
 
 # Introduction
