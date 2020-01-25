@@ -53,7 +53,7 @@ class LocationsController < ApplicationController
   def decorate_locations
     @locations = @locations.map do |location| 
       LocationSerializer.new(location, options)
-        .serializable_hash # [:data][:attributes]
+        .serializable_hash
     end
   end
 end

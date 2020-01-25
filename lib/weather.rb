@@ -61,7 +61,6 @@ class Weather < Array
   end
 
   def timeNow
-    # DateTime.now.utc.in_time_zone().beginning_of_hour.xmlschema
     DateTime.now
       .utc
       .in_time_zone()
