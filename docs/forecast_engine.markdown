@@ -1,4 +1,4 @@
-##### Table of Contents  
+# Table of Contents  
 1. [Introduction](#introduction)  
 2. [Forecast](#forecast)  
    a. [Retrieving Weather Forecast via Api](3#step-1-retrieving-information-via-api)  
