@@ -4,6 +4,7 @@
    a. [Retrieving Weather Forecast via Api](3#step-1-retrieving-information-via-api)  
    b. [Recording Cron Jobs](3#step-2-recording-cron-jobs)  
    c. [Calculating Surf Forecast](3#step-3-calculating-surf-forecast)
+3. [Things To Improve](#things-to-improve)  
 
 # Introduction
 The `surf-rails` backend includes around 10.000 surfspots from **Europe**, **Oceania**, **Africa**, **America** and **Asia**, it's the first public api endpoint, currently the [magicseaweed api][6] does not provide this information.
@@ -207,6 +208,27 @@ class Weather < Array
 end
 ```
 
+Then uses the accessors and methods defined to calculate the current daily (or hourly) forecasts
+
+```ruby
+class Weather < Array
+  def daily(key, week_days)
+    return nil unless available?
+    week_days.map { |day| dailyAverage(key, day) }.delete_if { |x| x.nil? }
+  end
+
+  def hourlyAverage(key, day)
+    within(day).collectValues(key) do |x|
+      x.values.average
+    end
+  end
+
+  def dailyAverage(key, day)
+    hourlyAverage(key, day).average
+  end
+end
+```
+
 [19]: https://docs.stormglass.io/#point-request
 [20]: https://www.youtube.com/watch?v=xFFs9UgOAlE&t=1993s?t=265
 [21]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/location.rb#L106
@@ -217,7 +239,15 @@ end
 [26]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/lib/weather.rb#L3
 [27]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/lib/weather.rb#L15-L27
 
-[100]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/
-[100]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/
-[100]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/
-[100]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/db/schema.rb#L20
+# Things to Improve
+1. Full Test Coverage (`jest` unit test and `detox` e2e tests) of  the react native mobile app
+2. Refactor the React application
+3. Fixing rspec tests 
+4. Speeding up rspec tests with vcr
+6. Optimizing weather engine  
+   a. retrieve weather forecast based on closest [buoy][28] and not gps  
+   `location belongs_to :weather_station`  
+   b. refactor the `weather` class
+5. Continuos Integration
+
+[28]: https://en.wikipedia.org/wiki/Buoy
