@@ -10,18 +10,18 @@
 The `surf-rails` backend includes around 10.000 surfspots from **Europe**, **Oceania**, **Africa**, **America** and **Asia**, it's the first public api endpoint, currently the [magicseaweed api][6] does not provide this information.
 
 <p align="center">
-  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/europe.png" style="width:250px"/>
-  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/australia.png" style="width:250px"/>
-  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/africa.png" style="width:250px"/>
-  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/NorthAmerica.png" style="width:250px"/>
-  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/SouthAmerica.png" style="width:250px"/>
-  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/asia.png" style="width:250px"/>
+  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/europe.png" width="250px" style="width:250px"/>
+  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/australia.png" width="250px" style="width:250px"/>
+  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/africa.png" width="250px" style="width:250px"/>
+  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/NorthAmerica.png" width="250px" style="width:250px"/>
+  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/SouthAmerica.png" width="250px" style="width:250px"/>
+  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/asia.png" width="250px" style="width:250px"/>
 </p>
 
 Each SurfSpot is represented as a [`location`][1] model in Ruby on Rails and it is [reverse geocoded][5] with the [`longitude`][4] and [`latitude`][4]. Each location includes information relative to the surf spot which are essential to calculate the surf forecast, for example [`best_wind_direction`][2] and [`best_swell_direction`][2] to display the green and red indicators in the mobile app. The *green*/*red* indicator represent [*wind*][10] or [*waves*][9] coming from *optimal*/*non-optimal* directions (*offshore* or *onshore*). 
 
 <p align="center">
-  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/WindDirection.png" style="width:250px"/>
+  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/WindDirection.png" width="250px" style="width:250px"/>
 </p>
 
 The Mobile App retrieves the information through the [`/locations`][7] endpoint.
@@ -36,8 +36,8 @@ The react native app retrieves from the `/locations` api endpoint the locations,
 The same endpoint is used to display the different surfspots during map navigation with the [Map][17] `component` and the [Map][18] `class`.
 
 <p align="center">
-  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/map.png" style="width:250px"/>
-  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/video.png" style="width:250px"/>
+  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/map.png" width="250px" style="width:250px"/>
+  <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/video.png" width="250px" style="width:250px"/>
 </p>
 
 [1]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/location.rb
