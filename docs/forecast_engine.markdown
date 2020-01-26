@@ -1,12 +1,14 @@
 # Table of Contents  
-1. [Introduction](#introduction)  
-2. [Forecast](#forecast)  
+1. [Surf Database](#surf-database)  
+2. [JSON Web Api](#json-web-api)
+3. [React Native App](#react-native-app)
+4. [Forecast Engine](#forecast-engine)  
    a. [Retrieving Weather Forecast via Api](#step-1-retrieving-information-via-api)  
-   b. [Recording Cron Jobs](#step-2-recording-cron-jobs)  
+   b. [Creating Cron Jobs](#step-2-creating-cron-jobs)  
    c. [Calculating Surf Forecast](#step-3-calculating-surf-forecast)
-3. [Things To Improve](#things-to-improve)  
+5. [Things To Improve](#things-to-improve)  
 
-# Introduction
+# Surf Database
 The `surf-rails` backend includes around 10.000 surfspots from **Europe**, **Oceania**, **Africa**, **America** and **Asia**, it's the first public api endpoint, currently the [magicseaweed api][6] does not provide this information.
 
 <p align="center">
@@ -18,11 +20,22 @@ The `surf-rails` backend includes around 10.000 surfspots from **Europe**, **Oce
   <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/asia.png" width="250px" style="width:250px"/>
 </p>
 
+# Json Web Api
 Each SurfSpot is represented as a [`location`][1] model in Ruby on Rails and it is [reverse geocoded][5] with the [`longitude`][4] and [`latitude`][4]. Each location includes information relative to the surf spot which are essential to calculate the surf forecast, for example [`best_wind_direction`][2] and [`best_swell_direction`][2] to display the green and red indicators in the mobile app. The *green*/*red* indicator represent [*wind*][10] or [*waves*][9] coming from *optimal*/*non-optimal* directions (*offshore* or *onshore*). 
 
 <p align="center">
   <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/WindDirection.png" width="250px" style="width:250px"/>
 </p>
+
+[1]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/location.rb
+[2]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/db/schema.rb#L65
+[3]: https://documenter.getpostman.com/view/6379421/SVfH1CeA?version=latest
+[4]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/location.rb#L7
+[5]: https://github.com/alexreisner/geocoder#geocoding-objects
+[6]: https://magicseaweed.com/developer/api
+[7]: https://documenter.getpostman.com/view/6379421/SVfH1CeA?version=latest#2e837949-2b59-4e00-911b-0cfd6173eda6
+[9]: https://magicseaweed.com/help/forecast-table/swell
+[10]: https://magicseaweed.com/help/forecast-table/wind
 
 The Mobile App retrieves the information through the [`/locations`][7] endpoint.
 The [`/locations`][7] endpoint accepts three type of queries:
@@ -43,6 +56,8 @@ curl --location --request GET 'https://surfcheck.xyz/api/v1/posts.json?longitude
 
 More updated information and test cases are available in the `/locations` [api endpoint documentation][7].
 
+# React Native App
+
 The react native app retrieves from the `/locations` api endpoint the locations, forecast, videos information in the [`Locations`][15] `component` using the [`Api`][16] `class`. The information are retrieved at the application startup and cached. 
 The same endpoint is used to display the different surfspots during map navigation with the [Map][17] `component` and the [Map][18] `class`.
 
@@ -51,28 +66,49 @@ The same endpoint is used to display the different surfspots during map navigati
   <img src="https://portfoliofabrizio.s3.eu-central-1.amazonaws.com/surfcheck/video.png" width="250px" style="width:250px"/>
 </p>
 
-[1]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/location.rb
-[2]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/db/schema.rb#L65
-[3]: https://documenter.getpostman.com/view/6379421/SVfH1CeA?version=latest
-[4]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/location.rb#L7
-[5]: https://github.com/alexreisner/geocoder#geocoding-objects
-[6]: https://magicseaweed.com/developer/api
-[7]: https://documenter.getpostman.com/view/6379421/SVfH1CeA?version=latest#2e837949-2b59-4e00-911b-0cfd6173eda6
-[9]: https://magicseaweed.com/help/forecast-table/swell
-[10]: https://magicseaweed.com/help/forecast-table/wind
 [11]: https://github.com/alexreisner/geocoder#advanced-database-queries
 [12]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/controllers/locations_controller.rb#L36
 [13]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/controllers/locations_controller.rb#L23
 [14]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/controllers/locations_controller.rb#L28
 [15]: https://github.com/fabriziobertoglio1987/surf-react-native/blob/master/app/components/index/Locations.js#L49
 [16]: https://github.com/fabriziobertoglio1987/surf-react-native/blob/master/app/lib/api.js#L6
-[17]: https://github.com/fabriziobertoglio1987/surf-react-native/blob/master/app/screens/MapScreen.js#L59
+[17]: https://github.com/fabriziobertoglio1987/surf-react-native/blob/master/app/screens/MapScreen.js#L52-L65
 [18]: https://github.com/fabriziobertoglio1987/surf-react-native/blob/master/app/lib/map.js#L3
 
-# Forecast 
+The [`MapScreen`][36] renders the [`MapView`][35] Component and uses the [`Map`][18] class below to determine if the locations `#shouldUpdate()`.  
+The `map` instance variable is used inside the react `MapScreen` component [`#handleRegionChange`][17] callback to re-render the page relevant surfspots. The method `shouldUpdate()` will detect if the user scrolled to a new region of the map.
+
+```javascript
+class Map {
+  constructor (coords) {
+    this._current = coords
+    this._previous = coords
+  }
+
+  get zoomOut() { return this.delta > 5; }
+  get zoomIn() { return 0.5 > this.delta > 0.1 }
+  get noZoom() { return 0.5 < this.delta < 1.5; }
+
+  get shift() {
+    return this.noZoom && this.scroll
+  }
+
+  get scroll() {
+    return this.scroll_horizontal || this.scroll_vertical
+  }
+
+  get shouldUpdate() { 
+    return this.zoomIn || this.zoomOut || this.shift 
+  }
+}
+```
+
+Additionally the ReactNative app allows users to record and upload videos. The functionality is included in the [`Camera`][37] Component which uses the [`Recorder`][38] component to record the video and the [`Player`][39] component to upload it.
+
+# Forecast Engine
 
 The forecast information are retrieved from the stormglass api [endpoint][19] `/weather/point`. 
-The application targets a specific country (Indonesia, Bali) with the plan and potential to expand to other areas in the world (inspired form the [following talk][20]). Forecast are retrieved only for locations featured in the landing page with at least one uploaded surfing video, limiting background jobs memory usage and video playback server expenses. 
+The application targets a specific country (Indonesia, [Bali][29]) with the plan and potential to expand to other areas in the world. Forecast are retrieved only for locations featured in the landing page with at least one uploaded surfing video, limiting background jobs memory usage and video playback server expenses. 
 
 The forecast are calculated with Sidekiq cron jobs. The [`#set_job`][21] method inside `Location` model starts the process which consist of the following steps:
 
@@ -119,8 +155,16 @@ class WeeklyForecastWorker
 end
 ```
 
-#### STEP 2 Recording Cron Jobs
-[Records a cron job][24] to repeat the [`WeeklyForecastWorker`][22] 3 times a week.
+
+[19]: https://docs.stormglass.io/#point-request
+[20]: https://www.youtube.com/watch?v=xFFs9UgOAlE&t=1993s?t=265
+[21]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/location.rb#L106
+[22]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/workers/weekly_forecast_worker.rb
+[23]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/forecast.rb
+
+
+#### STEP 2 Creating Cron Jobs
+[Creates a cron job][24] to repeat the [`WeeklyForecastWorker`][22] 3 times a week.
 
 ```ruby
 class Location
@@ -209,17 +253,96 @@ class Weather < Array
       current[method].collect { |x| x["value"] } 
     end
   end
+ 
+ # generates def time, def swellHeight 
+  KEYS.each do |method|
+    define_method(method) { current.value(method) }
+  end
 
-  # generates def windDirectionInWord
-  # based on a table of coordinates
-  # returns the wave/swell direction in word
-  %w(windDirection waveDirection swellDirection).each do |method|
-    define_method("#{method}InWord".to_sym) { send(method.to_sym).in_word }
+  # generates def swellHeight_at(time), def windSpeed_at(time)
+  KEYS.each do |method|
+    define_method("#{method}_at(time)".to_sym) do
+      select { |row| row["time"] == time }.first.value(method)
+    end
   end
 end
 ```
 
-Then uses the accessors and methods defined to calculate the current daily (or hourly) forecasts
+The [`Forecast`][30] Model uses the `Weather` class [`#daily`][31] method to calculate the daily average forecast.
+
+```ruby
+class Forecast < ApplicationRecord
+  belongs_to :location
+  KEYS = %w(swellHeight waveHeight windSpeed windDirection 
+  waveDirection swellDirection swellPeriod)
+
+  def weather
+    Weather.new(read_attribute(:weather) || [])
+  end
+  
+  # generates the following methods
+  # def get_swell_height(days) def get_wave_height(days) 
+  # def get_wind_speed(days) def get_wind_direction(days) 
+  # def get_wave_direction(days) def get_swell_direction(days) 
+  # def get_swell_period(days)
+  KEYS.each do |field|
+    define_method("get_#{field.duckTyped}(days)") do |days|
+      weather.daily(field, days)
+    end
+  end
+
+  # uses above get methods to calculate daily forecast
+  def get_daily(days)
+    result ||= KEYS.map do |field|
+      # send(:get_wind_speed(days), days)
+      daily_forecast = send("get_#{field.duckTyped}(days)".to_sym, days)
+      [field, daily_forecast]
+    end
+    size = result.first.second.size - 1
+    result += [["days", days.in_words[0..size]]]
+    result.to_h
+  end
+end
+
+```
+
+
+[24]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/location.rb#L111-L117
+[25]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/forecast.rb#L11-L13
+[26]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/lib/weather.rb#L3
+[27]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/lib/weather.rb#L15-L27
+[30]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/forecast.rb#L15-L34
+[31]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/lib/weather.rb#L115-L118
+
+
+The [`DailyForecastWorkers`][32] schedules the calculation of daily forecast.  
+Forecast are calculated based on the [`Location` timezone][33], as surfing is possible only at daytime. 
+
+```ruby
+class Location < ApplicationRecord
+  # returns a list of local dates based on the location Timezome
+  #  => [Sun, 26 Jan 2020 19:47:22 WITA +08:00, ...]
+  def week_days
+    @week_days ||= (DateTime.now..DateTime.now + 6).map do |day|
+      day.in_time_zone(timezone["timeZoneId"])
+    end
+  end
+  
+  def get_daily
+    # uses the local timezones to calculate the forecast
+    daily = forecast.get_daily(week_days)
+    # checks if wind/swell directions are optimal
+    %w(wind swell).each do |attr|
+      daily["optimal_#{attr}"] = daily["#{attr}Direction"].map do |value|
+        send("optimal_#{attr}?(#{attr})", value.in_word)
+      end
+    end
+    daily
+  end
+end
+```
+
+The Weather [`#daily`][34] method is responsible for calculating the `dailyAverage` swell and wind based of the location timezone.
 
 ```ruby
 class Weather < Array
@@ -227,28 +350,9 @@ class Weather < Array
     return nil unless available?
     week_days.map { |day| dailyAverage(key, day) }.delete_if { |x| x.nil? }
   end
-
-  def hourlyAverage(key, day)
-    within(day).collectValues(key) do |x|
-      x.values.average
-    end
-  end
-
-  def dailyAverage(key, day)
-    hourlyAverage(key, day).average
-  end
 end
 ```
 
-[19]: https://docs.stormglass.io/#point-request
-[20]: https://www.youtube.com/watch?v=xFFs9UgOAlE&t=1993s?t=265
-[21]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/location.rb#L106
-[22]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/workers/weekly_forecast_worker.rb
-[23]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/forecast.rb
-[24]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/location.rb#L111-L117
-[25]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/models/forecast.rb#L11-L13
-[26]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/lib/weather.rb#L3
-[27]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/lib/weather.rb#L15-L27
 
 # Things to Improve
 1. Full Test Coverage (`jest` unit test and `detox` e2e tests) of  the react native mobile app
@@ -258,7 +362,19 @@ end
 6. Optimizing weather engine  
    a. retrieve weather forecast based on closest [buoy][28] and not gps  
    `location belongs_to :weather_station`  
-   b. refactor the `weather` class
+   b. refactor the `weather` class and avoid code repetition between `location` and  `forecast` model  
+   c. `Weather` class does not have a constructor  
+   d. Refactor json response structure 
 5. Continuos Integration
+6. Fastlane
 
 [28]: https://en.wikipedia.org/wiki/Buoy
+[29]: https://en.wikipedia.org/wiki/Bali
+[32]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/app/workers/daily_forecast_worker.rb
+[33]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/db/schema.rb#L56
+[34]: https://github.com/fabriziobertoglio1987/surf-rails/blob/master/lib/weather.rb#L114-117
+[35]: https://github.com/react-native-community/react-native-maps/blob/master/docs/mapview.md
+[36]: https://github.com/fabriziobertoglio1987/surf-react-native/blob/master/app/screens/MapScreen.js#L93
+[37]: https://github.com/fabriziobertoglio1987/surf-react-native/blob/master/app/screens/CameraScreen.js
+[38]: https://github.com/fabriziobertoglio1987/surf-react-native/blob/master/app/components/camera/Recorder.js
+[39]: https://github.com/fabriziobertoglio1987/surf-react-native/blob/master/app/components/camera/Player.js
